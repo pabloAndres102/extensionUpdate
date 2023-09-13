@@ -44,6 +44,17 @@
             'APPROVED' => 'APROBADA',
             'REJECTED' => 'RECHAZADA'
         );
+        $categoryMap = array(
+            'MARKETING' => 'MARKETING',
+            'UTILITY' => 'UTILIDAD',
+            'AUTHENTICATION' => 'AUTENTICACIÓN'
+        );
+
+        if (array_key_exists($category, $categoryMap)) {
+            $categoryLegible = $categoryMap[$category];
+        } else {
+            $categoryLegible = $category; // Si no está en el mapa, muestra el valor original
+        }
     
         // Verifica si el valor de status está en el mapa
         if (array_key_exists($status, $statusMap)) {
@@ -57,7 +68,7 @@
         echo '<div class="response-details">';
         echo '<p><strong>ID de plantilla:</strong> ' . $id . '</p>';
         echo '<p><strong>Estado:</strong> ' . $statusLegible . '</p>';
-        echo '<p><strong>Categoría:</strong> ' . $category . '</p>';
+        echo '<p><strong>Categoría:</strong> ' . $categoryLegible  . '</p>';
         echo '</div>';
         echo '</div>'; // Cierra div class="alert alert-success"
         
@@ -94,7 +105,10 @@
                             echo '<span style="color: green;">APROBADA</span>';
                         } elseif ($status == 'PENDING') {
                             echo '<span style="color: red;">PENDIENTE</span>';
-                        } else {
+                        }  elseif ($status == 'REJECTED') {
+                            echo '<span style="color: red;">RECHAZADA</span>';
+                        }
+                         else {
                             echo htmlspecialchars($template['status']);
                         }
                         ?>

@@ -28,7 +28,7 @@
         <center>
             <h1>Crear plantilla</h1>
         </center> <br>
-        <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create')?> enctype="multipart/form-data">
+        <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong>Nombre <?php echo htmlspecialchars($template['name']) ?></strong></label>
                 <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Name" required>
@@ -463,7 +463,7 @@
                     <option value="263">Zimbabwe (263)</option>
                 </select>
                 <label for="input3"><strong>Numero telefono</strong></label>
-                <input class="form-control" type="number" id="buttonCallbackPhone" name="buttonCallbackPhone" maxlength="20"> <br> 
+                <input class="form-control" type="number" id="buttonCallbackPhone" name="buttonCallbackPhone" maxlength="20"> <br>
 
                 <h5><strong>Ir al sitio web</strong></h5>
                 <label for="input1"><strong>Texto</strong></label>
@@ -495,11 +495,12 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">Send</button> <br> <br> <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary">Templates</a></center>
+            <button type="submit" class="btn btn-success">Send</button> <br> <br>
+            <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary">Templates</a></center>
         </form>
-        
+
         <br>
-        <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>   <br>
+        <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
 
     <script>
@@ -701,6 +702,26 @@
             });
         });
     </script>
+    <script>
+        function validateForm() {
+            // Obtiene el valor del campo templateName
+            var templateName = document.getElementById('templateName').value;
+
+            // Define una expresión regular para permitir solo letras minúsculas y guiones bajos
+            var pattern = /^[a-z0-9_]+$/;
+
+            // Realiza la validación
+            if (!pattern.test(templateName)) {
+                // El nombre de la plantilla no cumple con los requisitos
+                alert("El nombre de la plantilla solo puede contener letras minúsculas y guiones bajos.");
+                return false; // Evita que el formulario se envíe
+            }
+
+            // Si el nombre de la plantilla es válido, permite que el formulario se envíe
+            return true;
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

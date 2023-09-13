@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     "text" => $text,
   ];
 
-  if (!empty($inputCuerpo1) && !empty($inputCuerpo2) && !empty($inputCuerpo3) && !empty($inputCuerpo4) && !empty($inputCuerpo5)) {
+  if (!empty($inputCuerpo1) || !empty($inputCuerpo2) || !empty($inputCuerpo3) || !empty($inputCuerpo4) || !empty($inputCuerpo5)) {
     $exampleData = [$inputCuerpo1, $inputCuerpo2, $inputCuerpo3, $inputCuerpo4, $inputCuerpo5];
 
     $bodytext["example"] = [
@@ -300,8 +300,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['api_response'] = $resultDecode;
   }
 
-
-  header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
+  // print_r($text.'se supone que aqui hay ');
+  // header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
 
 
 
