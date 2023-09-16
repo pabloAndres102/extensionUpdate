@@ -74,10 +74,7 @@
         
         unset($_SESSION['api_response']);
     }
-    
-
     ?>
-
 
     <table class="table table-sm" ng-non-bindable>
         <thead>
@@ -90,59 +87,71 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($templates as $template) : ?>
-                <tr>
-                    <td>
-                        <?php echo htmlspecialchars($template['name']) ?>
-                    </td>
-                    <td>
-                        <?php echo htmlspecialchars($template['language']) ?>
-                    </td>
-                    <td>
-                        <?php
-                        $status = htmlspecialchars($template['status']);
-                        if ($status == 'APPROVED') {
-                            echo '<span style="color: green;">APROBADA</span>';
-                        } elseif ($status == 'PENDING') {
-                            echo '<span style="color: red;">PENDIENTE</span>';
-                        }  elseif ($status == 'REJECTED') {
-                            echo '<span style="color: red;">RECHAZADA</span>';
-                        }
-                         else {
-                            echo htmlspecialchars($template['status']);
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        $category = htmlspecialchars($template['category']);
-                        // Mostrar categorías en mayúsculas y en español
-                        if ($category == 'MARKETING') {
-                            echo 'MARKETING';
-                        } elseif ($category == 'UTILITY') {
-                            echo 'UTILIDAD';
-                        } elseif ($category == 'AUTHENTICATION') {
-                            echo 'AUTENTICACIÓN';
-                        } else {
-                            echo $category; // Mostrar categoría original si no coincide con las categorías hardcoded
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <textarea class="form-control form-control-sm fs12"><?php echo htmlspecialchars(json_encode($template['components'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></textarea>
-                    </td>
-                    <td>
-                        <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
-                            <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
-                            <button type="submit" class="btn btn-danger">Borrar</button>
-                        </form>
-                    </td>
-                </tr>
+            <?php 
+            // Lista de nombres de plantillas a excluir
+            $excludedTemplates = array(
+                'sample_purchase_feedback',
+                'sample_issue_resolution',
+                'sample_flight_confirmation',
+                'sample_shipping_confirmation',
+                'sample_happy_hour_announcement',
+                'sample_movie_ticket_confirmation'
+            );
+
+            foreach ($templates as $template) : 
+                // Verifica si el nombre de la plantilla está en la lista de exclusiones
+                if (!in_array($template['name'], $excludedTemplates)):
+            ?>
+                    <tr>
+                        <td>
+                            <?php echo htmlspecialchars($template['name']) ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($template['language']) ?>
+                        </td>
+                        <td>
+                            <?php
+                            $status = htmlspecialchars($template['status']);
+                            if ($status == 'APPROVED') {
+                                echo '<span style="color: green;">APROBADA</span>';
+                            } elseif ($status == 'PENDING') {
+                                echo '<span style="color: red;">PENDIENTE</span>';
+                            } elseif ($status == 'REJECTED') {
+                                echo '<span style="color: red;">RECHAZADA</span>';
+                            } else {
+                                echo htmlspecialchars($template['status']);
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            $category = htmlspecialchars($template['category']);
+                            // Mostrar categorías en mayúsculas y en español
+                            if ($category == 'MARKETING') {
+                                echo 'MARKETING';
+                            } elseif ($category == 'UTILITY') {
+                                echo 'UTILIDAD';
+                            } elseif ($category == 'AUTHENTICATION') {
+                                echo 'AUTENTICACIÓN';
+                            } else {
+                                echo $category; // Mostrar categoría original si no coincide con las categorías hardcoded
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm fs12"><?php echo htmlspecialchars(json_encode($template['components'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></textarea>
+                        </td>
+                        <td>
+                            <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
+                                <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
+                                <button type="submit" class="btn btn-danger">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
-
-
 </body>
 
 </html>

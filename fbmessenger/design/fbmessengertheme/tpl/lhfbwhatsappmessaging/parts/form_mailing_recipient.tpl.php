@@ -27,7 +27,7 @@
     <div class="col-6">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?>. {args.recipient.lastname_front}</label>
-            <input type="text" maxlength="50" class="form-control form-control-sm" name="lastname" value="<?php echo htmlspecialchars($item->lastname)?>" />
+            <input id="lastname" type="text" maxlength="50" class="form-control form-control-sm" name="lastname" value="<?php echo htmlspecialchars($item->lastname)?>" />
         </div>
     </div>
 
@@ -171,6 +171,23 @@
             var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
             if (popupWindow !== null) {
                 popupWindow.focus();
+            }
+        });
+    })();
+</script>
+<script>
+    (function() {
+        // Agrega un evento clic al botón de envío del formulario
+        $('#submitBtn').click(function(event) {
+            // Obtiene el valor del campo de teléfono
+            var phoneValue = $('#lastname').val();
+            
+            // Verifica si el campo está vacío
+            if (phoneValue.trim() === '') {
+                // Muestra una alerta si el campo está vacío
+                alert('El campo de lastname no puede estar vacío.');
+                // Evita que el formulario se envíe
+                event.preventDefault();
             }
         });
     })();

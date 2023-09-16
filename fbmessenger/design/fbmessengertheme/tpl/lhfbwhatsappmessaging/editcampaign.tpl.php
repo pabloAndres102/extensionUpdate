@@ -47,3 +47,20 @@
     </div>
 
 </form>
+<script>
+    // Espera a que el documento esté completamente cargado
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtiene la URL actual
+        var currentUrl = window.location.href;
+
+        // Verifica si la URL contiene el parámetro "?tab=statistic"
+        if (currentUrl.indexOf("?tab=statistic") !== -1) {
+            // Selecciona la pestaña "statistic" y muestra su contenido
+            var statisticTab = document.querySelector('a[href="#statistic"]');
+            if (statisticTab) {
+                statisticTab.click(); // Simula un clic en la pestaña "statistic"
+            }
+        }
+    });
+</script>
+
