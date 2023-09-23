@@ -80,24 +80,32 @@ if (isset($_POST['UploadFileAction'])) {
             'file_3',
             'file_4'
         ];
-
         if (($handle = fopen($dir . $filename, 'r')) !== FALSE)
         {
-            while (($row = fgetcsv($handle, 10000, ",")) !== FALSE)
+            // Leemos el contenido completo del archivo
+            $fileContent = fread($handle, filesize($dir . $filename));
+
+            // Reemplazamos las comas por puntos y comas
+            $fileContent = str_replace(',', ';', $fileContent);
+
+            // Convertimos el contenido modificado en un flujo de datos temporal en memoria
+            $modifiedHandle = fopen('php://memory', 'w+');
+            fwrite($modifiedHandle, $fileContent);
+            rewind($modifiedHandle);
+
+            while (($row = fgetcsv($modifiedHandle, 10000, ";")) !== FALSE)
             {
-                if (!$header) {
-                    $header = array_splice($row,0, count($canned));
+                if(!$header) {
+                    $header = $row;
                 } else {
                     if (count($header) != count($row)) {
-                        if (count($row) > count($header)) {
-                            $row = array_splice($row,0, count($canned));
-                        } else {
-                            $row = $row + array_fill(count($row),count($header) - count($row),'');
-                        }
+                        $row = $row + array_fill(count($row),count($header) - count($row),'');
                     }
                     $data[] = array_combine($header, $row);
                 }
             }
+
+            fclose($modifiedHandle);
             fclose($handle);
         }
 

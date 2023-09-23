@@ -162,33 +162,3 @@
     <label><input type="checkbox" name="disabled" value="on" <?php $item->disabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Disabled');?></label>
 </div>
 
-<script>
-    (function() {
-        $('.fb-choose-file').click(function(){
-            $('.embed-into').removeClass('embed-into');
-            window.lhcSelector = $(this).attr('data-selector');
-            $(window.lhcSelector).addClass('embed-into');
-            var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
-            if (popupWindow !== null) {
-                popupWindow.focus();
-            }
-        });
-    })();
-</script>
-<script>
-    (function() {
-        // Agrega un evento clic al botón de envío del formulario
-        $('#submitBtn').click(function(event) {
-            // Obtiene el valor del campo de teléfono
-            var phoneValue = $('#lastname').val();
-            
-            // Verifica si el campo está vacío
-            if (phoneValue.trim() === '') {
-                // Muestra una alerta si el campo está vacío
-                alert('El campo de lastname no puede estar vacío.');
-                // Evita que el formulario se envíe
-                event.preventDefault();
-            }
-        });
-    })();
-</script>

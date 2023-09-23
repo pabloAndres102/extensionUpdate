@@ -152,8 +152,50 @@
 
     <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Selecciona el elemento de entrada de fecha y hora
+        var scheduledAtInput = document.getElementById('scheduled_at');
+        var scheduleCheckbox = document.getElementById('schedule_message');
+
+        // Agrega un evento de escucha al cambio en el valor del input
+        scheduledAtInput.addEventListener('change', function() {
+            // Obtiene la fecha y hora actual en formato ISO8601
+            var currentDateTime = new Date();
+            currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
+
+            // Obtiene la fecha y hora seleccionada
+            var selectedDateTime = new Date(scheduledAtInput.value);
+
+            // Verifica si la fecha seleccionada es anterior a la actual más 5 minutos
+            if (selectedDateTime < currentDateTime) {
+                // Muestra una alerta
+                alert('La fecha y hora seleccionada debe ser posterior a al menos 5 minutos a partir de ahora.');
+
+                // Calcula la fecha y hora mínima permitida (actual más 5 minutos)
+                currentDateTime.setMinutes(currentDateTime.getMinutes() - 5);
+
+                // Actualiza el valor del input al mínimo permitido
+                scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
+            }
+        });
+
+        // Agrega un evento de escucha al cambio en el estado del checkbox "Schedule a message"
+        scheduleCheckbox.addEventListener('change', function() {
+            // Si el checkbox se desmarca, restablece la fecha y hora mínima permitida
+            if (!scheduleCheckbox.checked) {
+                var currentDateTime = new Date();
+                currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
+                scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
+            }
+        });
+    });
+</script>
 
 <script>
+
+    var excludeFields = ['field_header_img_', 'field_header_video_', 'field_header_doc_', 'field_header_doc_filename_'];
+
     function toggleScheduleFields() {
         var scheduleCheckbox = document.getElementById("schedule_message");
         var scheduledAtInput = document.getElementById("scheduled_at");
@@ -166,7 +208,7 @@
         if (scheduleCheckbox.checked) {
             scheduledAtInput.required = true;
             if (campaignNameInput.value.trim() === "") {
-                campaignNameInput.required = true; // Hacer que el campo sea obligatorio si el checkbox está seleccionado
+                campaignNameInput.required = true;
             } else {
                 campaignNameInput.required = false;
             }
@@ -175,24 +217,29 @@
             campaignNameInput.required = false;
         }
 
-        // Verificar si se ha seleccionado una plantilla
         if (templateSelect.value !== "") {
-            // Obtener todos los campos de variables
+
             var variableFields = argumentsTemplateForm.querySelectorAll('input[type="text"]');
             var variablesComplete = true;
             variableFields.forEach(function (field) {
-                if (field.value.trim() === "") {
+                var fieldName = field.name;
+
+                var excludeField = excludeFields.some(function (excludeField) {
+                    return fieldName.includes(excludeField);
+                });
+
+                if (!excludeField && field.value.trim() === "") {
                     variablesComplete = false;
-                    field.required = true; // Hacer que los campos vacíos sean obligatorios
+                    field.required = true;
                 } else {
-                    field.required = false; // Restablecer la obligatoriedad para campos no vacíos
+                    field.required = false;
                 }
             });
 
             // Si no se han completado todas las variables, mostrar una alerta y evitar que el formulario se envíe
             if (!variablesComplete) {
                 alert("Por favor, complete todos los campos de la plantilla.");
-                event.preventDefault(); // Evitar que el formulario se envíe
+                event.preventDefault();
                 return;
             }
         } else {

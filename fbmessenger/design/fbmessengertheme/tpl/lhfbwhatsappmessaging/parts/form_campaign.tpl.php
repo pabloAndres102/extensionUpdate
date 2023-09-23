@@ -107,7 +107,6 @@
             </select>
         </div>
 
-
         <div id="arguments-template-form"></div>
 
     </div>
@@ -117,25 +116,77 @@
 </div>
 
 <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el elemento de entrada de fecha y hora
+    var startDateTimeInput = document.getElementById('startDateTime');
+
+    // Agrega un evento de escucha cuando el valor del input cambia
+    startDateTimeInput.addEventListener('change', function() {
+        // Obtiene la fecha y hora actual en formato ISO8601
+        var currentDateTime = new Date();
+        currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
+
+        // Obtiene el valor del input
+        var selectedDateTime = new Date(startDateTimeInput.value);
+
+        // Compara la fecha y hora seleccionada con la fecha y hora actual más 5 minutos
+        if (selectedDateTime < currentDateTime) {
+            // Si la fecha y hora seleccionada es anterior a la actual más 5 minutos, muestra una alerta
+            alert('La fecha y hora seleccionada debe ser posterior a al menos 5 minutos a partir de ahora.');
+            // Calcula la fecha y hora mínima permitida
+            currentDateTime.setMinutes(currentDateTime.getMinutes() - 5); // Resta 5 minutos
+            // Actualiza el valor del input al mínimo permitido
+            startDateTimeInput.value = currentDateTime.toISOString().slice(0, 16);
+        }
+    });
+});
+
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona el elemento de entrada de fecha y hora
-        var startDateTimeInput = document.getElementById('startDateTime');
+        // Obtén una referencia al formulario
+        var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
 
-        // Agrega un evento de escucha cuando el valor del input cambia
-        startDateTimeInput.addEventListener('change', function() {
-            // Obtiene la fecha y hora actual en formato ISO8601
-            var currentDateTime = new Date().toISOString().slice(0, 16);
+        // Nombres de campos a excluir de la validación
+        var excludeFields = ['field_header_img_', 'field_header_video_','field_header_doc_','field_header_doc_filename_'];
 
-            // Obtiene el valor del input
-            var selectedDateTime = startDateTimeInput.value;
+        // Agrega un evento de escucha para el evento "submit" del formulario
+        form.addEventListener('submit', function(event) {
+            // Obtiene una lista de todos los elementos de entrada que deseas validar
+            var inputsToValidate = form.querySelectorAll('.form-control');
 
-            // Compara la fecha y hora seleccionada con la fecha y hora actual
-            if (selectedDateTime < currentDateTime) {
-                // Si la fecha y hora seleccionada es anterior a la actual, muestra una alerta
-                alert('La fecha y hora seleccionada debe ser posterior a la actual.');
-                // Restablece el valor del input a la fecha y hora actual
-                startDateTimeInput.value = currentDateTime;
+            // Variable para rastrear si se encontró un campo vacío excluido
+            var foundEmptyExcludedField = false;
+
+            // Recorre la lista de elementos de entrada
+            for (var i = 0; i < inputsToValidate.length; i++) {
+                var input = inputsToValidate[i];
+
+                // Verifica si el campo está vacío
+                if (input.value.trim() === '') {
+                    // Verifica si el nombre del campo está en el array de campos excluidos
+                    if (excludeFields.some(function(excludedName) {
+                        return input.name.indexOf(excludedName) === 0;
+                    })) {
+                        // Si es un campo excluido, marca que se encontró un campo vacío excluido
+                        foundEmptyExcludedField = true;
+                    } else {
+                        // Si no es un campo excluido, evita que el formulario se envíe
+                        event.preventDefault();
+                        // Muestra un mensaje de error o realiza cualquier otra acción que desees
+                        alert('Por favor, complete todos los campos obligatorios.');
+                        // Sale del bucle una vez que se encuentra un campo vacío
+                        return;
+                    }
+                }
+            }
+
+            // Si se encontró un campo vacío excluido y no se encontraron otros campos vacíos, permite enviar el formulario
+            if (foundEmptyExcludedField) {
+                return;
             }
         });
     });
 </script>
+
+

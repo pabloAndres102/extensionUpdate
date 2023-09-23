@@ -13,7 +13,7 @@
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Status'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date scheduled'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Statistics'); ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estádisticas'); ?></th>
                 <th width="1%"></th>
             </tr>
         </thead>
@@ -64,10 +64,11 @@
                     <a class="<?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>text-muted<?php endif; ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') ?>/(campaign)/<?php echo $item->id ?>"><span class="material-icons">list</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'List of recipients'); ?> (<?php echo $item->total_contacts ?>)</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id ?>?tab=statistic">
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Redirect to Statistic'); ?>
+                    <a class="btn btn-primary btn-sm bg-dark text-white" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id?>?tab=statistic">
+                        <span class="material-icons">equalizer</span>
                     </a>
                 </td>
+
 
                 <td>
                     <?php if ($item->can_delete) : ?>

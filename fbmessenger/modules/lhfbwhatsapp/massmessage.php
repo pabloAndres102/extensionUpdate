@@ -84,20 +84,34 @@ if (isset($_POST['UploadFileAction'])) {
         $data = array();
 
         if (($handle = fopen($dir . $filename, 'r')) !== FALSE)
-        {
-            while (($row = fgetcsv($handle, 10000, ";")) !== FALSE)
-            {
-                if(!$header) {
-                    $header = $row;
-                } else {
-                    if (count($header) != count($row)) {
-                        $row = $row + array_fill(count($row),count($header) - count($row),'');
-                    }
-                    $data[] = array_combine($header, $row);
-                }
+{
+    // Leemos el contenido completo del archivo
+    $fileContent = fread($handle, filesize($dir . $filename));
+
+    // Reemplazamos las comas por puntos y comas
+    $fileContent = str_replace(',', ';', $fileContent);
+
+    // Convertimos el contenido modificado en un flujo de datos temporal en memoria
+    $modifiedHandle = fopen('php://memory', 'w+');
+    fwrite($modifiedHandle, $fileContent);
+    rewind($modifiedHandle);
+
+    while (($row = fgetcsv($modifiedHandle, 10000, ";")) !== FALSE)
+    {
+        if(!$header) {
+            $header = $row;
+        } else {
+            if (count($header) != count($row)) {
+                $row = $row + array_fill(count($row),count($header) - count($row),'');
             }
-            fclose($handle);
+            $data[] = array_combine($header, $row);
         }
+    }
+
+    fclose($modifiedHandle);
+    fclose($handle);
+}
+
 
         unlink($dir . $filename);
 
@@ -160,5 +174,3 @@ $Result['path'] = array(
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Mass message')
     )
 );
-
-?>

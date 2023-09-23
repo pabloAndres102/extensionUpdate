@@ -15,36 +15,41 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     public static $dbSortOrder = 'DESC';
 
     public function getState()
-    {
-        return array(
-            'id' => $this->id,
-            'phone' => $this->phone,
-            'phone_whatsapp' => $this->phone_whatsapp,
-            'phone_sender' => $this->phone_sender,
-            'phone_sender_id' => $this->phone_sender_id,
-            'message' => $this->message,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'status' => $this->status,
-            'user_id' => $this->user_id,
-            'template' => $this->template,
-            'template_id' => $this->template_id,
-            'language' => $this->language,
-            'fb_msg_id' => $this->fb_msg_id,
-            'send_status_raw' => $this->send_status_raw,
-            'chat_id' => $this->chat_id,
-            'dep_id' => $this->dep_id,
-            'initiation' => $this->initiation,
-            'conversation_id' => $this->conversation_id,
-            'message_variables' => $this->message_variables,
-            'business_account_id' => $this->business_account_id,
-            'scheduled_at' => $this->scheduled_at,
-            'campaign_id' => $this->campaign_id,
-            'campaign_recipient_id' => $this->campaign_recipient_id,
-            'recipient_id' => $this->recipient_id,
-            'private' => $this->private
-        );
-    }
+{
+    return array(
+        'id' => $this->id,
+        'phone' => $this->phone,
+        'phone_whatsapp' => $this->phone_whatsapp,
+        'phone_sender' => $this->phone_sender,
+        'phone_sender_id' => $this->phone_sender_id,
+        'message' => $this->message,
+        'created_at' => $this->created_at,
+        'updated_at' => $this->updated_at,
+        'updated_at_formatted' => $this->formatUpdatedAt(), // Nueva propiedad formateada
+        'status' => $this->status,
+        'user_id' => $this->user_id,
+        'template' => $this->template,
+        'template_id' => $this->template_id,
+        'language' => $this->language,
+        'fb_msg_id' => $this->fb_msg_id,
+        'send_status_raw' => $this->send_status_raw,
+        'chat_id' => $this->chat_id,
+        'dep_id' => $this->dep_id,
+        'initiation' => $this->initiation,
+        'conversation_id' => $this->conversation_id,
+        'message_variables' => $this->message_variables,
+        'business_account_id' => $this->business_account_id,
+        'scheduled_at' => $this->scheduled_at,
+        'campaign_id' => $this->campaign_id,
+        'campaign_recipient_id' => $this->campaign_recipient_id,
+        'recipient_id' => $this->recipient_id,
+        'private' => $this->private
+    );
+}
+private function formatUpdatedAt()
+{
+    return date(\erLhcoreClassModule::$dateDateHourFormat, $this->updated_at);
+}
 
     public function beforeSave($params = array())
     {
@@ -196,5 +201,3 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     public $campaign_recipient_id = 0;
     public $initiation = self::INIT_US;
 }
-
-?>
