@@ -83,28 +83,34 @@
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?>*</label>
             <select name="template" class="form-control form-control-sm" id="template-to-send">
-                <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Choose a template'); ?></option>
-                <?php foreach ($templates as $template) : ?>
-                    <?php
-                    // Nombres de plantillas a excluir
-                    $excludedTemplates = array(
-                        'sample_purchase_feedback',
-                        'sample_issue_resolution',
-                        'sample_flight_confirmation',
-                        'sample_shipping_confirmation',
-                        'sample_happy_hour_announcement',
-                        'sample_movie_ticket_confirmation'
-                        // Agrega aquí los nombres de las plantillas que deseas excluir
-                    );
+                    <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Choose a template'); ?></option>
+                    <?php foreach ($templates as $template) : ?>
+                        <?php
+                        // Nombres de plantillas a excluir
+                        $excludedTemplates = array(
+                            'sample_purchase_feedback',
+                            'sample_issue_resolution',
+                            'sample_flight_confirmation',
+                            'sample_shipping_confirmation',
+                            'sample_happy_hour_announcement',
+                            'sample_movie_ticket_confirmation'
+                            // Agrega aquí los nombres de las plantillas que deseas excluir
+                        );
 
-                    // Verifica si el nombre de la plantilla está en la lista de excluidas
-                    if (in_array($template['name'], $excludedTemplates)) {
-                        continue; // Si está en la lista, salta esta iteración y no agrega la plantilla al select
-                    }
-                    ?>
-                    <option <?php if ($item->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
-                <?php endforeach; ?>
-            </select>
+                        // Verifica si el nombre de la plantilla está en la lista de excluidas
+                        if (in_array($template['name'], $excludedTemplates)) {
+                            continue; // Si está en la lista, salta esta iteración y no agrega la plantilla al select
+                        }
+
+                        // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
+                        if ($template['status'] === 'APPROVED') {
+                        ?>
+                            <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                        <?php
+                        }
+                        ?>
+                    <?php endforeach; ?>
+                </select>
         </div>
 
         <div id="arguments-template-form"></div>

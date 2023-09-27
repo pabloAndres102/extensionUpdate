@@ -115,8 +115,14 @@
                         if (in_array($template['name'], $excludedTemplates)) {
                             continue; // Si está en la lista, salta esta iteración y no agrega la plantilla al select
                         }
+
+                        // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
+                        if ($template['status'] === 'APPROVED') {
                         ?>
-                        <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                            <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                        <?php
+                        }
+                        ?>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -193,7 +199,6 @@
 </script>
 
 <script>
-
     var excludeFields = ['field_header_img_', 'field_header_video_', 'field_header_doc_', 'field_header_doc_filename_'];
 
     function toggleScheduleFields() {
@@ -221,10 +226,10 @@
 
             var variableFields = argumentsTemplateForm.querySelectorAll('input[type="text"]');
             var variablesComplete = true;
-            variableFields.forEach(function (field) {
+            variableFields.forEach(function(field) {
                 var fieldName = field.name;
 
-                var excludeField = excludeFields.some(function (excludeField) {
+                var excludeField = excludeFields.some(function(excludeField) {
                     return fieldName.includes(excludeField);
                 });
 
@@ -245,7 +250,7 @@
         } else {
             // Si no se ha seleccionado una plantilla, hacer que los campos de variables no sean obligatorios
             var variableFields = argumentsTemplateForm.querySelectorAll('input[type="text"]');
-            variableFields.forEach(function (field) {
+            variableFields.forEach(function(field) {
                 field.required = false;
             });
         }
@@ -261,15 +266,7 @@
     document.getElementById("schedule_message").addEventListener("change", toggleScheduleFields);
 
     // Agrega una función de validación previa al envío del formulario
-    document.getElementById("whatsapp-form").addEventListener("submit", function (event) {
+    document.getElementById("whatsapp-form").addEventListener("submit", function(event) {
         toggleScheduleFields(); // Ejecuta la validación antes de enviar
     });
 </script>
-
-
-
-
-
-
-
-

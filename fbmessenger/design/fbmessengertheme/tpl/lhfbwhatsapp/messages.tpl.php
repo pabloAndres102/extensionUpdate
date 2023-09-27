@@ -13,7 +13,7 @@
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Department'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Initiation'); ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Iniciación'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Phone'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send status'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Scheduled at'); ?></th>
@@ -57,9 +57,9 @@
 
                 <td>
                     <?php if ($item->initiation == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::INIT_US) : ?>
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'We'); ?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Nosotros'); ?>
                     <?php else : ?>
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Third party'); ?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Usuario'); ?>
                     <?php endif; ?>
                 </td>
                 <td>
@@ -67,19 +67,21 @@
                 </td>
                 <td>
                     <?php if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING) : ?>
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Pending'); ?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Pending'); ?>  
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>
                         <span class="material-icons">schedule_send</span> Scheduled
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Read'); ?>
                         <?php
-                        // Si el estado es "Pending", calcula la diferencia de tiempo en horas y minutos
-                        $createdTime = new DateTime($item->created_at_front);
-                        $updatedTime = new DateTime($item->updated_at_formatted);
-                        $interval = $createdTime->diff($updatedTime);
-                        // Muestra la diferencia de tiempo en horas y minutos
-                        echo $interval->format(' | %hh %im %ss');
-                        ?>
+                            $createdTimestamp = $item->created_at;
+                            $updatedTimestamp = $item->updated_at;
+                            $difference = $updatedTimestamp - $createdTimestamp;
+                            $hours = floor($difference / 3600);
+                            $minutes = floor(($difference % 3600) / 60);
+                            $seconds = $difference % 60;
+                            echo '<br>';
+                            echo $hours . ' h ' . $minutes . ' m ' . $seconds . ' s';
+                            ?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delivered'); ?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS) : ?>

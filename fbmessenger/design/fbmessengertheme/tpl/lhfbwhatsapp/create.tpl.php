@@ -31,13 +31,13 @@
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong>Nombre <?php echo htmlspecialchars($template['name']) ?></strong></label>
-                <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Name" required>
+                <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Nombre" required>
             </div>
 
             <div class="mb-3">
                 <label for="language" class="form-label"> <strong>Idioma</strong></label>
                 <select class="form-select" id="language" name="language" aria-label="Default select example">
-                    <option selected><strong>Language</strong></option>
+                    <option selected><strong>Lenguaje</strong></option>
                     <option value="af">Afrikáans</option>
                     <option value="sq">Albanés</option>
                     <option value="ar">Árabe</option>
@@ -118,7 +118,8 @@
 
             <div class="mb-3 hidden-content">
                 <label for="header" class="form-label"> <strong>Tipo de encabezado</strong></label>
-                <select class="form-select" size="3" id="header" name="header" multiple="multiple" aria-label="Default select example">
+                <select class="form-select" size="4" id="header" name="header" multiple="multiple" aria-label="Default select example">
+                    <option value="">SIN ENCABEZADO</option>
                     <option value="TEXT">TEXTO</option>
                     <option value="VIDEO">VIDEO</option>
                     <option value="IMAGE">IMAGEN</option>
@@ -467,9 +468,9 @@
 
                 <h5><strong>Ir al sitio web</strong></h5>
                 <label for="input1"><strong>Texto</strong></label>
-                <input class="form-control" type="text" id="buttonWebText" name="buttonWebText">
+                <input class="form-control" type="text" id="buttonWebText" name="buttonWebText" maxlength="25">
                 <label for="input2"><strong>Url del sitio</strong></label>
-                <input class="form-control" type="text" id="buttonWebUrl" name="buttonWebUrl">
+                <input class="form-control" type="text" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.ejemplo.com/" onblur="validateURL()">
             </div>
             <div class="authentication-div">
 
@@ -502,7 +503,23 @@
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
+    <script>
+        // Obtén una referencia al checkbox y al campo de entrada
+        const checkbox1 = document.getElementById("mostrarInputs");
+        const button1Input = document.getElementById("button1");
 
+        // Agrega un evento de escucha al cambio del estado del checkbox
+        checkbox1.addEventListener("change", function() {
+            // Verifica si el checkbox está marcado
+            if (checkbox1.checked) {
+                // Establece el atributo "required" en el campo de entrada
+                button1Input.setAttribute("required", "");
+            } else {
+                // Quita el atributo "required" del campo de entrada
+                button1Input.removeAttribute("required");
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $("#textAreaTexto").emojioneArea();
@@ -704,6 +721,26 @@
     </script>
     <script>
         function validateForm() {
+            var inputElement = document.getElementById('buttonWebUrl');
+            var url = inputElement.value.trim();
+
+            // Verifica si la URL comienza con http:// o https://
+            if (url !== '' && !/^(http|https):\/\//i.test(url)) {
+                alert('La URL debe ser valida http o https. ');
+                inputElement.focus();
+                return false; // Evita que el formulario se envíe
+            }
+            var checkbox = document.getElementById('mostrarInputscallback');
+            var buttonCallbackText = document.getElementById('buttonCallbackText');
+            var buttonWebUrl = document.getElementById('buttonWebUrl');
+
+            if (checkbox.checked) {
+                // Si el checkbox está marcado, verifica si al menos uno de los campos "Llamada a la acción" o "URL del sitio web" está lleno
+                if (buttonCallbackText.value === '' && buttonWebUrl.value === '') {
+                    alert('Por favor, complete todos los campos: Llamada a la acción o Ir al sitio web.');
+                    return false; // Detiene el envío del formulario
+                }
+            }
             // Obtiene el valor del campo templateName
             var templateName = document.getElementById('templateName').value;
 

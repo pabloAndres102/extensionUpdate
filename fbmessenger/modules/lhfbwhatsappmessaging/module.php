@@ -3,6 +3,11 @@
 $Module = array( "name" => "Mailing module");
 
 $ViewList = array();
+$ViewList['togglecampaign'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array( 'use_admin' )
+);
 
 $ViewList['mailinglist'] = array(
     'params' => array('name','user_ids',

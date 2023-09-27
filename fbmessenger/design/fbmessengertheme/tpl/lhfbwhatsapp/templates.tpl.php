@@ -28,7 +28,8 @@
         $apiError = $_SESSION['api_error'];
         echo '<div class="alert alert-danger">' . $apiError['error']['error_user_msg'] . '</div>';
         unset($_SESSION['api_error']);
-    }
+    }   
+    
     
     if (isset($_SESSION['api_response'])) {
         $apiResponse = $_SESSION['api_response'];

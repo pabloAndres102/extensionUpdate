@@ -74,8 +74,14 @@
                         if (in_array($template['name'], $excludedTemplates)) {
                             continue; // Si está en la lista, salta esta iteración y no agrega la plantilla al select
                         }
+
+                        // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
+                        if ($template['status'] === 'APPROVED') {
                         ?>
-                        <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                            <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                        <?php
+                        }
+                        ?>
                     <?php endforeach; ?>
                 </select>
             </div>

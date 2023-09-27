@@ -14,6 +14,7 @@
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date scheduled'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estádisticas'); ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Acciones'); ?></th>
                 <th width="1%"></th>
             </tr>
         </thead>
@@ -64,15 +65,26 @@
                     <a class="<?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>text-muted<?php endif; ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') ?>/(campaign)/<?php echo $item->id ?>"><span class="material-icons">list</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'List of recipients'); ?> (<?php echo $item->total_contacts ?>)</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-sm bg-dark text-white" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id?>?tab=statistic">
+                    <a class="btn btn-primary btn-sm bg-dark text-white" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id ?>?tab=statistic">
                         <span class="material-icons">equalizer</span>
                     </a>
                 </td>
-
-
                 <td>
+                    <?php if ($item->enabled == 1) : ?>
+                        <form  action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" style="display: inline-block; margin-right: 5px;" method="post">
+                            <input type="hidden" name="campaign_id" value="<?php echo $item->id ?>">
+                            <input type="hidden" name="action" value="deactivate">
+                            <button type="submit" class="btn btn-secondary btn-sm">Desactivar</button>
+                        </form>
+                    <?php else : ?>
+                        <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" method="post" style="display: inline-block; margin-right: 5px;" onsubmit="return validateActivation(<?php echo $item->total_contacts; ?>)">
+                            <input type="hidden" name="campaign_id" value="<?php echo $item->id ?>">
+                            <input type="hidden" name="action" value="activate">
+                            <button type="submit" class="btn btn-success btn-sm">Activar</button>
+                        </form>
+                    <?php endif; ?>
                     <?php if ($item->can_delete) : ?>
-                        <a class="text-danger csfr-post csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages', 'Are you sure?'); ?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletecampaign') ?>/<?php echo $item->id ?>"><i class="material-icons mr-0">&#xE872;</i></a>
+                        <a class="btn btn-danger btn-sm csfr-post csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages', 'Are you sure?'); ?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletecampaign') ?>/<?php echo $item->id ?>">Eliminar</a>
                     <?php endif; ?>
                 </td>
 
@@ -88,3 +100,16 @@
 <?php endif; ?>
 
 <a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
+<script>
+    function validateActivation(totalContacts) {
+        // Verificar si total_contacts es igual a 0
+        if (totalContacts === 0) {
+            // Mostrar un alert y evitar que se envíe el formulario
+            alert("La campaña no puede ser activada porque no tiene destinatarios.");
+            return false;
+        }
+
+        // Permitir el envío del formulario si total_contacts no es igual a 0
+        return true;
+    }
+</script>

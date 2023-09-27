@@ -6,7 +6,17 @@ $data = (array)$fbOptions->data;
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/create.tpl.php');
 
 $Result['content'] = $tpl->fetch();
-$Result['path'] = array(array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('fbwhatsapp', 'Form')));
+$Result['path'] = array(
+    array('url' => erLhcoreClassDesign::baseurl('fbmessenger/index'), 
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat')),
+    array(
+        'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/templates'), 
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates')
+    ),
+    array(
+      'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Crear')
+  )
+);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $token = $data['whatsapp_access_token'];
@@ -15,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $language = $_POST['language'];
   $text = $_POST['text'];
   $headertype = isset($_POST['header']) ? $_POST['header'] : "";
+  print_r('encabezado aca > '.$headertype);
   $footer = $_POST['footer'];
   $button1 = $_POST['button1'];
   $button2 = $_POST['button2'];
@@ -81,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $ch2 = curl_init();
   $post_data = isset($archivo_bytes) ? $archivo_bytes : $textHeader;
-
+  
   curl_setopt_array($ch2, array(
     CURLOPT_URL => 'https://graph.facebook.com/v17.0/' . $session_id . '',
     CURLOPT_RETURNTRANSFER => true,
@@ -193,6 +204,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $components = [];
 
+  if (!empty($headertype)){
+    $components = $header;
+  }
+
   if (!empty($text)) {
     $components[] = $bodytext;
   };
@@ -205,19 +220,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $components[] = $buttonParams;
   };
 
-  if (!empty($textHeader)) {
-    $header = [
-      "type" => "HEADER",
-      "format" => $headertype,
-      "text" => $textHeader,
-    ];
 
-    if (!empty($variableHeader)) {
-      $header["example"] = ["header_text" => [$variableHeader]];
-    }
 
-    $components[] = $header; // Agregar el componente de tipo header solo si existe.
-  }
+  // if (!empty($textHeader)) {
+  //   $header = [
+  //     "type" => "HEADER",
+  //     "format" => $headertype,
+  //     "text" => $textHeader,
+  //   ];
+
+  //   if (!empty($variableHeader)) {
+  //     $header["example"] = ["header_text" => [$variableHeader]];
+  //   }
+
+  //   $components[] = $header; // Agregar el componente de tipo header solo si existe.
+  // }
 
 
   $componentsAuthentication = [];
@@ -281,7 +298,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-  // ...
   $result = curl_exec($ch);
 
   if ($result === false) {
@@ -299,14 +315,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $_SESSION['api_response'] = $resultDecode;
   }
+  
+  
+  header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
 
-  // print_r($text.'se supone que aqui hay ');
-  // header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
 
-
-
-  // echo '<script>';
-  // echo 'var resultData = ' . json_encode($result) . ';'; // Convierte $result en una variable JavaScript
-  // echo 'alert("Respuesta de la solicitud: " + JSON.stringify(resultData, null, 2));'; // Muestra un aviso con el contenido de resultData
-  // echo '</script>';
 }
