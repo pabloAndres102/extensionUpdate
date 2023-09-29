@@ -54,9 +54,16 @@
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Finished'); ?>
                     <?php endif; ?>
                 </td>
-                <td>
+                <td class="<?php
+                            if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING) {
+                                echo 'text-warning';
+                            } elseif ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_IN_PROGRESS) {
+                                echo 'text-primary'; // Agrega 'text-primary' para color azul
+                            } elseif ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) {
+                                echo 'text-success';
+                            } ?>">
                     <?php if ($item->starts_at > 0) : ?>
-                        <span class="text-<?php $item->starts_at > time() ? print 'success' : print 'warning' ?>"><?php echo date('Y-m-d H:i', $item->starts_at) ?></span>
+                        <span><?php echo date('Y-m-d H:i', $item->starts_at) ?></span>
                     <?php else : ?>
                         -
                     <?php endif; ?>
@@ -71,7 +78,7 @@
                 </td>
                 <td>
                     <?php if ($item->enabled == 1) : ?>
-                        <form  action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" style="display: inline-block; margin-right: 5px;" method="post">
+                        <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" style="display: inline-block; margin-right: 5px;" method="post">
                             <input type="hidden" name="campaign_id" value="<?php echo $item->id ?>">
                             <input type="hidden" name="action" value="deactivate">
                             <button type="submit" class="btn btn-secondary btn-sm">Desactivar</button>

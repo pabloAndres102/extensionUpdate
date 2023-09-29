@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $language = $_POST['language'];
   $text = $_POST['text'];
   $headertype = isset($_POST['header']) ? $_POST['header'] : "";
-  print_r('encabezado aca > '.$headertype);
+  // print_r('encabezado aca > '.$headertype);
   $footer = $_POST['footer'];
   $button1 = $_POST['button1'];
   $button2 = $_POST['button2'];
@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $components = [];
 
   if (!empty($headertype)){
-    $components = $header;
+    $components[] = $header;
   }
 
   if (!empty($text)) {
@@ -316,8 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['api_response'] = $resultDecode;
   }
   
-  
   header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
-
+  // print_r($resultDecode['error']['error_user_msg']);
 
 }

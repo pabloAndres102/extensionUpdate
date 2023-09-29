@@ -37,7 +37,7 @@
             <div class="mb-3">
                 <label for="language" class="form-label"> <strong>Idioma</strong></label>
                 <select class="form-select" id="language" name="language" aria-label="Default select example">
-                    <option selected><strong>Lenguaje</strong></option>
+                    <option selected><strong>Idioma</strong></option>
                     <option value="af">Afrikáans</option>
                     <option value="sq">Albanés</option>
                     <option value="ar">Árabe</option>
