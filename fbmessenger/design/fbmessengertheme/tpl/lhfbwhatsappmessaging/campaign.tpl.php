@@ -3,6 +3,21 @@
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_mailinglist.tpl.php')); ?>
 
 <?php if (isset($items)) : ?>
+    <?php
+// Comprueba si hay un mensaje de éxito en la variable de sesión
+if (isset($_SESSION['activate'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['activate'] . '</div>';
+    // Elimina el mensaje de éxito de la variable de sesión para que no se muestre nuevamente después de la recarga
+    unset($_SESSION['activate']);
+}
+
+// Comprueba si hay un mensaje de error en la variable de sesión
+if (isset($_SESSION['deactivate'])) {
+    echo '<div class="alert alert-warning">' . $_SESSION['deactivate'] . '</div>';
+    // Elimina el mensaje de error de la variable de sesión para que no se muestre nuevamente después de la recarga
+    unset($_SESSION['deactivate']);
+}
+?>
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
             <tr>
@@ -58,7 +73,7 @@
                             if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING) {
                                 echo 'text-warning';
                             } elseif ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_IN_PROGRESS) {
-                                echo 'text-primary'; // Agrega 'text-primary' para color azul
+                                echo 'text-primary';
                             } elseif ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) {
                                 echo 'text-success';
                             } ?>">

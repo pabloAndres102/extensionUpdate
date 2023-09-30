@@ -37,7 +37,7 @@
             <div class="mb-3">
                 <label for="language" class="form-label"> <strong>Idioma</strong></label>
                 <select class="form-select" id="language" name="language" aria-label="Default select example">
-                    <option selected><strong>Idioma</strong></option>
+                    <option selected value="es">Español</strong></option>
                     <option value="af">Afrikáans</option>
                     <option value="sq">Albanés</option>
                     <option value="ar">Árabe</option>
@@ -87,7 +87,6 @@
                     <option value="sr">Serbio</option>
                     <option value="sk">Eslovaco</option>
                     <option value="sl">Esloveno</option>
-                    <option value="es">Español</option>
                     <option value="es_AR">Español (Argentina)</option>
                     <option value="es_ES">Español (España)</option>
                     <option value="es_MX">Español (México)</option>
@@ -118,7 +117,7 @@
 
             <div class="mb-3 hidden-content">
                 <label for="header" class="form-label"> <strong>Tipo de encabezado</strong></label>
-                <select class="form-select" size="4" id="header" name="header" multiple="multiple" aria-label="Default select example">
+                <select class="form-select"  id="header" name="header" aria-label="Default select example">
                     <option value="">SIN ENCABEZADO</option>
                     <option value="TEXT">TEXTO</option>
                     <option value="VIDEO">VIDEO</option>
@@ -140,11 +139,11 @@
 
             <div class="form-group shadow-textarea hidden-content">
                 <label for="textAreaTexto"><strong>Cuerpo</strong></label>
-                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" name="text" rows="3" placeholder="Si desea utilizar variables ingrese &#123;&#123;1&#125;&#125;,&#123;&#123;2&#125;&#125;,&#123;&#123;3&#125;&#125;,&#123;&#123;4&#125;&#125;,&#123;&#123;5&#125;&#125 y marque 'Mostrar variables'" maxlength="1024"></textarea>
+                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" name="text" rows="3" placeholder="Para ingresar variables seleccione 'Mostrar Variables'" maxlength="1024"></textarea>
 
                 <label for="mostrarVariableCheckbox">
                     <input class="form-check-input" type="checkbox" id="mostrarVariableCheckbox" onchange="mostrarVariableCuerpo()" />
-                    <strong>Mostrar Variable</strong>
+                    <strong>Mostrar Variables</strong>
                 </label>
 
                 <div id="variableCuerpo" style="display: none;">

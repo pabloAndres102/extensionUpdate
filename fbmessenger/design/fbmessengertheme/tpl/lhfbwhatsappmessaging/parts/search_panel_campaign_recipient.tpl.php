@@ -54,10 +54,9 @@
         </a>
     </div>
 
-    <div role="alert" class="alert alert-info alert-dismissible hide m-3" id="list-update-import">
+    <!-- <div role="alert" class="alert alert-info alert-dismissible hide m-3" id="list-update-import">
         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This list was updated. Please');?>&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','refresh');?>.</a>
-    </div>
-
+    </div> -->
 </form>
 
 

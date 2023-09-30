@@ -11,13 +11,17 @@ if (isset($_POST['campaign_id']) && isset($_POST['action'])) {
     if ($campaign instanceof \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign) {
         if ($action === 'activate') {
             $campaign->enabled = 1;
+            $_SESSION['activate'] = 'Su campaña fue activada con exito.';
         } elseif ($action === 'deactivate') {
             $campaign->enabled = 0;
+            $_SESSION['deactivate'] = 'Su campaña fue desactivada con exito.';
         }
 
         $campaign->saveThis();
+
     }
+    header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'));
 }
 
-header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    '));
+
 ?>
