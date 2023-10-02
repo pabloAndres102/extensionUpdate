@@ -27,7 +27,7 @@
     <div class="col-6">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?>. {args.recipient.lastname_front}</label>
-            <input id="lastname" type="text" maxlength="50" class="form-control form-control-sm" name="lastname" value="<?php echo htmlspecialchars($item->lastname)?>" />
+            <input type="text" maxlength="50" class="form-control form-control-sm" name="lastname" value="<?php echo htmlspecialchars($item->lastname)?>" />
         </div>
     </div>
 
@@ -162,3 +162,16 @@
     <label><input type="checkbox" name="disabled" value="on" <?php $item->disabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Disabled');?></label>
 </div>
 
+<script>
+    (function() {
+        $('.fb-choose-file').click(function(){
+            $('.embed-into').removeClass('embed-into');
+            window.lhcSelector = $(this).attr('data-selector');
+            $(window.lhcSelector).addClass('embed-into');
+            var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
+            if (popupWindow !== null) {
+                popupWindow.focus();
+            }
+        });
+    })();
+</script>

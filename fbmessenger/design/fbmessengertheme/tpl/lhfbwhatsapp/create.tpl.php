@@ -695,30 +695,6 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mostrarInputsCheckbox = document.getElementById('mostrarInputs');
-            const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
-            const formSwitchRespuesta = document.querySelector('.form-switch.hidden-content');
-            const formSwitchLlamada = document.querySelectorAll('.form-check.form-switch.hidden-content')[1];
-
-            mostrarInputsCheckbox.addEventListener('change', function() {
-                if (mostrarInputsCheckbox.checked) {
-                    formSwitchLlamada.style.display = 'none';
-                } else {
-                    formSwitchLlamada.style.display = 'block';
-                }
-            });
-
-            mostrarInputscallbackCheckbox.addEventListener('change', function() {
-                if (mostrarInputscallbackCheckbox.checked) {
-                    formSwitchRespuesta.style.display = 'none';
-                } else {
-                    formSwitchRespuesta.style.display = 'block';
-                }
-            });
-        });
-    </script>
-    <script>
         function validateForm() {
             var inputElement = document.getElementById('buttonWebUrl');
             var url = inputElement.value.trim();
