@@ -11,10 +11,16 @@ if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || i
         erLhcoreClassModule::redirect('fbmessenger/options');
         exit;
     }
-
+    
     $definition = array(
         'new_chat' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+        ),
+        'business_phone_id' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'app_id' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
         'exclude_workflow' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
@@ -82,6 +88,17 @@ if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || i
         $data['whatsapp_verify_token'] = $form->whatsapp_verify_token;
     } else {
         $data['whatsapp_verify_token'] = '';
+    }
+
+    if ( $form->hasValidData( 'business_phone_id' )) {
+        $data['business_phone_id'] = $form->business_phone_id;
+    } else {
+        $data['business_phone_id'] = '';
+    }
+    if ( $form->hasValidData( 'app_id' )) {
+        $data['app_id'] = $form->app_id;
+    } else {
+        $data['app_id'] = '';
     }
 
     if ( $form->hasValidData( 'chat_attr' ) && $form->chat_attr == true ) {

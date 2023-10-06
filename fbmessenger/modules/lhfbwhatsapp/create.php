@@ -300,23 +300,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $result = curl_exec($ch);
 
-  if ($result === false) {
-    $result = curl_error($ch) . " - " . curl_errno($ch);
-  } else {
-    $resultDecode = json_decode($result, true); // Decodifica la respuesta JSON como un array asociativo
-    if ($resultDecode != null) {
-    }
-  }
-
+  $jsonresponse = json_decode($result, true);
+  print_r($jsonresponse);
   curl_close($ch);
 
-  if (isset($resultDecode['error'])) {
-    $_SESSION['api_error'] = $resultDecode;
+  if (isset($jsonresponse['error'])) {
+    $_SESSION['api_error'] = $jsonresponse;
   } else {
-    $_SESSION['api_response'] = $resultDecode;
+    $_SESSION['api_response'] = $jsonresponse;
   }
   
   header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
-  // print_r($resultDecode['error']['error_user_msg']);
+
 
 }

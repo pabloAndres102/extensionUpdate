@@ -4,6 +4,14 @@ $Module = array( "name" => "FB WhatsApp module" );
 
 $ViewList = array();
 
+
+$ViewList['profilebusiness'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+
 $ViewList['create'] = array(
     'params' => array(),
     'uparams' => array(),

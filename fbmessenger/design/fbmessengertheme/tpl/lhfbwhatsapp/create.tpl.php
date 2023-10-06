@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creacion de plantilla</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
-    <!-- Incluye las librerías de Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
 <style>
     .hidden-content {
         display: none;
@@ -117,7 +103,7 @@
 
             <div class="mb-3 hidden-content">
                 <label for="header" class="form-label"> <strong>Tipo de encabezado</strong></label>
-                <select class="form-select"  id="header" name="header" aria-label="Default select example">
+                <select class="form-select" id="header" name="header" aria-label="Default select example">
                     <option value="">SIN ENCABEZADO</option>
                     <option value="TEXT">TEXTO</option>
                     <option value="VIDEO">VIDEO</option>
@@ -125,7 +111,7 @@
                 </select>
 
                 <label for="campoDeTexto" id="labelCampoDeTexto" class="form-label" hidden> <strong>Texto de header</strong> </label>
-                <input type="text" id="campoDeTexto" name="campoDeTexto" class="form-control" maxlength="60" placeholder="Puede cargar una variable con &#123;&#123;1&#125;&#125;" hidden>
+                <input type="text" id="campoDeTexto" name="campoDeTexto" class="form-control" maxlength="60" placeholder="Puede cargar una variable" hidden>
 
                 <div id="nuevoInput" style="display: none;">
                     <label for="inputNuevo">Variable</label>
@@ -139,19 +125,16 @@
 
             <div class="form-group shadow-textarea hidden-content">
                 <label for="textAreaTexto"><strong>Cuerpo</strong></label>
-                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" name="text" rows="3" placeholder="Para ingresar variables seleccione 'Mostrar Variables'" maxlength="1024"></textarea>
+                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" rows="3" maxlength="1024" placeholder="Recuerde que puede ingresar máximo 5 variables"></textarea>
 
-                <label for="mostrarVariableCheckbox">
-                    <input class="form-check-input" type="checkbox" id="mostrarVariableCheckbox" onchange="mostrarVariableCuerpo()" />
-                    <strong>Mostrar Variables</strong>
-                </label>
+                <button type="button" id="mostrarVariablesBtn" class="btn btn-primary"><span class="material-icons">visibility</span>Agregar Variables</button>
+                <button type="button" id="quitarVariablesBtn" class="btn btn-dark"><span class="material-icons">cleaning_services</span>Limpiar</button>
 
                 <div id="variableCuerpo" style="display: none;">
                     <label for="variableCuerpoInput">Variable 1: </label>
                     <input type="text" id="variableCuerpoInput" name="variableCuerpo" class="form-control" />
                 </div>
 
-                <!-- Agregar cuatro inputs y cadenas adicionales -->
                 <div id="variableCuerpo2" style="display: none;">
                     <label for="variableCuerpoInput2">Variable 2: </label>
                     <input type="text" id="variableCuerpoInput2" name="variableCuerpo2" class="form-control" />
@@ -172,7 +155,6 @@
                     <input type="text" id="variableCuerpoInput5" name="variableCuerpo5" class="form-control" />
                 </div>
             </div>
-
             <div class="mb-3 hidden-content">
                 <label for="edad" class="form-label"><strong>Pie de pagina</strong></label>
                 <input type="text" class="form-control" id="footer" name="footer" maxlength="60">
@@ -469,7 +451,7 @@
                 <label for="input1"><strong>Texto</strong></label>
                 <input class="form-control" type="text" id="buttonWebText" name="buttonWebText" maxlength="25">
                 <label for="input2"><strong>Url del sitio</strong></label>
-                <input class="form-control" type="text" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.ejemplo.com/" onblur="validateURL()">
+                <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.ejemplo.com/">
             </div>
             <div class="authentication-div">
 
@@ -495,13 +477,67 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">Send</button> <br> <br>
-            <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary">Templates</a></center>
+            <button type="submit" class="btn btn-success"><span class="material-icons">send</span>Send</button> <br> <br>
+            <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span>Templates</a></center>
         </form>
 
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
+    <script>
+    document.getElementById('mostrarVariablesBtn').addEventListener('click', function () {
+        var textArea = document.getElementById('textAreaTexto');
+        var variableCuerpo = document.getElementById('variableCuerpo');
+        var variableCuerpo2 = document.getElementById('variableCuerpo2');
+        var variableCuerpo3 = document.getElementById('variableCuerpo3');
+        var variableCuerpo4 = document.getElementById('variableCuerpo4');
+        var variableCuerpo5 = document.getElementById('variableCuerpo5');
+
+        // Obtener el número de variables ya presentes en el textarea
+        var matches = textArea.value.match(/{{\d+}}/g) || [];
+        var variableNumber = matches.length + 1; // Siguiente número de variable
+
+        // Agregar la variable al textarea
+        textArea.value += ' {{' + variableNumber + '}} ';
+
+        // Mostrar el siguiente bloque de variables
+        switch (variableNumber) {
+            case 1:
+                variableCuerpo.style.display = 'block';
+                break;
+            case 2:
+                variableCuerpo2.style.display = 'block';
+                break;
+            case 3:
+                variableCuerpo3.style.display = 'block';
+                break;
+            case 4:
+                variableCuerpo4.style.display = 'block';
+                break;
+            case 5:
+                variableCuerpo5.style.display = 'block';
+                break;
+        }
+        document.getElementById('quitarVariablesBtn').addEventListener('click', function () {
+        var textArea = document.getElementById('textAreaTexto');
+        var variableCuerpo = document.getElementById('variableCuerpo');
+        var variableCuerpo2 = document.getElementById('variableCuerpo2');
+        var variableCuerpo3 = document.getElementById('variableCuerpo3');
+        var variableCuerpo4 = document.getElementById('variableCuerpo4');
+        var variableCuerpo5 = document.getElementById('variableCuerpo5');
+
+        // Limpiar el textarea
+        textArea.value = '';
+
+        // Ocultar todos los bloques de variables
+        variableCuerpo.style.display = 'none';
+        variableCuerpo2.style.display = 'none';
+        variableCuerpo3.style.display = 'none';
+        variableCuerpo4.style.display = 'none';
+        variableCuerpo5.style.display = 'none';
+    });
+    });
+</script>               
     <script>
         // Obtén una referencia al checkbox y al campo de entrada
         const checkbox1 = document.getElementById("mostrarInputs");
@@ -526,51 +562,6 @@
         $("#textAreaTexto").emojioneArea({
             pickerPosition: "bottom" // Esto coloca el picker de emoticones en la parte inferior del textarea
         });
-
-        function mostrarVariableCuerpo() {
-            var desiredText = "{{1}}"; // Cambia esto por la cadena específica que deseas
-            var inputValue = $("#textAreaTexto").val().toLowerCase();
-            var mostrarVariableCheckbox = document.getElementById("mostrarVariableCheckbox");
-
-            var variableInput = $("#variableCuerpo");
-            if (inputValue.includes(desiredText) && mostrarVariableCheckbox.checked) {
-                variableInput.show();
-            } else {
-                variableInput.hide();
-            }
-
-            var variableInput2 = $("#variableCuerpo2");
-            var desiredText2 = "{{2}}"; // Cambia esto por la cadena específica que deseas
-            if (inputValue.includes(desiredText2) && mostrarVariableCheckbox.checked) {
-                variableInput2.show();
-            } else {
-                variableInput2.hide();
-            }
-
-            var variableInput3 = $("#variableCuerpo3");
-            var desiredText3 = "{{3}}"; // Cambia esto por la cadena específica que deseas
-            if (inputValue.includes(desiredText3) && mostrarVariableCheckbox.checked) {
-                variableInput3.show();
-            } else {
-                variableInput3.hide();
-            }
-
-            var variableInput4 = $("#variableCuerpo4");
-            var desiredText4 = "{{4}}"; // Cambia esto por la cadena específica que deseas
-            if (inputValue.includes(desiredText4) && mostrarVariableCheckbox.checked) {
-                variableInput4.show();
-            } else {
-                variableInput4.hide();
-            }
-
-            var variableInput5 = $("#variableCuerpo5");
-            var desiredText5 = "{{5}}"; // Cambia esto por la cadena específica que deseas
-            if (inputValue.includes(desiredText3) && mostrarVariableCheckbox.checked) {
-                variableInput5.show();
-            } else {
-                variableInput5.hide();
-            }
-        }
     </script>
 
     <script>
@@ -698,13 +689,6 @@
         function validateForm() {
             var inputElement = document.getElementById('buttonWebUrl');
             var url = inputElement.value.trim();
-
-            // Verifica si la URL comienza con http:// o https://
-            if (url !== '' && !/^(http|https):\/\//i.test(url)) {
-                alert('La URL debe ser valida http o https. ');
-                inputElement.focus();
-                return false; // Evita que el formulario se envíe
-            }
             var checkbox = document.getElementById('mostrarInputscallback');
             var buttonCallbackText = document.getElementById('buttonCallbackText');
             var buttonWebUrl = document.getElementById('buttonWebUrl');
@@ -734,9 +718,4 @@
         }
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
-
-</html>
