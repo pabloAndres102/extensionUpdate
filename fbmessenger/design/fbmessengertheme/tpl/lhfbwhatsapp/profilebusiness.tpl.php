@@ -39,7 +39,6 @@
         }
     }
 </style>
-<h1><?php print_r($config2) ?></h1>
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
