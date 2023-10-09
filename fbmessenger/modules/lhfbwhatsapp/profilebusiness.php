@@ -3,7 +3,29 @@
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/profilebusiness.tpl.php');
-$Result['content'] = $tpl->fetch();
+
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://graph.facebook.com/v18.0/'.$data['business_phone_id'].'/whatsapp_business_profile?fields=about%2Caddress%2Cdescription%2Cemail%2Cprofile_picture_url%2Cwebsites%2Cvertical',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer '.$data['whatsapp_access_token']
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+$response_GET = json_decode($response, true);
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -113,33 +135,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // print_r($jsonResponse);
 
-        if (isset($jsonResponse['error'])) {
-            $_SESSION['profile_error'] = $jsonResponse['error']['message'];
-            $_SESSION['profile_error2'] = $jsonResponse['error']['error_data']['details'];
-            $_SESSION['profile_error3'] = $jsonResponse['error']['error_user_title'];
-            $_SESSION['profile_error4'] = $jsonResponse['error']['error_user_msg'];
-        } elseif (isset($jsonResponse['success'])) {
-            $_SESSION['profile_success'] = 'Se ha actualizado su perfil con exito! ';
-        } else {
-            $_SESSION['profile_unknown_error'] = $jsonResponse;
-        }
-
-        if (isset($jsonResponse)) {
-            header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness'));
-        }
+        
     }
 }
 
 
+$tpl->set('config', $response_GET); 
+$Result['content'] = $tpl->fetch();
+if (isset($jsonResponse['error'])) {
+    $_SESSION['profile_error'] = $jsonResponse['error']['message'];
+    $_SESSION['profile_error2'] = $jsonResponse['error']['error_data']['details'];
+    $_SESSION['profile_error3'] = $jsonResponse['error']['error_user_title'];
+    $_SESSION['profile_error4'] = $jsonResponse['error']['error_user_msg'];
+} elseif (isset($jsonResponse['success'])) {
+    $_SESSION['profile_success'] = 'Se ha actualizado su perfil con exito! ';
+} else {
+    $_SESSION['profile_unknown_error'] = $jsonResponse;
+}
+
+if (isset($jsonResponse)) {
+    header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness'));
+}
 
 $Result['path'] = array(
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index'),
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('lhelasticsearch/module', 'Facebook Chat')
-    ),
-    array(
-        'url' => erLhcoreClassDesign::baseurl('fbmessenger/options'),
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('lhelasticsearch/module', 'Options')
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness'),

@@ -3,6 +3,7 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/options.tpl.php');
 
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+
 $data = (array)$fbOptions->data;
 
 if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || isset($_POST['StoreOptionsWhatsAppRemove'])  ) {
