@@ -20,6 +20,8 @@ $Result['path'] = array(
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $token = $data['whatsapp_access_token'];
+  $app_id = $data['app_id'];
+  $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
   $templateName = strtolower($_POST['templateName']);
   $templateCat = strtolower($_POST['templateCat']);
   $language = $_POST['language'];
@@ -68,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nombre_archivo = str_replace(' ', '', $nombre_archivo);
 
   curl_setopt_array($ch, array(
-    CURLOPT_URL => 'https://graph.facebook.com/v17.0/' . '1198374610708100' . '/uploads?file_length=' . $tamaño_archivo . '&file_type=' . $tipo_archivo . '&file_name=' . $nombre_archivo . '', # Revisar en caso de que requiera la extension el nombre
+    CURLOPT_URL => 'https://graph.facebook.com/v17.0/' . $app_id . '/uploads?file_length=' . $tamaño_archivo . '&file_type=' . $tipo_archivo . '&file_name=' . $nombre_archivo . '', # Revisar en caso de que requiera la extension el nombre
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -158,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
   };
 
-  $url = 'https://graph.facebook.com/v17.0/' . '105209658989864' . '/message_templates';
+  $url = 'https://graph.facebook.com/v17.0/' . $whatsapp_business_account_id . '/message_templates';
 
 
   $bodytext = [
