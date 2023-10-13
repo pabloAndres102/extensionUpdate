@@ -18,6 +18,7 @@ if (isset($_SESSION['deactivate'])) {
     unset($_SESSION['deactivate']);
 }
 ?>
+<a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
             <tr>
@@ -121,7 +122,7 @@ if (isset($_SESSION['deactivate'])) {
     <?php endif; ?>
 <?php endif; ?>
 
-<a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
+
 <script>
     function validateActivation(totalContacts) {
         // Verificar si total_contacts es igual a 0

@@ -199,7 +199,7 @@
 </script>
 
 <script>
-    var excludeFields = ['field_header_img_', 'field_header_video_', 'field_header_doc_', 'field_header_doc_filename_'];
+    var excludeFields = [];
 
     function toggleScheduleFields() {
         var scheduleCheckbox = document.getElementById("schedule_message");

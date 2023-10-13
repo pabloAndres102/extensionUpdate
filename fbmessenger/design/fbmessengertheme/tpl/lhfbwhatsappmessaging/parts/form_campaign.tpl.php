@@ -160,7 +160,7 @@
         var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
 
         // Nombres de campos a excluir de la validación
-        var excludeFields = ['field_header_img_', 'field_header_video_', 'field_header_doc_', 'field_header_doc_filename_'];
+        var excludeFields = [];
 
         // Agrega un evento de escucha para el evento "submit" del formulario
         form.addEventListener('submit', function(event) {

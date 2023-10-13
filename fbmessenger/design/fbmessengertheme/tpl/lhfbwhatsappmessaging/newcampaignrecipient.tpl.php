@@ -25,6 +25,10 @@ $appendPrintExportURL = '';
         </div>
         <script>
             $('#list-update-import').removeClass('hide');
+            // Recargar la página después de 1 segundo
+        setTimeout(function() {
+            location.reload(true); 
+        }, 1000); 
         </script>
     <?php endif; ?>
 

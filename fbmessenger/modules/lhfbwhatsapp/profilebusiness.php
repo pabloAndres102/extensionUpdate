@@ -164,6 +164,6 @@ $Result['path'] = array(
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness'),
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('lhelasticsearch/module', 'Perfil')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile')
     )
 );

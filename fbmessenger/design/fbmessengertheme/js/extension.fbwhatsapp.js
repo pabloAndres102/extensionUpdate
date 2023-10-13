@@ -3,6 +3,9 @@
         $.postJSON(WWW_DIR_JAVASCRIPT + '/fbwhatsapp/rendersend/' + $(this).val() + (typeof businessAccountId !== 'undefined' ? '/' + businessAccountId : ''), {'data': JSON.stringify(messageFieldsValues)}, function(data) {
             $('#arguments-template').html(data.preview);
             $('#arguments-template-form').html(data.form);
+            // var contenidoHTML = $('#arguments-template-form').html();
+            // var nuevoContenidoHTML = contenidoHTML.replace(/name="field_header_img_1"/g, 'name="nuevo_nombre"');
+            // $('#arguments-template-form').html(nuevoContenidoHTML);
         });
     });
     if ($('#template-to-send').val() != '') {

@@ -14,7 +14,7 @@ $Result['path'] = array(
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates')
     ),
     array(
-      'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Crear')
+      'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create')
   )
 );
 

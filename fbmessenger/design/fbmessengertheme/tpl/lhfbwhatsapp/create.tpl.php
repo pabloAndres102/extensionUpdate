@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
+
 <style>
     .hidden-content {
         display: none;
@@ -12,8 +16,9 @@
 
     <div class="container">
         <center>
-            <h1>Crear plantilla</h1>
+        <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
         </center> <br>
+                    <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong>Nombre <?php echo htmlspecialchars($template['name']) ?></strong></label>
@@ -105,6 +110,7 @@
                 <label for="header" class="form-label"> <strong>Tipo de encabezado</strong></label>
                 <select class="form-select" id="header" name="header" aria-label="Default select example">
                     <option value="">SIN ENCABEZADO</option>
+                    <option value="DOCUMENT">DOCUMENTO</option>
                     <option value="TEXT">TEXTO</option>
                     <option value="VIDEO">VIDEO</option>
                     <option value="IMAGE">IMAGEN</option>
@@ -477,67 +483,74 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success"><span class="material-icons">send</span>Send</button> <br> <br>
-            <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span>Templates</a></center>
+            <button type="submit" class="btn btn-success"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Send'); ?></button> <br> <br>
         </form>
 
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
     <script>
-    document.getElementById('mostrarVariablesBtn').addEventListener('click', function () {
-        var textArea = document.getElementById('textAreaTexto');
-        var variableCuerpo = document.getElementById('variableCuerpo');
-        var variableCuerpo2 = document.getElementById('variableCuerpo2');
-        var variableCuerpo3 = document.getElementById('variableCuerpo3');
-        var variableCuerpo4 = document.getElementById('variableCuerpo4');
-        var variableCuerpo5 = document.getElementById('variableCuerpo5');
+    $(document).ready(function() {
+        var emojione = $("#textAreaTexto").emojioneArea({
+            pickerPosition: "bottom"
+        });
 
-        // Obtener el número de variables ya presentes en el textarea
-        var matches = textArea.value.match(/{{\d+}}/g) || [];
-        var variableNumber = matches.length + 1; // Siguiente número de variable
+        $('#mostrarVariablesBtn').on('click', function () {
+            var textArea = emojione[0].emojioneArea;
+            var variableCuerpo = $("#variableCuerpo");
+            var variableCuerpo2 = $("#variableCuerpo2");
+            var variableCuerpo3 = $("#variableCuerpo3");
+            var variableCuerpo4 = $("#variableCuerpo4");
+            var variableCuerpo5 = $("#variableCuerpo5");
 
-        // Agregar la variable al textarea
-        textArea.value += ' {{' + variableNumber + '}} ';
+            // Obtener el número de variables ya presentes en el textarea
+            var matches = textArea.getText().match(/{{\d+}}/g) || [];
+            var variableNumber = matches.length + 1; // Siguiente número de variable
 
-        // Mostrar el siguiente bloque de variables
-        switch (variableNumber) {
-            case 1:
-                variableCuerpo.style.display = 'block';
-                break;
-            case 2:
-                variableCuerpo2.style.display = 'block';
-                break;
-            case 3:
-                variableCuerpo3.style.display = 'block';
-                break;
-            case 4:
-                variableCuerpo4.style.display = 'block';
-                break;
-            case 5:
-                variableCuerpo5.style.display = 'block';
-                break;
-        }
-        document.getElementById('quitarVariablesBtn').addEventListener('click', function () {
-        var textArea = document.getElementById('textAreaTexto');
-        var variableCuerpo = document.getElementById('variableCuerpo');
-        var variableCuerpo2 = document.getElementById('variableCuerpo2');
-        var variableCuerpo3 = document.getElementById('variableCuerpo3');
-        var variableCuerpo4 = document.getElementById('variableCuerpo4');
-        var variableCuerpo5 = document.getElementById('variableCuerpo5');
+            // Agregar la variable al textarea
+            textArea.setText(textArea.getText() + ' {{' + variableNumber + '}} ');
 
-        // Limpiar el textarea
-        textArea.value = '';
+            // Mostrar el siguiente bloque de variables
+            switch (variableNumber) {
+                case 1:
+                    variableCuerpo.show();
+                    break;
+                case 2:
+                    variableCuerpo2.show();
+                    break;
+                case 3:
+                    variableCuerpo3.show();
+                    break;
+                case 4:
+                    variableCuerpo4.show();
+                    break;
+                case 5:
+                    variableCuerpo5.show();
+                    break;
+            }
+        });
 
-        // Ocultar todos los bloques de variables
-        variableCuerpo.style.display = 'none';
-        variableCuerpo2.style.display = 'none';
-        variableCuerpo3.style.display = 'none';
-        variableCuerpo4.style.display = 'none';
-        variableCuerpo5.style.display = 'none';
+        $('#quitarVariablesBtn').on('click', function () {
+            var textArea = emojione[0].emojioneArea;
+            var variableCuerpo = $("#variableCuerpo");
+            var variableCuerpo2 = $("#variableCuerpo2");
+            var variableCuerpo3 = $("#variableCuerpo3");
+            var variableCuerpo4 = $("#variableCuerpo4");
+            var variableCuerpo5 = $("#variableCuerpo5");
+
+            // Limpiar el textarea
+            textArea.setText('');
+
+            // Ocultar todos los bloques de variables
+            variableCuerpo.hide();
+            variableCuerpo2.hide();
+            variableCuerpo3.hide();
+            variableCuerpo4.hide();
+            variableCuerpo5.hide();
+            // Oculta más bloques de variables según sea necesario
+        });
     });
-    });
-</script>               
+</script> 
     <script>
         // Obtén una referencia al checkbox y al campo de entrada
         const checkbox1 = document.getElementById("mostrarInputs");
@@ -555,15 +568,6 @@
             }
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $("#textAreaTexto").emojioneArea();
-        });
-        $("#textAreaTexto").emojioneArea({
-            pickerPosition: "bottom" // Esto coloca el picker de emoticones en la parte inferior del textarea
-        });
-    </script>
-
     <script>
         const otpSelect = document.getElementById('otp_type');
         const nombrePaqueteDiv = document.getElementById('nombrePaquete');

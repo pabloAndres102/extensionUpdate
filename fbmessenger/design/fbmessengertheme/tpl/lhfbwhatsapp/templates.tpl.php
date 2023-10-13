@@ -8,7 +8,7 @@
 
 <body>
     <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></h1>
-    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span>Crear</a> <br> <br>
+    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Create'); ?></a> <br> <br>
     <?php
     // Comprueba si hay un mensaje de éxito en la variable de sesión
     if (isset($_SESSION['delete_template_message'])) {
@@ -152,7 +152,7 @@
                         <td>
                             <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
                                 <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
-                                <button type="submit" class="btn btn-danger">Borrar</button>
+                                <button type="submit" class="btn btn-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Delete'); ?></button>
                             </form>
                         </td>
                     </tr>

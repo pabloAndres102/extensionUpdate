@@ -55,7 +55,7 @@ $Result['path'] = array (
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') . '/' . $campaign->id,
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Edit campaign')
     ),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients'))
+    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('system/xmpp','Recipients'))
 );
 
 ?>

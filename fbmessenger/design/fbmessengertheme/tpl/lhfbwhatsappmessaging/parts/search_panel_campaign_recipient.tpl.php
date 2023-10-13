@@ -41,10 +41,10 @@
 
     <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-secondary btn-sm"  onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaignrecipient')?>/<?php echo $campaign->id?>'})">
-            <i class="material-icons">add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','New manual recipient');?>
+            <i class="material-icons">add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Add manual contact');?>
         </button>
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/importfrommailinglist')?>/<?php echo $campaign->id?>'})" >
-            <i class="material-icons">playlist_add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Update recipients from mailing list');?>
+            <i class="material-icons">playlist_add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Select a contact list');?>
         </button>
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="return lhc.revealModal({'title' : '<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Import');?>', 'iframe':true, 'height':500, 'url':WWW_DIR_JAVASCRIPT +'fbwhatsappmessaging/importcampaign/<?php echo $campaign->id?>'})" >
             <i class="material-icons">file_upload</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Import');?>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- <div role="alert" class="alert alert-info alert-dismissible hide m-3" id="list-update-import">
-        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This list was updated. Please');?>&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','refresh');?>.</a>
+        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This list was updated. Please');?>&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Refresh');?>.</a>
     </div> -->
 </form>
 
