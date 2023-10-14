@@ -65,6 +65,9 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 'baseurl'   => $this->endpoint,
                 'bearer'    => $this->access_key,
                 'method'    => "v15.0/{$this->whatsapp_business_account_id}/message_templates",
+                'args'      => [
+                    'limit' => 1000,
+                ],
             ]);
 
             if (isset($templates['data']) && is_array($templates['data'])) {
