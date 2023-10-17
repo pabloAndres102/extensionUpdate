@@ -118,11 +118,11 @@
                             <?php
                             $status = htmlspecialchars($template['status']);
                             if ($status == 'APPROVED') {
-                                echo '<span style="color: green;">APROBADA</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'APPROVED') . '</span>';
                             } elseif ($status == 'PENDING') {
-                                echo '<span style="color: red;">PENDIENTE</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'PENDING') . '</span>';
                             } elseif ($status == 'REJECTED') {
-                                echo '<span style="color: red;">RECHAZADA</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'REJECTED') . '</span>';
                             } else {
                                 echo htmlspecialchars($template['status']);
                             }
@@ -133,11 +133,11 @@
                             $category = htmlspecialchars($template['category']);
                             // Mostrar categorías en mayúsculas y en español
                             if ($category == 'MARKETING') {
-                                echo 'MARKETING';
+                                echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'MARKETING');
                             } elseif ($category == 'UTILITY') {
-                                echo 'UTILIDAD';
+                                echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'UTILITY');
                             } elseif ($category == 'AUTHENTICATION') {
-                                echo 'AUTENTICACIÓN';
+                                echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'AUTHENTICATION');
                             } else {
                                 echo $category; // Mostrar categoría original si no coincide con las categorías hardcoded
                             }

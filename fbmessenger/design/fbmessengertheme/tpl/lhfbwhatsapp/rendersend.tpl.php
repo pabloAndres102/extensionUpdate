@@ -96,8 +96,8 @@
     <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}</label>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
+                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}<button type="button" data-selector="#field_header_img_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i+1?>" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -132,3 +132,16 @@
 </div>
 
 <?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>
+<script>
+    (function() {
+        $('.fb-choose-file').click(function(){
+            $('.embed-into').removeClass('embed-into');
+            window.lhcSelector = $(this).attr('data-selector');
+            $(window.lhcSelector).addClass('embed-into');
+            var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
+            if (popupWindow !== null) {
+                popupWindow.focus();
+            }
+        });
+    })();
+</script>

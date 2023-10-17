@@ -134,7 +134,7 @@
                     var businessAccountId = <?php echo (int)$business_account_id ?>;
                 <?php endif; ?>
             </script>
-
+            
             <div id="arguments-template-form"></div>
 
             <div class="form-group">

@@ -44,13 +44,13 @@
         <div class="col-md-6 offset-md-3">
             <div class="custom-card">
                 <center>
-                    <h3 class="attr-header">Catálogo</h3>
+                    <h3 class="attr-header"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Catalogue'); ?></h3>
                 </center>
                 <center>
                     <form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/activatecatalog') ?>" method="post" style="display: inline-block; margin-bottom: 9px;">
                         <input type="hidden" name="action">
                         <button type="submit" class="btn btn-success btn-sm">
-                            <span class="material-icons">power_settings_new</span>Activar/Desactivar
+                            <span class="material-icons">power_settings_new</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Activate'); ?>/<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Deactivate'); ?>
                         </button>
                     </form>
                     <?php
@@ -77,7 +77,7 @@
     <div class="row">
         <div class="col-md-10 offset-md-2">
             <div class="col-md-10">
-                <h3 class="text-center mb-4">Actualizar perfil empresarial</h3>
+                <h3 class="text-center mb-4"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Update business profile'); ?></h3>
                 <div class="custom-card">
                     <?php 
                     if (isset($_SESSION['profile_error'])) {
@@ -96,7 +96,7 @@
                     <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness') ?> enctype="multipart/form-data">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Acerca de</span>
+                                <span class="input-group-text"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'About'); ?></span>
                             </div>
                             <textarea class="form-control" name="about" aria-label="With textarea"><?php echo (isset($config['data'][0]['about'])) ? htmlspecialchars($config['data'][0]['about']) : ''; ?></textarea>
 
@@ -104,37 +104,37 @@
                         <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Direccion</span>
+                                <span class="input-group-text" id="basic-addon1"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Address'); ?></span>
                             </div>
                             <input type="text" class="form-control" name="address" value="<?php echo (isset($config['data'][0]['address'])) ? htmlspecialchars($config['data'][0]['address']) : ''; ?>" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
 
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Descripcion</span>
+                                <span class="input-group-text"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Description'); ?></span>
                             </div>
                             <textarea class="form-control" name="description" aria-label="With textarea"><?php echo (isset($config['data'][0]['description'])) ? htmlspecialchars($config['data'][0]['description']) : ''; ?></textarea>
                         </div>
                         <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Correo electronico</span>
+                                <span class="input-group-text" id="basic-addon1"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Email'); ?></span>
                             </div>
                             <input type="email" name="email" class="form-control" value="<?php echo (isset($config['data'][0]['email'])) ? htmlspecialchars($config['data'][0]['email']) : ''; ?>" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
 
 
                         <div class="input-group mb-3">
-                            <label for="image">Imagen de perfil
+                            <label for="image"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile image'); ?>
                                 <input type="file" name="image" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                <span><small>Asegúrese de haber ingresado el identificador de la app para actualizar la imagen del perfil de WhatsApp.
+                                <span><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Update business profile'); ?>Asegúrese de haber ingresado el identificador de la app para actualizar la imagen del perfil de WhatsApp.
                                         haga click <a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Aqui'); ?></a> para ingresarlo
                                     </small></span>
                             </label>
                         </div>
 
                         <div class="card">
-                            <h2>Perfil de WhatsApp</h2>
+                            <h2><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Whatsapp profile'); ?></h2>
                             <img src=<?php print_r($config['data'][0]['profile_picture_url']) ?> alt="Perfil de WhatsApp">
                         </div>
 

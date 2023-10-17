@@ -21,12 +21,12 @@
                     <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
-                <label for="edad" class="form-label"><strong>Nombre <?php echo htmlspecialchars($template['name']) ?></strong></label>
-                <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Nombre" required>
+                <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
+                <input type="text" class="form-control" id="templateName" name="templateName" placeholder=<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> required>
             </div>
 
             <div class="mb-3">
-                <label for="language" class="form-label"> <strong>Idioma</strong></label>
+                <label for="language" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/cannedmsg', 'Language'); ?></strong></label>
                 <select class="form-select" id="language" name="language" aria-label="Default select example">
                     <option selected value="es">Español</strong></option>
                     <option value="af">Afrikáans</option>
@@ -93,31 +93,30 @@
                     <option value="vi">Vietnamita</option>
                 </select>
             </div>
-
             <br>
 
             <div class="mb-3">
                 <label for="templateCat" class="form-label"> <strong>Categoria</strong></label>
                 <select class="form-select" id="templateCat" name="templateCat" aria-label="Default select example">
-                    <option selected><strong>Categoria</strong></option>
-                    <option value="MARKETING">MARKETING</option>
-                    <option value="UTILITY">UTILIDAD</option>
-                    <option value="AUTHENTICATION">AUTENTICACION</option>
+                    <option selected><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation', 'Category'); ?></strong></option>
+                    <option value="MARKETING">Marketing</option>
+                    <option value="UTILITY"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Utility'); ?></option>
+                    <option value="AUTHENTICATION"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'authentication'); ?></option>
                 </select>
             </div>
 
             <div class="mb-3 hidden-content">
-                <label for="header" class="form-label"> <strong>Tipo de encabezado</strong></label>
+                <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong></label>
                 <select class="form-select" id="header" name="header" aria-label="Default select example">
-                    <option value="">SIN ENCABEZADO</option>
-                    <option value="DOCUMENT">DOCUMENTO</option>
-                    <option value="TEXT">TEXTO</option>
-                    <option value="VIDEO">VIDEO</option>
-                    <option value="IMAGE">IMAGEN</option>
+                    <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
+                    <option value="DOCUMENT"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Document'); ?></option>
+                    <option value="TEXT"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text'); ?></option>
+                    <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
+                    <option value="IMAGE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Image'); ?></option>
                 </select>
 
-                <label for="campoDeTexto" id="labelCampoDeTexto" class="form-label" hidden> <strong>Texto de header</strong> </label>
-                <input type="text" id="campoDeTexto" name="campoDeTexto" class="form-control" maxlength="60" placeholder="Puede cargar una variable" hidden>
+                <label for="campoDeTexto" id="labelCampoDeTexto" class="form-label" hidden> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text header'); ?></strong> </label>
+                <input type="text" id="campoDeTexto" name="campoDeTexto" class="form-control" maxlength="60" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'You can upload a variable'); ?>" hidden>
 
                 <div id="nuevoInput" style="display: none;">
                     <label for="inputNuevo">Variable</label>
@@ -130,11 +129,11 @@
             </div>
 
             <div class="form-group shadow-textarea hidden-content">
-                <label for="textAreaTexto"><strong>Cuerpo</strong></label>
-                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" rows="3" maxlength="1024" placeholder="Recuerde que puede ingresar máximo 5 variables"></textarea>
+                <label for="textAreaTexto"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Body'); ?></strong></label>
+                <textarea id="textAreaTexto" name="text" class="form-control z-depth-1" rows="3" maxlength="1024" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Remember that you can load a maximum of 5 variables'); ?>"></textarea>
 
-                <button type="button" id="mostrarVariablesBtn" class="btn btn-primary"><span class="material-icons">visibility</span>Agregar Variables</button>
-                <button type="button" id="quitarVariablesBtn" class="btn btn-dark"><span class="material-icons">cleaning_services</span>Limpiar</button>
+                <button type="button" id="mostrarVariablesBtn" class="btn btn-primary"><span class="material-icons">visibility</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add variable'); ?></button>
+                <button type="button" id="quitarVariablesBtn" class="btn btn-dark"><span class="material-icons">cleaning_services</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Clean'); ?></button>
 
                 <div id="variableCuerpo" style="display: none;">
                     <label for="variableCuerpoInput">Variable 1: </label>
@@ -162,41 +161,39 @@
                 </div>
             </div>
             <div class="mb-3 hidden-content">
-                <label for="edad" class="form-label"><strong>Pie de pagina</strong></label>
+                <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Footer'); ?></strong></label>
                 <input type="text" class="form-control" id="footer" name="footer" maxlength="60">
             </div>
 
             <div class="form-check form-switch hidden-content">
                 <label>
-                    <input class="form-check-input" type="checkbox" id="mostrarInputs"> <strong> Agregar boton (Respuesta rapida) </strong>
+                    <input class="form-check-input" type="checkbox" id="mostrarInputs"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Quick Reply)'); ?> </strong>
                 </label>
             </div>
 
             <br>
             <div id="inputsContainer" style="display: none;">
-                <h5><strong>Respuesta rapida</strong></h5> <br>
-                <label for="input1"><strong>Boton 1</strong></label>
+                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 1</strong></label>
                 <input class="form-control" type="text" id="button1" name="button1" maxlength="25">
                 <br>
-                <label for="input2"><strong>Boton 2 (Opcional)</strong></label>
+                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 2 (<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Optional'); ?>)</strong></label>
                 <input class="form-control" type="text" id="button2" name="button2" maxlength="25">
                 <br>
-                <label for="input3"><strong>Boton 3 (Opcional)</strong></label>
+                <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 3 (<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Optional'); ?>)</strong></label>
                 <input class="form-control" type="text" id="button3" name="button3" maxlength="25">
             </div>
             <br>
 
             <div class="form-check form-switch hidden-content">
                 <label>
-                    <input class="form-check-input" type="checkbox" id="mostrarInputscallback"> <strong> Agregar boton (Llamada a la accion) </strong>
+                    <input class="form-check-input" type="checkbox" id="mostrarInputscallback"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Callback)'); ?> </strong>
                 </label>
             </div>
 
             <div id="inputsContainercallback" style="display: none;"> <br>
-                <h5><strong>Llamada a la accion</strong></h5>
-                <label for="input1"><strong>Texto</strong></label>
+                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonCallbackText" name="buttonCallbackText" maxlength="25">
-                <label for="input2"><strong>Codigo Pais</strong></label>
+                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Country code'); ?></strong></label>
                 <select class="form-select" id="buttoCallbackCountry" name="buttoCallbackCountry" aria-label="Default select example">
                     <option selected></option>
                     <option value="93">Afghanistan (93)</option>
@@ -450,36 +447,36 @@
                     <option value="260">Zambia (260)</option>
                     <option value="263">Zimbabwe (263)</option>
                 </select>
-                <label for="input3"><strong>Numero telefono</strong></label>
+                <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Phone number'); ?></strong></label>
                 <input class="form-control" type="number" id="buttonCallbackPhone" name="buttonCallbackPhone" maxlength="20"> <br>
 
-                <h5><strong>Ir al sitio web</strong></h5>
-                <label for="input1"><strong>Texto</strong></label>
+                <h5><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Go to website'); ?></strong></h5>
+                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonWebText" name="buttonWebText" maxlength="25">
-                <label for="input2"><strong>Url del sitio</strong></label>
-                <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.ejemplo.com/">
+                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'URL site'); ?></strong></strong></label>
+                <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.google.com/">
             </div>
             <div class="authentication-div">
 
                 <div class="form-check form-switch">
                     <div class="mb-3">
-                        <label for="" class="form-label"> <strong>TIPO OTP</strong></label>
+                        <label for="" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'OTP type'); ?></strong></label>
                         <select class="form-select" id="otp_type" name="otp_type" aria-label="Default select example">
                             <option selected></option>
-                            <option value="ONE_TAP">AUTOCOMPLETAR</option>
-                            <option value="COPY_CODE">COPIAR CODIGO</option>
+                            <option value="ONE_TAP"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Autofill'); ?></option>
+                            <option value="COPY_CODE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Copy code'); ?></option>
                         </select>
                     </div>
 
                     <div id="nombrePaquete">
-                        <input type="text" class="form-control" id="Nombrepaquete" name="Nombrepaquete" placeholder="Nombre del paquete">
-                        <input type="text" class="form-control" id="Hashpaquete" name="Hashpaquete" placeholder="Hash del paquete">
-                        <label for=""><strong> Boton autocompletado </strong></label>
-                        <input type="text" class="form-control" id="buttonAutocompletar" name="buttonAutocompletar" placeholder="Autocompletar">
+                        <input type="text" class="form-control" id="Nombrepaquete" name="Nombrepaquete" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Package name'); ?>">
+                        <input type="text" class="form-control" id="Hashpaquete" name="Hashpaquete" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Package hash'); ?>">
+                        <label for=""><strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button autofill'); ?> </strong></label>
+                        <input type="text" class="form-control" id="buttonAutocompletar" name="buttonAutocompletar" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Autofill'); ?>">
                     </div>
                     <div id="caducidad">
-                        <label for="caducidad"><strong>Agrega la fecha de caducidad para el código</strong></label>
-                        <input type="number" class="form-control" id="caducidad" name="caducidad" placeholder="Ingresa un valor entre 1 y 90" max="90">
+                        <label for="caducidad"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add the expiration date for the code'); ?></strong></label>
+                        <input type="number" class="form-control" id="caducidad" name="caducidad" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Enter a value between 1 and 90'); ?>" max="90">
                     </div>
                 </div>
             </div>
