@@ -86,19 +86,21 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Document URL - {{<?php echo $i+1?>}}</label>
+                &nbsp;&nbsp;<a data-selector="#field_header_doc_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success"href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a> 
                 <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
                 <label class="font-weight-bold">Filename - {{<?php echo $i+1?>}}</label>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
-    <?php endfor; ?>
-
+    <?php endfor; ?>                
     <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}<button type="button" data-selector="#field_header_img_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}</label>
+                &nbsp;&nbsp;<a data-selector="#field_header_img_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i+1?>" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
-            </div>
+                    
+                </div>
         </div>
     <?php endfor; ?>
 
@@ -106,6 +108,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Header video URL - {{<?php echo $i+1?>}}</label>
+                &nbsp;&nbsp;<a data-selector="#field_header_video_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
@@ -133,15 +136,23 @@
 
 <?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>
 <script>
-    (function() {
-        $('.fb-choose-file').click(function(){
-            $('.embed-into').removeClass('embed-into');
-            window.lhcSelector = $(this).attr('data-selector');
-            $(window.lhcSelector).addClass('embed-into');
-            var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
-            if (popupWindow !== null) {
-                popupWindow.focus();
-            }
-        });
-    })();
+(function() {
+    $('.fb-choose-file').click(function(e) {
+        e.preventDefault(); // Evita que el enlace siga el href
+
+        // Encuentra el contenedor del campo de entrada relacionado
+        var inputContainer = $(this).closest('.form-group');
+
+        // Encuentra la entrada de texto dentro del contenedor
+        var inputField = inputContainer.find('input[type="text"]');
+
+        // Agrega la clase 'embed-into' al campo de entrada
+        inputField.addClass('embed-into');
+
+        // Abre el modal
+        lhc.revealModal({'iframe': true, 'height': 400, 'url': '<?php echo erLhcoreClassDesign::baseurl('file/attatchfileimg')?>'});
+        
+    });
+})();
+
 </script>
