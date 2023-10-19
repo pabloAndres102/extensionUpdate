@@ -8,7 +8,7 @@
 
 <body>
     <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></h1>
-    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Create'); ?></a> <br> <br>
+    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create'); ?></a> <br> <br>
     <?php
     // Comprueba si hay un mensaje de éxito en la variable de sesión
     if (isset($_SESSION['delete_template_message'])) {
@@ -118,11 +118,11 @@
                             <?php
                             $status = htmlspecialchars($template['status']);
                             if ($status == 'APPROVED') {
-                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'APPROVED') . '</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'APPROVED') . '</span>';
                             } elseif ($status == 'PENDING') {
-                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'PENDING') . '</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'PENDING') . '</span>';
                             } elseif ($status == 'REJECTED') {
-                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'REJECTED') . '</span>';
+                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'REJECTED') . '</span>';
                             } else {
                                 echo htmlspecialchars($template['status']);
                             }
@@ -149,7 +149,7 @@
                         <td>
                             <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
                                 <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
-                                <button type="submit" class="btn btn-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Delete'); ?></button>
+                                <button type="submit" class="btn btn-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
                             </form>
                         </td>
                     </tr>

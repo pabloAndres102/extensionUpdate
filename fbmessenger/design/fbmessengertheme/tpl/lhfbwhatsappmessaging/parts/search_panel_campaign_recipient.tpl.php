@@ -41,16 +41,16 @@
 
     <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-secondary btn-sm"  onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaignrecipient')?>/<?php echo $campaign->id?>'})">
-            <i class="material-icons">add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Add manual contact');?>
+            <i class="material-icons">add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Add manual contact');?>
         </button>
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/importfrommailinglist')?>/<?php echo $campaign->id?>'})" >
-            <i class="material-icons">playlist_add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Select a contact list');?>
+            <i class="material-icons">playlist_add</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Select a contact list');?>
         </button>
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="return lhc.revealModal({'title' : '<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Import');?>', 'iframe':true, 'height':500, 'url':WWW_DIR_JAVASCRIPT +'fbwhatsappmessaging/importcampaign/<?php echo $campaign->id?>'})" >
             <i class="material-icons">file_upload</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Import');?>
         </button>
         <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(export)/csv<?php echo $inputAppend?>" class="btn btn-outline-secondary btn-sm">
-            <i class="material-icons">file_download</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Export');?>
+            <i class="material-icons">file_download</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Export');?>
         </a>
     </div>
 

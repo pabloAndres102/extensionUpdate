@@ -29,8 +29,8 @@ if (isset($_SESSION['deactivate'])) {
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Status'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date scheduled'); ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estádisticas'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Acciones'); ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Statistics'); ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Actions'); ?></th>
                 <th width="1%"></th>
             </tr>
         </thead>
@@ -97,17 +97,17 @@ if (isset($_SESSION['deactivate'])) {
                         <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" style="display: inline-block; margin-right: 5px;" method="post">
                             <input type="hidden" name="campaign_id" value="<?php echo $item->id ?>">
                             <input type="hidden" name="action" value="deactivate">
-                            <button type="submit" class="btn btn-secondary btn-sm">Desactivar</button>
+                            <button type="submit" class="btn btn-secondary btn-sm"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Deactivate'); ?></button>
                         </form>
                     <?php else : ?>
                         <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" method="post" style="display: inline-block; margin-right: 5px;" onsubmit="return validateActivation(<?php echo $item->total_contacts; ?>)">
                             <input type="hidden" name="campaign_id" value="<?php echo $item->id ?>">
                             <input type="hidden" name="action" value="activate">
-                            <button type="submit" class="btn btn-success btn-sm">Activar</button>
+                            <button type="submit" class="btn btn-success btn-sm"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Activate'); ?></button>
                         </form>
                     <?php endif; ?>
                     <?php if ($item->can_delete) : ?>
-                        <a class="btn btn-danger btn-sm csfr-post csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages', 'Are you sure?'); ?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletecampaign') ?>/<?php echo $item->id ?>">Eliminar</a>
+                        <a class="btn btn-danger btn-sm csfr-post csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages', 'Are you sure?'); ?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletecampaign') ?>/<?php echo $item->id ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></a>
                     <?php endif; ?>
                 </td>
 

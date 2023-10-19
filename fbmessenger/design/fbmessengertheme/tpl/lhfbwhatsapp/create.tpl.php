@@ -15,6 +15,7 @@
 <body>
 
     <div class="container">
+        
         <center>
         <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
         </center> <br>
@@ -101,7 +102,7 @@
                     <option selected><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation', 'Category'); ?></strong></option>
                     <option value="MARKETING">Marketing</option>
                     <option value="UTILITY"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Utility'); ?></option>
-                    <option value="AUTHENTICATION"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('notifications/edit', 'authentication'); ?></option>
+                    <option value="AUTHENTICATION"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Authentication'); ?></option>
                 </select>
             </div>
 
@@ -191,9 +192,9 @@
             </div>
 
             <div id="inputsContainercallback" style="display: none;"> <br>
-                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Text'); ?></strong></label>
+                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonCallbackText" name="buttonCallbackText" maxlength="25">
-                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Country code'); ?></strong></label>
+                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Country code'); ?></strong></label>
                 <select class="form-select" id="buttoCallbackCountry" name="buttoCallbackCountry" aria-label="Default select example">
                     <option selected></option>
                     <option value="93">Afghanistan (93)</option>
@@ -447,13 +448,13 @@
                     <option value="260">Zambia (260)</option>
                     <option value="263">Zimbabwe (263)</option>
                 </select>
-                <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Phone number'); ?></strong></label>
+                <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Phone number'); ?></strong></label>
                 <input class="form-control" type="number" id="buttonCallbackPhone" name="buttonCallbackPhone" maxlength="20"> <br>
 
-                <h5><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Go to website'); ?></strong></h5>
-                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'Text'); ?></strong></label>
+                <h5><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Go to website'); ?></strong></h5>
+                <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonWebText" name="buttonWebText" maxlength="25">
-                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchatformsettings', 'URL site'); ?></strong></strong></label>
+                <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'URL site'); ?></strong></strong></label>
                 <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.google.com/">
             </div>
             <div class="authentication-div">

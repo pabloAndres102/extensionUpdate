@@ -168,19 +168,19 @@
                         <div class="container mt-5">
                             <div class="row justify-content-center">
                                 <div class="col-md-10">
-                                    <h3 class="text-center mb-4">Sitios Web</h3>
+                                    <h3 class="text-center mb-4"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Websites'); ?></h3>
                                     <div class="form-group">
-                                        <label for="website1">Sitio Web 1:</label>
+                                        <label for="website1"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Website'); ?> 1:</label>
                                         <input type="url" class="form-control" id="website1" name="website1" value="<?php echo (isset($config['data'][0]['websites'])) ? print_r($config['data'][0]['websites'][0]) : ''; ?>" placeholder="https://www.ejemplo.com">
                                     </div>
                                     <div class="form-group">
-                                        <label for="website2">Sitio Web 2:</label>
+                                        <label for="website2"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Website'); ?> 2:</label>
                                         <input type="url" class="form-control" id="website2" value="<?php echo (isset($config['data'][0]['websites'][1])) ? print_r($config['data'][0]['websites'][1]) : ''; ?>" name="website2" placeholder="https://www.otroejemplo.com">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <center><button type="submit" class="btn btn-primary"> <span class="material-icons">save</span>Guardar cambios</button></center>
+                        <center><button type="submit" class="btn btn-primary"> <span class="material-icons">save</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Save'); ?></button></center>
                     </form>
                 </div>
             </div>
