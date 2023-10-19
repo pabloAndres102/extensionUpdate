@@ -139,7 +139,7 @@
 (function() {
     $('.fb-choose-file').click(function(e) {
         e.preventDefault(); // Evita que el enlace siga el href
-
+        
         // Encuentra el contenedor del campo de entrada relacionado
         var inputContainer = $(this).closest('.form-group');
 
