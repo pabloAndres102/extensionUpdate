@@ -19,6 +19,10 @@
       <translation>Exportar</translation>
     </message>
     <message>
+      <source>Insert URL</source>
+      <translation>Insertar URL</translation>
+    </message>
+    <message>
       <source>Assign recipients</source>
       <translation>Asignar destinatarios</translation>
     </message>
