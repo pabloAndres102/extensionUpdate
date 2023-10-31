@@ -1,8 +1,8 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Messages history'); ?></h1>
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsapp/parts/form_filter.tpl.php')); ?>
-
 <?php if (isset($items)) : ?>
+    
     <table cellpadding="0" cellspacing="0" class="table table-sm" width="100%" ng-non-bindable>
         <thead>
             <tr>

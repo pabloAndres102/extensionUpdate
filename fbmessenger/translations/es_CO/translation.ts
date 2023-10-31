@@ -7,109 +7,177 @@
       <source>Download</source>
       <translation>Descargar ejemplo</translation>
     </message>
+    <message>
+      <source>Components</source>
+      <translation>Componentes</translation>
+    </message>
   </context>
   <context>
-    <name>module/fbmessenger</name>
+  <name>module/fbmessenger</name>
+  <message>
+    <source>Flow</source>
+    <translation>Flujo</translation>
+  </message>
+  <message>
+    <source>Start</source>
+    <translation>Inicio</translation>
+  </message>
+  <message>
+    <source>Button name</source>
+    <translation>Nombre del boton</translation>
+  </message>
+  <message>
+    <source>End</source>
+    <translation>Finalizacion</translation>
+  </message>
+  <message>
+    <source>Flow</source>
+    <translation>Flujo</translation>
+  </message>
+  <message>
+    <source>Metrics</source>
+    <translation>Metricas</translation>
+  </message>
+  <message>
+    <source>Sended</source>
+    <translation>Enviado</translation>
+  </message>
+  <message>
+    <source>Delivered</source>
+    <translation>Recibido</translation>
+  </message>
+  <message>
+    <source>Readed</source>
+    <translation>Leído</translation>
+  </message>
+  <message>
+    <source>Create a flow</source>
+    <translation>Crear flujo</translation>
+  </message>
+  <message>
+    <source>Remove selection from contact list</source>
+    <translation>Quitar selección de la lista de contactos</translation>
+  </message>
+  <message>
+    <source>Update a flow</source>
+    <translation>Actualizar flujo</translation>
+  </message>
+  <message>
+    <source>Upload a json file</source>
+    <translation>Carga un archivo Json</translation>
+  </message>
     <message>
-      <source>Remove selection from contact list</source>
-      <translation>Quitar selección de la lista de contactos</translation>
-    </message>
-    <message>
-      <source>Export</source>
-      <translation>Exportar</translation>
-    </message>
-    <message>
-      <source>Insert URL</source>
-      <translation>Insertar URL</translation>
-    </message>
-    <message>
-      <source>Assign recipients</source>
-      <translation>Asignar destinatarios</translation>
-    </message>
-    <message>
-      <source>Add manual contact</source>
-      <translation>Agregar contacto manual</translation>
-    </message>
-    <message>
-      <source>Websites</source>
-      <translation>Sitios web</translation>
-    </message>
-    <message>
-      <source>Website</source>
-      <translation>Sitio web</translation>
-    </message>
-    <message>
-      <source>Select a contact list</source>
-      <translation>Seleccionar una lista de contactos</translation>
-    </message>
-    <message>
-      <source>Activate later</source>
-      <translation>Activar luego</translation>
-    </message>
-    <message>
-      <source>Refresh</source>
-      <translation>Refrescar</translation>
-    </message>
-    <message>
-      <source>Deactivate campaign</source>
-      <translation>Desactivar campaña</translation>
-    </message>
-    <message>
-      <source>Activate campaign</source>
-      <translation>Activar campaña</translation>
-    </message>
-    <message>
-      <source>Country code</source>
-      <translation>Codigo de pais</translation>
-    </message>
-    <message>
+    <source>Flow id</source>
+  <translation>Identificador de flujo</translation>
+  </message>
+  <message>
+    <source>Flows</source>
+    <translation>Flujos</translation>
+  </message>
+  <message>
+    <source>Export</source>
+    <translation>Exportar</translation>
+  </message>
+  <message>
+    <source>Category</source>
+    <translation>Categoría</translation>
+  </message>
+  <message>
+    <source>ID</source>
+    <translation>Identificador</translation>
+  </message>
+  <message>
+    <source>Insert URL</source>
+    <translation>Insertar URL</translation>
+  </message>
+  <message>
+    <source>Assign recipients</source>
+    <translation>Asignar destinatarios</translation>
+  </message>
+  <message>
+    <source>Add manual contact</source>
+    <translation>Agregar contacto manual</translation>
+  </message>
+  <message>
+    <source>Websites</source>
+    <translation>Sitios web</translation>
+  </message>
+  <message>
+    <source>Website</source>
+    <translation>Sitio web</translation>
+  </message>
+  <message>
+    <source>Select a contact list</source>
+    <translation>Seleccionar una lista de contactos</translation>
+  </message>
+  <message>
+    <source>Activate later</source>
+    <translation>Activar luego</translation>
+  </message>
+  <message>
+    <source>Refresh</source>
+    <translation>Refrescar</translation>
+  </message>
+  <message>
+    <source>Deactivate campaign</source>
+    <translation>Desactivar campaña</translation>
+  </message>
+  <message>
+    <source>Activate campaign</source>
+    <translation>Activar campaña</translation>
+  </message>
+  <message>
+    <source>Country code</source>
+    <translation>Codigo de pais</translation>
+  </message>
+  <message>
     <source>URL site</source>
     <translation>Url del sitio</translation>
   </message>
-    <message>
-      <source>Go to website</source>
-      <translation>Ir al sitio web</translation>
-    </message>
-    <message>
-      <source>Phone number</source>
-      <translation>Numero de telefono</translation>
-    </message>
-    <message>
-      <source>APPROVED</source>
-      <translation>APROBADA</translation>
-    </message>
-    <message>
-      <source>PENDING</source>
-      <translation>PENDIENTE</translation>
-    </message>
-    <message>
-      <source>REJECTED</source>
-      <translation>RECHAZADA</translation>
-    </message>
-    <message>
-      <source>Profile business</source>
-      <translation>Perfil Empresarial</translation>
-    </message>
-    <message>
-      <source>Create</source>
-      <translation>Crear</translation>
-    </message>
-    <message>
-      <source>Address</source>
-      <translation>Direccion</translation>
-    </message>
-    <message>
-      <source>Catalogue</source>
-      <translation>Catalogo</translation>
-    </message>
-    <message>
-      <source>Whatsapp profile</source>
-      <translation>Perfil de whatsapp</translation>
-    </message>
-    <message>
-      <source>Description</source>
-      <translation>Descripcion</translation>
-    </message>
+  <message>
+    <source>Go to website</source>
+    <translation>Ir al sitio web</translation>
+  </message>
+  <message>
+    <source>Phone number</source>
+    <translation>Numero de telefono</translation>
+  </message>
+  <message>
+    <source>APPROVED</source>
+    <translation>APROBADA</translation>
+  </message>
+  <message>
+    <source>PENDING</source>
+    <translation>PENDIENTE</translation>
+  </message>
+  <message>
+    <source>REJECTED</source>
+    <translation>RECHAZADA</translation>
+  </message>
+  <message>
+    <source>Profile business</source>
+    <translation>Perfil Empresarial</translation>
+  </message>
+  <message>
+    <source>Create</source>
+    <translation>Crear</translation>
+  </message>
+  <message>
+    <source>Address</source>
+    <translation>Direccion</translation>
+  </message>
+  <message>
+    <source>Catalogue</source>
+    <translation>Catalogo</translation>
+  </message>
+  <message>
+    <source>Whatsapp profile</source>
+    <translation>Perfil de whatsapp</translation>
+  </message>
+  <message>
+    <source>Description</source>
+    <translation>Descripcion</translation>
+  </message>
     <message>
       <source>Email</source>
       <translation>Correo</translation>
@@ -181,6 +249,10 @@
     <message>
       <source>Add button (Callback)</source>
       <translation>Agregar boton (Llamada a la accion)</translation>
+    </message>
+    <message>
+      <source>Add button (Flow)</source>
+      <translation>Agregar boton (Flujo)</translation>
     </message>
     <message>
       <source>Body</source>
@@ -1285,6 +1357,10 @@
   </context>
   <context>
     <name>chat/adminchat</name>
+    <message>
+    <source>Flows</source>
+    <translation>Flujos</translation>
+  </message>
     <message>
       <source>FB Chat</source>
       <translation>FB Chat</translation>

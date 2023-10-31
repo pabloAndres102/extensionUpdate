@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://graph.facebook.com/v17.0/105209658989864/message_templates?name=' . $template_name . '',
+        CURLOPT_URL => 'https://graph.facebook.com/v17.0/'.$data['whatsapp_business_account_id'].'/message_templates?name=' . $template_name . '',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,

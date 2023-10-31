@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
 
 <style>
     .hidden-content {
@@ -15,11 +15,11 @@
 <body>
 
     <div class="container">
-        
+
         <center>
-        <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
+            <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
         </center> <br>
-                    <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
+        <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
@@ -167,31 +167,31 @@
             </div>
 
             <div class="form-check form-switch hidden-content">
-                <label>
+                <label for="mostrarInputs">
                     <input class="form-check-input" type="checkbox" id="mostrarInputs"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Quick Reply)'); ?> </strong>
                 </label>
             </div>
 
-            <br>
+
             <div id="inputsContainer" style="display: none;">
                 <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 1</strong></label>
                 <input class="form-control" type="text" id="button1" name="button1" maxlength="25">
-                <br>
+
                 <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 2 (<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Optional'); ?>)</strong></label>
                 <input class="form-control" type="text" id="button2" name="button2" maxlength="25">
-                <br>
+
                 <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 3 (<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Optional'); ?>)</strong></label>
                 <input class="form-control" type="text" id="button3" name="button3" maxlength="25">
             </div>
-            <br>
+
 
             <div class="form-check form-switch hidden-content">
-                <label>
+                <label for="mostrarInputscallback">
                     <input class="form-check-input" type="checkbox" id="mostrarInputscallback"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Callback)'); ?> </strong>
                 </label>
             </div>
 
-            <div id="inputsContainercallback" style="display: none;"> <br>
+            <div id="inputsContainercallback" style="display: none;">
                 <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonCallbackText" name="buttonCallbackText" maxlength="25">
                 <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Country code'); ?></strong></label>
@@ -450,13 +450,35 @@
                 </select>
                 <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Phone number'); ?></strong></label>
                 <input class="form-control" type="number" id="buttonCallbackPhone" name="buttonCallbackPhone" maxlength="20"> <br>
-
                 <h5><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Go to website'); ?></strong></h5>
                 <label for="input1"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Text'); ?></strong></label>
                 <input class="form-control" type="text" id="buttonWebText" name="buttonWebText" maxlength="25">
                 <label for="input2"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'URL site'); ?></strong></strong></label>
                 <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.google.com/">
             </div>
+
+            <div class="form-check form-switch hidden-content">
+                <label for="mostrarInputsflow">
+                    <input class="form-check-input" type="checkbox" id="mostrarInputsflow"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Flow)'); ?> </strong>
+                </label>
+            </div>
+
+            <div id="inputsFlowButtons" style="display: none;">
+                <label for="text">Text</label>
+                <input type="text" class="form-control" name="flow_text" id="flow_text" maxlength="25">
+                <label for="flow_id">Flow ID</label>
+                <input type="text" class="form-control" name="flow_id" id="flow_id">
+                <label for="flow_action">Flow action</label>
+                <select class="form-control" name="flow_action" id="flow_action">
+                    <option value="navigate">Navigate</option>
+                    <option value="data_exchange">Data Exchange</option>
+                </select>
+                <label for="navigate_screen">Navigate screen</label>
+                <input type="text" class="form-control" name="navigate_screen" id="navigate_screen" placeholder="The identifier of the first page of your form">
+                <br><br>
+            </div>
+
+
             <div class="authentication-div">
 
                 <div class="form-check form-switch">
@@ -488,67 +510,129 @@
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
     <script>
-    $(document).ready(function() {
-        var emojione = $("#textAreaTexto").emojioneArea({
-            pickerPosition: "bottom"
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    const mostrarInputsCheckbox = document.getElementById('mostrarInputs');
+    const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
+    const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
+    const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
 
-        $('#mostrarVariablesBtn').on('click', function () {
-            var textArea = emojione[0].emojioneArea;
-            var variableCuerpo = $("#variableCuerpo");
-            var variableCuerpo2 = $("#variableCuerpo2");
-            var variableCuerpo3 = $("#variableCuerpo3");
-            var variableCuerpo4 = $("#variableCuerpo4");
-            var variableCuerpo5 = $("#variableCuerpo5");
-
-            // Obtener el número de variables ya presentes en el textarea
-            var matches = textArea.getText().match(/{{\d+}}/g) || [];
-            var variableNumber = matches.length + 1; // Siguiente número de variable
-
-            // Agregar la variable al textarea
-            textArea.setText(textArea.getText() + ' {{' + variableNumber + '}} ');
-
-            // Mostrar el siguiente bloque de variables
-            switch (variableNumber) {
-                case 1:
-                    variableCuerpo.show();
-                    break;
-                case 2:
-                    variableCuerpo2.show();
-                    break;
-                case 3:
-                    variableCuerpo3.show();
-                    break;
-                case 4:
-                    variableCuerpo4.show();
-                    break;
-                case 5:
-                    variableCuerpo5.show();
-                    break;
-            }
-        });
-
-        $('#quitarVariablesBtn').on('click', function () {
-            var textArea = emojione[0].emojioneArea;
-            var variableCuerpo = $("#variableCuerpo");
-            var variableCuerpo2 = $("#variableCuerpo2");
-            var variableCuerpo3 = $("#variableCuerpo3");
-            var variableCuerpo4 = $("#variableCuerpo4");
-            var variableCuerpo5 = $("#variableCuerpo5");
-
-            // Limpiar el textarea
-            textArea.setText('');
-
-            // Ocultar todos los bloques de variables
-            variableCuerpo.hide();
-            variableCuerpo2.hide();
-            variableCuerpo3.hide();
-            variableCuerpo4.hide();
-            variableCuerpo5.hide();
-            // Oculta más bloques de variables según sea necesario
-        });
+    mostrarInputsCheckbox.addEventListener('change', function() {
+        if (mostrarInputsCheckbox.checked) {
+            mostrarInputsflowCheckbox.style.display = 'none';
+            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'none';
+            inputsFlowButtonsDiv.style.display = 'none';
+        } else {
+            mostrarInputsflowCheckbox.style.display = 'block';
+            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'block';
+        }
     });
-</script> 
+
+    mostrarInputscallbackCheckbox.addEventListener('change', function() {
+        if (mostrarInputscallbackCheckbox.checked) {
+            mostrarInputsflowCheckbox.style.display = 'none';
+            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'none';
+            inputsFlowButtonsDiv.style.display = 'none';
+        } else {
+            mostrarInputsflowCheckbox.style.display = 'block';
+            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'block';
+        }
+    });
+
+    mostrarInputsflowCheckbox.addEventListener('change', function() {
+        if (mostrarInputsflowCheckbox.checked) {
+            inputsFlowButtonsDiv.style.display = 'block';
+            mostrarInputsCheckbox.style.display = 'none';
+            mostrarInputscallbackCheckbox.style.display = 'none';
+            document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
+            document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
+        } else {
+            inputsFlowButtonsDiv.style.display = 'none';
+            mostrarInputsCheckbox.style.display = 'block';
+            mostrarInputscallbackCheckbox.style.display = 'block';
+            document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
+            document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
+        }
+    });
+});
+</script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
+            const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
+
+            mostrarInputsflowCheckbox.addEventListener('change', function() {
+                if (mostrarInputsflowCheckbox.checked) {
+                    inputsFlowButtonsDiv.style.display = 'block';
+                } else {
+                    inputsFlowButtonsDiv.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var emojione = $("#textAreaTexto").emojioneArea({
+                pickerPosition: "bottom"
+            });
+
+            $('#mostrarVariablesBtn').on('click', function() {
+                var textArea = emojione[0].emojioneArea;
+                var variableCuerpo = $("#variableCuerpo");
+                var variableCuerpo2 = $("#variableCuerpo2");
+                var variableCuerpo3 = $("#variableCuerpo3");
+                var variableCuerpo4 = $("#variableCuerpo4");
+                var variableCuerpo5 = $("#variableCuerpo5");
+
+                // Obtener el número de variables ya presentes en el textarea
+                var matches = textArea.getText().match(/{{\d+}}/g) || [];
+                var variableNumber = matches.length + 1; // Siguiente número de variable
+
+                // Agregar la variable al textarea
+                textArea.setText(textArea.getText() + ' {{' + variableNumber + '}} ');
+
+                // Mostrar el siguiente bloque de variables
+                switch (variableNumber) {
+                    case 1:
+                        variableCuerpo.show();
+                        break;
+                    case 2:
+                        variableCuerpo2.show();
+                        break;
+                    case 3:
+                        variableCuerpo3.show();
+                        break;
+                    case 4:
+                        variableCuerpo4.show();
+                        break;
+                    case 5:
+                        variableCuerpo5.show();
+                        break;
+                }
+            });
+
+            $('#quitarVariablesBtn').on('click', function() {
+                var textArea = emojione[0].emojioneArea;
+                var variableCuerpo = $("#variableCuerpo");
+                var variableCuerpo2 = $("#variableCuerpo2");
+                var variableCuerpo3 = $("#variableCuerpo3");
+                var variableCuerpo4 = $("#variableCuerpo4");
+                var variableCuerpo5 = $("#variableCuerpo5");
+
+                // Limpiar el textarea
+                textArea.setText('');
+
+                // Ocultar todos los bloques de variables
+                variableCuerpo.hide();
+                variableCuerpo2.hide();
+                variableCuerpo3.hide();
+                variableCuerpo4.hide();
+                variableCuerpo5.hide();
+                // Oculta más bloques de variables según sea necesario
+            });
+        });
+    </script>
     <script>
         // Obtén una referencia al checkbox y al campo de entrada
         const checkbox1 = document.getElementById("mostrarInputs");

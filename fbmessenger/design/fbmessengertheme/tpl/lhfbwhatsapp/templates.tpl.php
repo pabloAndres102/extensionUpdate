@@ -8,7 +8,7 @@
 
 <body>
     <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></h1>
-    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create'); ?></a> <br> <br>
+    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create'); ?></a> <br><br>
     <?php
     // Comprueba si hay un mensaje de éxito en la variable de sesión
     if (isset($_SESSION['delete_template_message'])) {
@@ -25,12 +25,12 @@
 
     if (isset($_SESSION['api_error'])) {
         if (isset($_SESSION['api_error']['error']['message'])) {
-            echo '<div class="alert alert-danger">' . $_SESSION['api_error']['error']['message'] . '</div>'; 
-            if (isset($_SESSION['api_error']['error']['error_user_msg'])){
-                echo '<div class="alert alert-danger">' . $_SESSION['api_error']['error']['error_user_msg'] . '</div>'; 
+            echo '<div class="alert alert-danger">' . $_SESSION['api_error']['error']['message'] . '</div>';
+            if (isset($_SESSION['api_error']['error']['error_user_msg'])) {
+                echo '<div class="alert alert-danger">' . $_SESSION['api_error']['error']['error_user_msg'] . '</div>';
             }
-        }else{
-            echo '<div class="alert alert-danger">' . $_SESSION['api_error'] . '</div>'; 
+        } else {
+            echo '<div class="alert alert-danger">' . $_SESSION['api_error'] . '</div>';
         }
         unset($_SESSION['api_error']);
     }
@@ -81,14 +81,15 @@
     }
     ?>
 
+    <?php include(erLhcoreClassDesign::designtpl('lhkernel/paginator.tpl.php')); ?>
     <table class="table table-sm" ng-non-bindable>
         <thead>
             <tr>
-                <th>Nombre</th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Name'); ?></th>
                 <th>Idioma</th>
-                <th>Estado</th>
-                <th>Categoría</th>
-                <th>Componentes</th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/pendingchats','Status')?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation','Category')?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Components')?></th>
             </tr>
         </thead>
         <tbody>
@@ -120,9 +121,9 @@
                             if ($status == 'APPROVED') {
                                 echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'APPROVED') . '</span>';
                             } elseif ($status == 'PENDING') {
-                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'PENDING') . '</span>';
+                                echo '<span style="color: yellow;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'PENDING') . '</span>';
                             } elseif ($status == 'REJECTED') {
-                                echo '<span style="color: green;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'REJECTED') . '</span>';
+                                echo '<span style="color: red;">' . erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'REJECTED') . '</span>';
                             } else {
                                 echo htmlspecialchars($template['status']);
                             }
@@ -149,7 +150,11 @@
                         <td>
                             <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
                                 <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
-                                <button type="submit" class="btn btn-danger"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
+                                <button type="submit" class="btn btn-danger"><span class="material-icons">delete</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
+                            </form>
+                            <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/metric_templates') ?>">
+                                <input type="hidden" name="template_id" value="<?php echo htmlspecialchars_decode($template['id']); ?>">
+                                <button type="submit" class="btn btn-dark"><span class="material-icons">equalizer</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Metrics'); ?></button>
                             </form>
                         </td>
                     </tr>

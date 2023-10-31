@@ -5,14 +5,50 @@ $Module = array( "name" => "FB WhatsApp module" );
 $ViewList = array();
 
 
-$ViewList['profilebusiness'] = array(
+$ViewList['updateflow'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['analytics'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
 
 
+$ViewList['metric_templates'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['createflow'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['profilebusiness'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['flows'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['create'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['deleteflow'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),

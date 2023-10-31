@@ -135,7 +135,7 @@
 
                         <div class="card">
                             <h2><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Whatsapp profile'); ?></h2>
-                            <img src=<?php print_r($config['data'][0]['profile_picture_url']) ?> alt="Perfil de WhatsApp">
+                            <img src="<?php print_r($config['data'][0]['profile_picture_url']) ?>" alt="Perfil de WhatsApp">
                         </div>
 
 

@@ -44,6 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $buttonCallbackText = $_POST['buttonCallbackText'];
   $buttonCallbackPhone = $_POST['buttonCallbackPhone'];
 
+  $flow_text = $_POST['flow_text'];
+  $flow_id = $_POST['flow_id'];
+  $flow_action = $_POST['flow_action'];
+  $navigate_screen = $_POST['navigate_screen'];
+
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
   $buttonWebText = $_POST['buttonWebText'];
@@ -157,6 +162,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       "type" => "URL",
       "text" => $buttonWebText,
       "url" => $buttonWebUrl
+    ];
+  };
+
+  if (!empty($flow_id)) {
+    $button[] =  [
+      "type" => "FLOW",
+      "text" => $flow_text,
+      "flow_id" => $flow_id,
+      "flow_action"=> $flow_action,
+      "navigate_screen"=> $navigate_screen
     ];
   };
 
