@@ -15,6 +15,58 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+      <source>BUSINESS_INITIATED</source>
+      <translation>Iniciada por empresa</translation>
+    </message>
+    <message>
+      <source>USER_INITIATED</source>
+      <translation>Iniada por usuario</translation>
+    </message>
+    <message>
+      <source>UNKNOWN</source>
+      <translation>Desconocido</translation>
+    </message>
+  <message>
+    <source>Sent conversations</source>
+    <translation>Conversaciones enviadas</translation>
+  </message>
+  <message>
+    <source>These metrics once reflected the last 3 months</source>
+    <translation>En estas metricas vez reflejado los ultimos 3 meses</translation>
+  </message>
+  <message>
+    <source>Summary of the last 30 days</source>
+    <translation>Resumen de los ultimos 30 dias</translation>
+  </message>
+  <message>
+  <source>Granularity</source>
+  <translation>Granularidad</translation>
+</message>
+  <message>
+    <source>Conversation</source>
+    <translation>Conversación</translation>
+  </message>
+  <message>
+    <source>Conversation type</source>
+    <translation>Tipo de conversación</translation>
+  </message>
+  <message>
+    <source>Direction of conversation</source>
+    <translation>Direccion de conversación</translation>
+  </message>
+  <message>
+    <source>Conversation category</source>
+    <translation>Categoría de conversación</translation>
+  </message>
+  <message>
+    <source>Start date</source>
+    <translation>Fecha de inicio</translation>
+  </message>
+   <message>
+    <source>End date</source>
+    <translation>Fecha de fin</translation>
+  </message>
+  <message>
     <source>Flow</source>
     <translation>Flujo</translation>
   </message>
@@ -25,6 +77,10 @@
   <message>
     <source>Button name</source>
     <translation>Nombre del boton</translation>
+  </message>
+  <message>
+    <source>Cost</source>
+    <translation>Costos</translation>
   </message>
   <message>
     <source>End</source>

@@ -5,33 +5,10 @@ $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/metric_templates.tpl.php');
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $template_id = $_POST['template_id'];
-    $end = time();
-    $start = $end - (89 * 24 * 60 * 60);
-
-    $curl = curl_init();
-
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://graph.facebook.com/v18.0/'.$data['whatsapp_business_account_id'].'/template_analytics?start='.$start.'&end='.$end.'&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=['.$template_id.']&limit=100',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.$data['whatsapp_access_token']
-        ),
-    ));
-
-    $response = curl_exec($curl);
-
-    curl_close($curl);
-    $jsonresponse = json_decode($response,true);
-    
+    $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+    $jsonresponse = $instance->getTemplateMetrics($template_id);
 }
 
 if (!empty($jsonresponse)) {
@@ -53,7 +30,7 @@ if (!empty($jsonresponse)) {
     $info_clicked = 0;
 
     $data_metrics = $dataPoints['data'][0]['data_points'];
-    
+
 
     foreach ($data_metrics as $data_metric) {
         // Accede a los datos individuales dentro de cada punto de datos
@@ -65,7 +42,6 @@ if (!empty($jsonresponse)) {
         $info_sent += $sent;
         $info_read += $read;
         $info_delivered += $delivered;
-
     }
 
     $tpl->setArray([
@@ -73,30 +49,29 @@ if (!empty($jsonresponse)) {
         'info_read' => $info_read,
         'info_delivered' => $info_delivered,
     ]);
-    
 }
 
 
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://graph.facebook.com/v18.0/'.$template_id.'',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'GET',
-  CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer '.$data['whatsapp_access_token']
-  ),
+    CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $template_id . '',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer ' . $data['whatsapp_access_token']
+    ),
 ));
 
 $response = curl_exec($curl);
 
 curl_close($curl);
-$response2 = json_decode($response,true);
+$response2 = json_decode($response, true);
 $tpl->set('template_name', $response2['name']);
 
 

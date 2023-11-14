@@ -2,11 +2,13 @@
 
 namespace LiveHelperChatExtension\fbmessenger\providers {
 
-    class FBMessengerWhatsAppLiveHelperChat {
+    class FBMessengerWhatsAppLiveHelperChat
+    {
 
-        public static function getInstance() {
+        public static function getInstance()
+        {
 
-            if (self::$instance !== null){
+            if (self::$instance !== null) {
                 return self::$instance;
             }
 
@@ -15,16 +17,17 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             return self::$instance;
         }
 
-        public function __construct() {
+        public function __construct()
+        {
             $mbOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
             $data = (array)$mbOptions->data;
 
             if (!isset($data['whatsapp_access_token']) || empty($data['whatsapp_access_token'])) {
-                throw new \Exception('Access Key is not set!',100);
+                throw new \Exception('Access Key is not set!', 100);
             }
 
             if (!isset($data['whatsapp_business_account_id']) || empty($data['whatsapp_business_account_id'])) {
-                throw new \Exception('WhatsApp Business Account ID',100);
+                throw new \Exception('WhatsApp Business Account ID', 100);
             }
 
             $this->access_key = $data['whatsapp_access_token'];
@@ -32,15 +35,18 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             $this->endpoint = 'https://graph.facebook.com/';
         }
 
-        public function setAccessToken($accessToken) {
+        public function setAccessToken($accessToken)
+        {
             $this->access_key = $accessToken;
         }
 
-        public function setBusinessAccountID($businessAccountID) {
+        public function setBusinessAccountID($businessAccountID)
+        {
             $this->whatsapp_business_account_id = $businessAccountID;
         }
 
-        public function getPhones() {
+        public function getPhones()
+        {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/phone_numbers/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/phone_numbers?access_token=USER-ACCESS-TOKEN"
             $templates = $this->getRestAPI([
@@ -52,11 +58,12 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             if (isset($templates['data']) && is_array($templates['data'])) {
                 return $templates['data'];
             } else {
-                throw new \Exception('Could not fetch phone numbers - ' . print_r( $templates, true),100);
+                throw new \Exception('Could not fetch phone numbers - ' . print_r($templates, true), 100);
             }
         }
 
-        public function getTemplates() {
+        public function getTemplates()
+        {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/message_templates?access_token=USER-ACCESS-TOKEN"
             // curl -i -X GET "https://graph.facebook.com/v15.0/105209658989864/message_templates?access_token=EAARB6lT6poQBAPgBHm06sO7QfAZAPjflwCRuLRCKHnT9I9g9ZCeDqQ5bLktX647qH2JwWmMWD1kijbReD5ZASZAdJZCFgIyN5NJ1lkzhjwsibYDSwN5a6YhZCUgMgZCbl52am5Q8pXLatXmTp4yxL1kdhDC3DTai1MU7Ujmo1suscwjwoSPgR71"
@@ -73,11 +80,70 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             if (isset($templates['data']) && is_array($templates['data'])) {
                 return $templates['data'];
             } else {
-                throw new \Exception('Could not fetch templates - ' . print_r( $templates, true),100);
+                throw new \Exception('Could not fetch templates - ' . print_r($templates, true), 100);
             }
         }
 
-        public function getTemplate($name, $language) {
+        public function getConversationMetrics($start, $end, $granularity, $phoneNumber)
+        {
+            $start = strtotime($start);
+            $end = strtotime($end);
+            $phoneNumber = str_replace([' ', '+'], '', $phoneNumber);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $this->whatsapp_business_account_id . '?fields=conversation_analytics.start(' . $start . ').end(' . $end . ').granularity(' . $granularity . ').phone_numbers([' . $phoneNumber . ']).conversation_directions([]).dimensions([%22CONVERSATION_CATEGORY%22%2C%22CONVERSATION_TYPE%22%2C%22COUNTRY%22%2C%22PHONE%22%2C%22CONVERSATION_DIRECTION%22])%0A',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . $this->access_key
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $json_response = json_decode($response, true);
+            return $json_response;
+        }
+
+        public function getTemplateMetrics($template_id)
+        {
+            $end = time();
+            $start = $end - (89 * 24 * 60 * 60);
+            $template_id = json_encode($template_id);
+
+            $curl = curl_init();
+            $url = 'https://graph.facebook.com/v18.0/' . $this->whatsapp_business_account_id . '/template_analytics?start=' . $start . '&end=' . $end . '&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=['.$template_id.']&limit=1000';
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . $this->access_key
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $jsonresponse = json_decode($response, true);
+            return $jsonresponse;
+        }
+
+
+
+
+        public function getTemplate($name, $language)
+        {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-hsm/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATS-APP-MESSAGE-TEMPLATE-ID?access_token=USER-ACCESS-TOKEN"
             return $this->getRestAPI([
@@ -88,7 +154,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         }
 
 
-        public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = []) {
+        public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = [])
+        {
 
             $argumentsTemplate = [];
 
@@ -126,7 +193,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                 "parameters" => [
                                     [
                                         "type" => "payload",
-                                        "payload" => $item->template.'-quick_reply_'.$indexButton,
+                                        "payload" => $item->template . '-quick_reply_' . $indexButton,
                                     ]
                                 ]
                             ];
@@ -134,16 +201,16 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     }
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
                     $parametersHeader[] = [
-                        "type"=> "video",
-                        "video"=> [
-                            "link"=>  (isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                        "type" => "video",
+                        "video" => [
+                            "link" => (isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
                     $itemSend = [
-                        "type"=> "document",
-                        "document"=> [
-                            "link"=> (isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                        "type" => "document",
+                        "document" => [
+                            "link" => (isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
                     if (isset($messageVariables['field_header_doc_filename_1']) && $messageVariables['field_header_doc_filename_1'] != '') {
@@ -152,9 +219,9 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     $parametersHeader[] = $itemSend;
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
                     $parametersHeader[] = [
-                        "type"=> "image",
-                        "image"=> [
-                            "link"=> (isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                        "type" => "image",
+                        "image" => [
+                            "link" => (isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
                 }
@@ -164,14 +231,14 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             for ($i = 0; $i < 6; $i++) {
                 if (isset($messageVariables['field_' . $i]) && $messageVariables['field_' . $i] != '') {
-                    $item->message = str_replace('{{'.$i.'}}', $messageVariables['field_' . $i], $item->message);
-                    $argumentsTemplate[] = ['type' => 'text','text' => $messageVariables['field_' . $i]];
+                    $item->message = str_replace('{{' . $i . '}}', $messageVariables['field_' . $i], $item->message);
+                    $argumentsTemplate[] = ['type' => 'text', 'text' => $messageVariables['field_' . $i]];
                 }
             }
 
             for ($i = 0; $i < 6; $i++) {
                 if (isset($messageVariables['field_header_' . $i]) && $messageVariables['field_header_' . $i] != '') {
-                    $parametersHeader[] = ['type' => 'text','text' => $messageVariables['field_header_' . $i]];
+                    $parametersHeader[] = ['type' => 'text', 'text' => $messageVariables['field_header_' . $i]];
                 }
             }
 
@@ -228,7 +295,6 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 }
 
                 return $item;
-
             } catch (\Exception $e) {
                 $item->send_status_raw = json_encode($response) . $e->getTraceAsString() . $e->getMessage();
                 $item->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED;
@@ -275,7 +341,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 );
 
                 if (isset($params['body_json']) && !empty($params['body_json'])) {
-                    curl_setopt($ch, CURLOPT_POST,1 );
+                    curl_setopt($ch, CURLOPT_POST, 1);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $params['body_json']);
                     $headers[] = 'Content-Type: application/json';
                     $headers[] = 'Expect:';
@@ -301,9 +367,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 } else {
                     $content = curl_exec($ch);
 
-                    if (curl_errno($ch))
-                    {
-                        $additionalError = ' [ERR: '. curl_error($ch).'] ';
+                    if (curl_errno($ch)) {
+                        $additionalError = ' [ERR: ' . curl_error($ch) . '] ';
                     }
 
                     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -312,7 +377,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 $endTime = date('H:i:s');
 
                 if (isset($params['log_response']) && $params['log_response'] == true) {
-                    self::$lastCallDebug['request_url_response'][] = '[T' . self::$apiTimeout . '] ['.$httpcode.']'.$additionalError.'['.$startTime . ' ... ' . $endTime.'] - ' . ((isset($params['body_json']) && !empty($params['body_json'])) ? $params['body_json'] : '') . ':' . $content;
+                    self::$lastCallDebug['request_url_response'][] = '[T' . self::$apiTimeout . '] [' . $httpcode . ']' . $additionalError . '[' . $startTime . ' ... ' . $endTime . '] - ' . ((isset($params['body_json']) && !empty($params['body_json'])) ? $params['body_json'] : '') . ':' . $content;
                 }
 
                 if ($httpcode == 204) {
@@ -331,13 +396,12 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     throw new \Exception('No permission to access resource!');
                 }
 
-                if ($content !== false)
-                {
-                    if (isset($params['raw_response']) && $params['raw_response'] == true){
+                if ($content !== false) {
+                    if (isset($params['raw_response']) && $params['raw_response'] == true) {
                         return $content;
                     }
 
-                    $response = json_decode($content,true);
+                    $response = json_decode($content, true);
                     if ($response === null) {
                         if ($i == 2) {
                             throw new \Exception('Invalid response was returned. Expected JSON');
@@ -347,7 +411,6 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                             return $response;
                         }
                     }
-
                 } else {
                     if ($i == 2) {
                         throw new \Exception('Invalid response was returned');

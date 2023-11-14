@@ -87,9 +87,9 @@
             <tr>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Name'); ?></th>
                 <th>Idioma</th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/pendingchats','Status')?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation','Category')?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Components')?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/pendingchats', 'Status') ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation', 'Category') ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/file', 'Components') ?></th>
             </tr>
         </thead>
         <tbody>

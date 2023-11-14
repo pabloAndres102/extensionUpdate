@@ -1,3 +1,67 @@
+<style>
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        /* Ajusta el margen según sea necesario */
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .recuadro {
+        display: inline-block;
+        width: 200px;
+        height: 130px;
+        margin-right: 20px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #000;
+        padding: 10px;
+    }
+
+    .recuadro2 {
+        display: inline-block;
+        width: 200px;
+        height: 130px;
+        margin-right: 20px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #000;
+        padding: 10px;
+    }
+
+    .recuadro3 {
+        display: inline-block;
+        width: 200px;
+        height: 130px;
+        margin-right: 20px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #000;
+        padding: 10px;
+    }
+</style>
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
 
     <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat'); ?></h4>
@@ -57,7 +121,38 @@
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Options'); ?></a></li>
     </ul>
 <?php endif; ?>
-
+<small> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Summary of the last 30 days'); ?> </small>
+<br>
+<div>
+    <div class="recuadro">
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Sent conversations'); ?></strong></p>
+        <?php if (isset($totalSent)) : ?>
+            <h1> <?php echo $totalSent; ?></h1>
+        <?php else : ?>
+            <!-- Mostrar círculo de carga en movimiento -->
+            <div class="loader"></div>
+        <?php endif; ?>
+    </div>
+    <div class="recuadro2">
+        <p><strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Incoming conversations'); ?> </strong></p>
+        <?php if (isset($msg_services)) : ?>
+            <h1> <?php echo $msg_services; ?></h1>
+        <?php else : ?>
+            <!-- Mostrar círculo de carga en movimiento -->
+            <div class="loader"></div>
+        <?php endif; ?>
+    </div>
+    <div class="recuadro3">
+        <p><strong> % Engagement </strong></p>
+        <?php if (isset($engagement)) : ?>
+            <h1> <?php echo $engagement; ?></h1>
+        <?php else : ?>
+            <!-- Mostrar círculo de carga en movimiento -->
+            <div class="loader"></div>
+        <?php endif; ?>
+    </div>
+</div>
+<br><br>
 <div class="row">
     <div class="col-6">
         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp', 'use_admin')) : ?>
@@ -70,7 +165,7 @@
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/account') ?>"><span class="material-icons">manage_accounts</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Business Accounts'); ?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness') ?>"><span class="material-icons">security_update</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile business'); ?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/flows') ?>"><span class="material-icons">account_tree</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/adminchat', 'Flows'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/analytics') ?>"><span class="material-icons">trending_up</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Cost metrics'); ?></a></li>
+                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/analytics') ?>"><span class="material-icons">trending_up</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Cost'); ?></a></li>
                 <br> <br>
             </ul>
 
@@ -87,3 +182,58 @@
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+    var AT = <?php echo json_encode($accessToken); ?>;
+    const templateIds = <?php echo json_encode($array_id); ?>;
+    const listUsers = () => {
+
+        const chunkSize = 10;
+        let totalSent = 0;
+        let totalRead = 0;
+
+        function processChunk(i) {
+            if (i < templateIds.length) {
+                const templateIdsChunk = templateIds.slice(i, i + chunkSize);
+                const templateIdsStr = JSON.stringify(templateIdsChunk);
+                const end = Math.floor(Date.now() / 1000);
+                const start = end - (32 * 24 * 60 * 60);
+                $.ajax({
+                    type: 'GET',
+                    url: `https://graph.facebook.com/v18.0/105209658989864/template_analytics?start=${start}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + AT
+                    },
+                    success: function(data) {
+                        data.data[0].data_points.forEach(point => {
+                            totalSent += point.sent;
+                            totalRead = totalRead + point.read;
+                        }, );
+
+                        processChunk(i + chunkSize);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        // Puedes manejar el error según tus necesidades
+                    }
+                });
+            } else {
+                // Una vez que se ha procesado todo, actualiza el contenido del div
+                $('.recuadro').html('<p><strong> Plantillas enviadas </strong></p><h1>' + totalSent + '</h1>');
+                const percentageRead = (totalRead / totalSent) * 100;
+                $('.recuadro3').html(`
+                    <p><strong> % Engagement </strong></p>
+                    <h1>${percentageRead.toFixed(2)}%</h1>
+                    <p>Lectura total: ${totalRead}</p>
+                `);
+            }
+        }
+
+        processChunk(0);
+    };
+
+    $(document).ready(function($) {
+        listUsers();
+    });
+</script>

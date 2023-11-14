@@ -44,7 +44,8 @@
     <p style="font-size: 18px; margin-bottom: 10px;"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered')?>: <?php print_r($info_delivered) ?></p>
     <p style="font-size: 18px;"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Readed')?>: <?php print_r($info_read) ?></p>
 </div>
-
+<br><br>
+<small><mark><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Summary of the last 30 days'); ?> </mark></small>
 <br>
 <center><h4><?php print_r($template_name)?></h4></center> <br>
 <table>
