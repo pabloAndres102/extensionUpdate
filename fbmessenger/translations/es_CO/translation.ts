@@ -15,6 +15,10 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Incoming conversations</source>
+    <translation>Conversaciones entrantes</translation>
+  </message>
+  <message>
       <source>BUSINESS_INITIATED</source>
       <translation>Iniciada por empresa</translation>
     </message>
@@ -26,10 +30,7 @@
       <source>UNKNOWN</source>
       <translation>Desconocido</translation>
     </message>
-    <message>
-    <source>Incoming conversations</source>
-    <translation>Conversaciones entrantes</translation>
-  </message>
+
   <message>
     <source>Sent conversations</source>
     <translation>Conversaciones enviadas</translation>

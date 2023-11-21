@@ -164,8 +164,6 @@
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages') ?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Messages'); ?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/account') ?>"><span class="material-icons">manage_accounts</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Business Accounts'); ?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness') ?>"><span class="material-icons">security_update</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile business'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/flows') ?>"><span class="material-icons">account_tree</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/adminchat', 'Flows'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/analytics') ?>"><span class="material-icons">trending_up</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Cost'); ?></a></li>
                 <br> <br>
             </ul>
 
@@ -197,7 +195,6 @@
             if (i < templateIds.length) {
                 const templateIdsChunk = templateIds.slice(i, i + chunkSize);
                 const templateIdsStr = JSON.stringify(templateIdsChunk);
-                
                 const end = Math.floor(Date.now() / 1000);
                 const start = end - (32 * 24 * 60 * 60);
                 $.ajax({
