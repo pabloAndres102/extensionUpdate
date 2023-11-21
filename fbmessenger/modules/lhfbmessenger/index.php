@@ -3,6 +3,7 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/index.tpl.php');
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
 $token = $data['whatsapp_access_token'];
+$wbai = $data['whatsapp_business_account_id'];
 
 
 $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
@@ -65,6 +66,7 @@ curl_setopt_array($curl, array(
 $tpl->set('msg_services',$msg_services); 
 $tpl->set('array_id',$array_ids); 
 $tpl->set('accessToken',$token); 
+$tpl->set('wbai',$wbai); 
 
 
 $Result['content'] = $tpl->fetch();

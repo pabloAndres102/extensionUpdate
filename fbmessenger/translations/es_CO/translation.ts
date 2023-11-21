@@ -26,6 +26,10 @@
       <source>UNKNOWN</source>
       <translation>Desconocido</translation>
     </message>
+    <message>
+    <source>Incoming conversations</source>
+    <translation>Conversaciones entrantes</translation>
+  </message>
   <message>
     <source>Sent conversations</source>
     <translation>Conversaciones enviadas</translation>

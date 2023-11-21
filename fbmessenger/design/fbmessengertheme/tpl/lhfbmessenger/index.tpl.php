@@ -185,6 +185,7 @@
 
 <script>
     var AT = <?php echo json_encode($accessToken); ?>;
+    var wbai = <?php echo json_encode($wbai); ?>; 
     const templateIds = <?php echo json_encode($array_id); ?>;
     const listUsers = () => {
 
@@ -196,11 +197,12 @@
             if (i < templateIds.length) {
                 const templateIdsChunk = templateIds.slice(i, i + chunkSize);
                 const templateIdsStr = JSON.stringify(templateIdsChunk);
+                
                 const end = Math.floor(Date.now() / 1000);
                 const start = end - (32 * 24 * 60 * 60);
                 $.ajax({
                     type: 'GET',
-                    url: `https://graph.facebook.com/v18.0/105209658989864/template_analytics?start=${start}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
+                    url: `https://graph.facebook.com/v18.0/${wbai}/template_analytics?start=${start}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
                     async: true,
                     headers: {
                         'Authorization': 'Bearer ' + AT
