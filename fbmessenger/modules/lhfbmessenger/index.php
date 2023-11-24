@@ -33,8 +33,10 @@ foreach ($templates as $template) {
 }
 
 $end = time();
-$start = $end - (30 * 24 * 60 * 60);
+$start = strtotime(date('Y-m-01'));
 $curl = curl_init();
+
+
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['whatsapp_business_account_id'] . '?fields=conversation_analytics.start(' . $start . ').end(' . $end . ').conversation_categories(SERVICE).granularity(DAILY).dimensions(CONVERSATION_CATEGORY)',
@@ -49,6 +51,7 @@ curl_setopt_array($curl, array(
             'Authorization: Bearer ' . $token
                 ),
             ));
+            
     $response = curl_exec($curl);
     curl_close($curl);
     $json_response = json_decode($response, true);
@@ -69,8 +72,36 @@ $tpl->set('accessToken',$token);
 $tpl->set('wbai',$wbai); 
 
 
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://graph.facebook.com/v18.0/'.$data['whatsapp_business_account_id'].'?fields=conversation_analytics.start('.$start.').end('.$end.').granularity(DAILY).conversation_categories([%22MARKETING%22%2C%22UTILITY%22%2C%22AUTHENTICATION%22]).dimensions([%22CONVERSATION_CATEGORY%22%2C%22CONVERSATION_TYPE%22])&limit=1000',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer '.$token
+  ),
+));
+
+$response2 = curl_exec($curl);
+curl_close($curl);
+$jsonresponse2 = json_decode($response2, true);
+$general_costs = 0;
+foreach ($jsonresponse2['conversation_analytics']['data'][0]['data_points'] as $data_point2){
+    if ($data_point2['cost'] > 0 ) {
+        $general_costs = $general_costs + $data_point2['cost'];    
+    }
+
+};
+$tpl->set('general_costs',$general_costs); 
 $Result['content'] = $tpl->fetch();
-// $Result['additional_footer_js'] = '<script type="text/javascript" src="'.erLhcoreClassDesign::designJS('js/ajax_get.js').'"></script>';
+
 
 $Result['path'] = array(
     array(

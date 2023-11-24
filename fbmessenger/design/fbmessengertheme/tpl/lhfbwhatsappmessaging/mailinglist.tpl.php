@@ -45,7 +45,6 @@
             </tr>
         <?php endforeach; ?>
     </table>
-
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>
 
     <?php if (isset($pages)) : ?>

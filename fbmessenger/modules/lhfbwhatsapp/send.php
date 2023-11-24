@@ -11,6 +11,13 @@ if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
     $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
 }
 
+if (isset($_GET['phone'])) {
+    $phone_chat = $_GET['phone'];
+    $tpl->set('phone_chat', $phone_chat); 
+}
+
+
+
 if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0) {
     $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
@@ -39,117 +46,142 @@ if (ezcInputForm::hasPostData()) {
 
     $definition = array(
         'phone' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'scheduled_at' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'schedule_message' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'boolean'
         ),
         'phone_whatsapp' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'template' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'phone_sender_id' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'dep_id' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'int',
+            array('min_range' => 1)
         ),
         'campaign_name' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_2' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_3' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_4' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_5' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_6' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_2' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_3' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_4' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_5' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_6' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_doc_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_doc_filename_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_img_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
         'field_header_video_1' => new ezcInputFormDefinitionElement(
-            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ezcInputFormDefinitionElement::OPTIONAL,
+            'unsafe_raw'
         ),
     );
 
-    $form = new ezcInputForm( INPUT_POST, $definition );
+    $form = new ezcInputForm(INPUT_POST, $definition);
     $Errors = array();
 
     if (!isset($contact)) {
 
-        if ($form->hasValidData( 'phone' ) && $form->phone != '') {
+        if ($form->hasValidData('phone') && $form->phone != '') {
             $item->phone = $form->phone;
         } else {
-            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please enter a phone');
         }
 
-        if ($form->hasValidData( 'phone_whatsapp' ) && $form->phone_whatsapp != '') {
+        if ($form->hasValidData('phone_whatsapp') && $form->phone_whatsapp != '') {
             $item->phone_whatsapp = $form->phone_whatsapp;
         }
     }
 
-    if ($form->hasValidData( 'schedule_message' ) && $form->schedule_message == true) {
+    if ($form->hasValidData('schedule_message') && $form->schedule_message == true) {
         $item->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED;
     }
 
-    if ($form->hasValidData( 'scheduled_at' ) ) {
+    if ($form->hasValidData('scheduled_at')) {
         $item->scheduled_at = strtotime($form->scheduled_at);
     }
 
-    if ($form->hasValidData( 'campaign_name' ) ) {
+    if ($form->hasValidData('campaign_name')) {
         $item->campaign_name = $form->campaign_name;
     }
 
-    if ($form->hasValidData( 'dep_id' )) {
+    if ($form->hasValidData('dep_id')) {
         $item->dep_id = $form->dep_id;
     } else {
-        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a department!');
+        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please choose a department!');
     }
 
-    if ($form->hasValidData( 'phone_sender_id' )) {
+    if ($form->hasValidData('phone_sender_id')) {
         $item->phone_sender_id = $form->phone_sender_id;
     } else {
-        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a send phone!');
+        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please choose a send phone!');
     }
 
     $messageVariables = $item->message_variables_array;
@@ -201,12 +233,12 @@ if (ezcInputForm::hasPostData()) {
 
     $item->business_account_id = isset($account) && is_object($account) ? $account->id : 0;
 
-    if ($form->hasValidData( 'template' ) && $form->template != '') {
-        $template = explode('||',$form->template);
+    if ($form->hasValidData('template') && $form->template != '') {
+        $template = explode('||', $form->template);
         $item->template = $template[0];
         $item->language = $template[1];
     } else {
-        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a template!');
+        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please choose a template!');
     }
 
     if (count($Errors) == 0) {
@@ -252,17 +284,17 @@ if (ezcInputForm::hasPostData()) {
                 $campaignRecipient->saveThis();
             }
 
-            $tpl->set('updated',true);
-            $tpl->set('fbcommand','!fbtemplate '.json_encode([
+            $tpl->set('updated', true);
+            $tpl->set('fbcommand', '!fbtemplate ' . json_encode([
                 'template_name' => $item->template,
                 'template_lang' => $item->language,
-                 'args' => $item->message_variables_array
-             ]));
+                'args' => $item->message_variables_array
+            ]));
         } catch (Exception $e) {
-            $tpl->set('errors',array($e->getMessage()));
+            $tpl->set('errors', array($e->getMessage()));
         }
     } else {
-        $tpl->set('errors',$Errors);
+        $tpl->set('errors', $Errors);
     }
 }
 
@@ -278,13 +310,11 @@ $tpl->setArray([
 ]);
 
 $Result['content'] = $tpl->fetch();
-$Result['additional_footer_js'] = '<script type="text/javascript" src="'.erLhcoreClassDesign::designJS('js/extension.fbwhatsapp.js').'"></script>';
+$Result['additional_footer_js'] = '<script type="text/javascript" src="' . erLhcoreClassDesign::designJS('js/extension.fbwhatsapp.js') . '"></script>';
 
 $Result['path'] = array(
-    array('url' => erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat')),
+    array('url' => erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat')),
     array(
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send')
     )
 );
-
-?>

@@ -45,4 +45,5 @@ $appendPrintExportURL = '';
 
 </form>
 
+
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/modal_footer.tpl.php'));?>

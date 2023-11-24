@@ -61,6 +61,19 @@
         border: 1px solid #000;
         padding: 10px;
     }
+    .recuadro4 {
+        display: inline-block;
+        width: 200px;
+        height: 130px;
+        margin-right: 20px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #000;
+        padding: 10px;
+    }
 </style>
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
 
@@ -121,7 +134,7 @@
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Options'); ?></a></li>
     </ul>
 <?php endif; ?>
-<small> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Summary of the last 30 days'); ?> </small>
+<small> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Summary of the last month'); ?> </small>
 <br>
 <div>
     <div class="recuadro">
@@ -146,6 +159,15 @@
         <p><strong> % Engagement </strong></p>
         <?php if (isset($engagement)) : ?>
             <h1> <?php echo $engagement; ?></h1>
+        <?php else : ?>
+            <!-- Mostrar círculo de carga en movimiento -->
+            <div class="loader"></div>
+        <?php endif; ?>
+    </div>
+    <div class="recuadro4">
+        <p><strong> Cargos aproximados </strong></p>
+        <?php if (isset($general_costs)) : ?>
+            <h1> <?php print_r('$'.$general_costs); ?></h1>
         <?php else : ?>
             <!-- Mostrar círculo de carga en movimiento -->
             <div class="loader"></div>
@@ -195,11 +217,16 @@
             if (i < templateIds.length) {
                 const templateIdsChunk = templateIds.slice(i, i + chunkSize);
                 const templateIdsStr = JSON.stringify(templateIdsChunk);
-                const end = Math.floor(Date.now() / 1000);
-                const start = end - (32 * 24 * 60 * 60);
+
+                // Calcular fechas del mes actual
+                const now = new Date();
+                const end = Math.floor(now.getTime() / 1000);
+                const start = new Date(now.getFullYear(), now.getMonth(), 1);
+                const startTimestamp = Math.floor(start.getTime() / 1000);
+
                 $.ajax({
                     type: 'GET',
-                    url: `https://graph.facebook.com/v18.0/${wbai}/template_analytics?start=${start}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
+                    url: `https://graph.facebook.com/v18.0/${wbai}/template_analytics?start=${startTimestamp}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
                     async: true,
                     headers: {
                         'Authorization': 'Bearer ' + AT
@@ -208,8 +235,11 @@
                         data.data[0].data_points.forEach(point => {
                             totalSent += point.sent;
                             totalRead = totalRead + point.read;
-                        }, );
+                            console.log(data.data[0].data_points)
+                        });
 
+                        console.log(`star = ${start}`);
+                        console.log(`end = ${end}`);
                         processChunk(i + chunkSize);
                     },
                     error: function(error) {

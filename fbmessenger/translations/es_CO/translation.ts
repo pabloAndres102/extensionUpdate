@@ -40,8 +40,8 @@
     <translation>En estas metricas vez reflejado los ultimos 3 meses</translation>
   </message>
   <message>
-    <source>Summary of the last 30 days</source>
-    <translation>Resumen de los ultimos 30 dias</translation>
+    <source>Summary of the last month</source>
+    <translation>Resumen del ultimo mes</translation>
   </message>
   <message>
   <source>Granularity</source>

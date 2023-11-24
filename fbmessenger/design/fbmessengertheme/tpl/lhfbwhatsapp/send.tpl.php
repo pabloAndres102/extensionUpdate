@@ -56,7 +56,7 @@
                         <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipient Phone'); ?>*</label>
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="basic-addon1">+</span>
-                            <input <?php if (isset($whatsapp_contact)) : ?>disabled="disabled" <?php endif; ?> type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone) ?>" aria-label="Username" aria-describedby="basic-addon1">
+                            <input <?php if (isset($whatsapp_contact)) : ?>disabled="disabled" <?php endif; ?> type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((isset($phone_chat) ? $phone_chat : $send->phone)) ?>"  aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
