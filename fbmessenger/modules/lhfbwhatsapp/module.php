@@ -60,6 +60,12 @@ $ViewList['delete'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['messageview'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
 $ViewList['massmessage'] = array(
     'params' => array(),
     'uparams' => array('business_account_id'),

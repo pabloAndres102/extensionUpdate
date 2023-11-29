@@ -1,4 +1,6 @@
 <?php
+
+
 $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/index.tpl.php');
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
@@ -32,77 +34,86 @@ foreach ($templates as $template) {
     $array_ids[] = $template['id'];
 }
 
-$end = time();
-$start = strtotime(date('Y-m-01'));
-$curl = curl_init();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $startTimestamp = strtotime($_POST['start']);
+    $endTimestamp = strtotime($_POST['end']);
+    $messages = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList();
+    $sent = 0;
+    $read = 0;
+    $generatedConversations = 0;
+    foreach ($messages as $key => $object) {
+        // Obtener el timestamp de la fecha del mensaje (asumiendo que $object->created_at ya es un timestamp)
+        $messageTimestamp = $object->created_at;
 
+        // Verificar si la fecha del mensaje está dentro del rango seleccionado
+        if ($messageTimestamp >= $startTimestamp && $messageTimestamp <= $endTimestamp) {
+            $status = $object->status;
 
+            if ($status == 0 || $status == 1 || $status == 2 || $status == 7){
+                $sent = $sent + 1;
+            } elseif ($status == 3) {
+                $read = $read + 1;
+            }
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['whatsapp_business_account_id'] . '?fields=conversation_analytics.start(' . $start . ').end(' . $end . ').conversation_categories(SERVICE).granularity(DAILY).dimensions(CONVERSATION_CATEGORY)',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer ' . $token
-                ),
-            ));
-            
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $json_response = json_decode($response, true);
-
-    if (isset($json_response['conversation_analytics']['data'][0]['data_points'])) {
-        $data_points = $json_response['conversation_analytics']['data'][0]['data_points'];
-        $msg_services = 0;
-        foreach ($data_points as $data_point) {
-            if (isset($data_point['conversation_category'])) {
-                $msg_services = $msg_services + $data_point['conversation'];    
+            if($object->chat_id > 0){
+                $generatedConversations = $generatedConversations + 1;
             }
         }
     }
 
-$tpl->set('msg_services',$msg_services); 
-$tpl->set('array_id',$array_ids); 
-$tpl->set('accessToken',$token); 
-$tpl->set('wbai',$wbai); 
 
-
-
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://graph.facebook.com/v18.0/'.$data['whatsapp_business_account_id'].'?fields=conversation_analytics.start('.$start.').end('.$end.').granularity(DAILY).conversation_categories([%22MARKETING%22%2C%22UTILITY%22%2C%22AUTHENTICATION%22]).dimensions([%22CONVERSATION_CATEGORY%22%2C%22CONVERSATION_TYPE%22])&limit=1000',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'GET',
-  CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer '.$token
-  ),
-));
-
-$response2 = curl_exec($curl);
-curl_close($curl);
-$jsonresponse2 = json_decode($response2, true);
-$general_costs = 0;
-foreach ($jsonresponse2['conversation_analytics']['data'][0]['data_points'] as $data_point2){
-    if ($data_point2['cost'] > 0 ) {
-        $general_costs = $general_costs + $data_point2['cost'];    
+    if ($totalSent != 0) {
+        $engagement = ($totalRead / $totalSent) * 100;
+    } else {
+        $engagement = 0;
     }
 
-};
-$tpl->set('general_costs',$general_costs); 
+    $tpl->set('generatedConversations', $generatedConversations);
+    $tpl->set('engagement', $engagement);
+    $tpl->set('totalSent', $sent);
+    $tpl->set('totalRead', $read);
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['whatsapp_business_account_id'] . '?fields=conversation_analytics.start(' . $startTimestamp . ').end(' . $endTimestamp . ').conversation_categories(SERVICE).granularity(DAILY).dimensions(CONVERSATION_CATEGORY)&limit=1000',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer ' . $token
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $json_response = json_decode($response, true);
+
+    $msg_services = 0;
+    
+    if (isset($json_response['conversation_analytics']['data'][0]['data_points'])) {
+        $data_points = $json_response['conversation_analytics']['data'][0]['data_points'];
+        
+        foreach ($data_points as $data_point) {
+            if (isset($data_point['conversation_category'])) {
+                $msg_services = $msg_services + $data_point['conversation'];
+            }
+        }
+    }
+
+    $tpl->set('msg_services', $msg_services);
+
+}
+
+
+
+
+
 $Result['content'] = $tpl->fetch();
-
-
 $Result['path'] = array(
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index'),

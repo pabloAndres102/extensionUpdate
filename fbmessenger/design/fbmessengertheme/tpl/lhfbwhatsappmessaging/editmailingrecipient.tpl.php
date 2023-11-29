@@ -23,7 +23,7 @@ $appendPrintExportURL = '';
         <?php endif; ?>
 
         <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php'));?>
-
+<h1><?php print_r($item); ?></h1>
         <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/form_mailing_recipient.tpl.php'));?>
     </div>
 

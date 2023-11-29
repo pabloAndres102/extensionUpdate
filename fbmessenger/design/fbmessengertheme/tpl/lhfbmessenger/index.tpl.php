@@ -1,78 +1,51 @@
 <style>
-    .loader {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #3498db;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-        /* Ajusta el margen según sea necesario */
+    /* Estilo para los inputs de fecha */
+    input[type="datetime-local"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
     }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
+    /* Estilo para el botón de enviar */
+    .btn-success {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
+    /* Estilo para la clase row */
+    .row {
+        display: flex;
+    }
+
+    /* Estilo para las columnas dentro de la clase row */
+    .col-6 {
+        flex: 1;
+        padding: 0 15px;
+    }
+
+    /* Estilo para la clase recuadro-container */
+    .recuadro-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    /* Estilo para la clase recuadro */
     .recuadro {
-        display: inline-block;
-        width: 200px;
-        height: 130px;
-        margin-right: 20px;
+        flex: 1;
+        width: 100%;
+        height: 100px;
         background-color: #f0f0f0;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         text-align: center;
-        border: 1px solid #000;
-        padding: 10px;
-    }
-
-    .recuadro2 {
-        display: inline-block;
-        width: 200px;
-        height: 130px;
         margin-right: 20px;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-align: center;
-        border: 1px solid #000;
-        padding: 10px;
-    }
-
-    .recuadro3 {
-        display: inline-block;
-        width: 200px;
-        height: 130px;
-        margin-right: 20px;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-align: center;
-        border: 1px solid #000;
-        padding: 10px;
-    }
-    .recuadro4 {
-        display: inline-block;
-        width: 200px;
-        height: 130px;
-        margin-right: 20px;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-align: center;
-        border: 1px solid #000;
-        padding: 10px;
     }
 </style>
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
@@ -134,47 +107,50 @@
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Options'); ?></a></li>
     </ul>
 <?php endif; ?>
-<small> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Summary of the last month'); ?> </small>
-<br>
-<div>
-    <div class="recuadro">
+
+
+<form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
+    <input type="datetime-local" name="start">&nbsp;&nbsp;
+    <input type="datetime-local" name="end"> &nbsp;&nbsp;
+    <button class="btn btn-primary" type="submit"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Search'); ?></button>
+</form>
+
+<div class="recuadro-container">
+    <div class="recuadro"> <!-- Recuadro 1 -->
         <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Sent conversations'); ?></strong></p>
         <?php if (isset($totalSent)) : ?>
-            <h1> <?php echo $totalSent; ?></h1>
-        <?php else : ?>
-            <!-- Mostrar círculo de carga en movimiento -->
-            <div class="loader"></div>
+            <h1><?php echo $totalSent; ?></h1>
         <?php endif; ?>
     </div>
-    <div class="recuadro2">
-        <p><strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Incoming conversations'); ?> </strong></p>
-        <?php if (isset($msg_services)) : ?>
-            <h1> <?php echo $msg_services; ?></h1>
-        <?php else : ?>
-            <!-- Mostrar círculo de carga en movimiento -->
-            <div class="loader"></div>
+
+    <div class="recuadro"> <!-- Recuadro 4 -->
+        <p><strong>Total Read</strong></p>
+        <?php if (isset($totalRead)) : ?>
+            <h1><?php print_r($totalRead); ?></h1>
         <?php endif; ?>
     </div>
-    <div class="recuadro3">
-        <p><strong> % Engagement </strong></p>
+
+    <div class="recuadro"> <!-- Recuadro 3 -->
+        <p><strong>% Engagement</strong></p>
         <?php if (isset($engagement)) : ?>
-            <h1> <?php echo $engagement; ?></h1>
-        <?php else : ?>
-            <!-- Mostrar círculo de carga en movimiento -->
-            <div class="loader"></div>
+            <h1><?php echo $engagement; ?></h1>
         <?php endif; ?>
     </div>
-    <div class="recuadro4">
-        <p><strong> Cargos aproximados </strong></p>
-        <?php if (isset($general_costs)) : ?>
-            <h1> <?php print_r('$'.$general_costs); ?></h1>
-        <?php else : ?>
-            <!-- Mostrar círculo de carga en movimiento -->
-            <div class="loader"></div>
+
+    <div class="recuadro"> <!-- Recuadro 2 -->
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Incoming conversations'); ?></strong></p>
+        <?php if (isset($msg_services)) : ?>
+            <h1><?php echo $msg_services; ?></h1>
+        <?php endif; ?>
+    </div>
+
+    <div class="recuadro"> <!-- Recuadro 3 -->
+        <p><strong>Conversaciones generadas</strong></p>
+        <?php if (isset($generatedConversations)) : ?>
+            <h1><?php echo $generatedConversations; ?></h1>
         <?php endif; ?>
     </div>
 </div>
-<br><br>
 <div class="row">
     <div class="col-6">
         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp', 'use_admin')) : ?>
@@ -202,67 +178,3 @@
         <?php endif; ?>
     </div>
 </div>
-
-<script>
-    var AT = <?php echo json_encode($accessToken); ?>;
-    var wbai = <?php echo json_encode($wbai); ?>; 
-    const templateIds = <?php echo json_encode($array_id); ?>;
-    const listUsers = () => {
-
-        const chunkSize = 10;
-        let totalSent = 0;
-        let totalRead = 0;
-
-        function processChunk(i) {
-            if (i < templateIds.length) {
-                const templateIdsChunk = templateIds.slice(i, i + chunkSize);
-                const templateIdsStr = JSON.stringify(templateIdsChunk);
-
-                // Calcular fechas del mes actual
-                const now = new Date();
-                const end = Math.floor(now.getTime() / 1000);
-                const start = new Date(now.getFullYear(), now.getMonth(), 1);
-                const startTimestamp = Math.floor(start.getTime() / 1000);
-
-                $.ajax({
-                    type: 'GET',
-                    url: `https://graph.facebook.com/v18.0/${wbai}/template_analytics?start=${startTimestamp}&end=${end}&granularity=DAILY&metric_types=[%22SENT%22%2C%22DELIVERED%22%2C%22READ%22%2C%22CLICKED%22]&template_ids=${templateIdsStr}&limit=1000`,
-                    async: true,
-                    headers: {
-                        'Authorization': 'Bearer ' + AT
-                    },
-                    success: function(data) {
-                        data.data[0].data_points.forEach(point => {
-                            totalSent += point.sent;
-                            totalRead = totalRead + point.read;
-                            console.log(data.data[0].data_points)
-                        });
-
-                        console.log(`star = ${start}`);
-                        console.log(`end = ${end}`);
-                        processChunk(i + chunkSize);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                        // Puedes manejar el error según tus necesidades
-                    }
-                });
-            } else {
-                // Una vez que se ha procesado todo, actualiza el contenido del div
-                $('.recuadro').html('<p><strong> Plantillas enviadas </strong></p><h1>' + totalSent + '</h1>');
-                const percentageRead = (totalRead / totalSent) * 100;
-                $('.recuadro3').html(`
-                    <p><strong> % Engagement </strong></p>
-                    <h1>${percentageRead.toFixed(2)}%</h1>
-                    <p>Lectura total: ${totalRead}</p>
-                `);
-            }
-        }
-
-        processChunk(0);
-    };
-
-    $(document).ready(function($) {
-        listUsers();
-    });
-</script>
