@@ -131,9 +131,9 @@
     </div>
 
     <div class="recuadro"> <!-- Recuadro 3 -->
-        <p><strong>% Engagement</strong></p>
+        <p><strong>Engagement</strong></p>
         <?php if (isset($engagement)) : ?>
-            <h1><?php echo $engagement; ?></h1>
+            <h1><?php print_r($engagement.'%'); ?></h1>
         <?php endif; ?>
     </div>
 

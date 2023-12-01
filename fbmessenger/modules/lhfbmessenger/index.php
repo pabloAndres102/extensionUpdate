@@ -63,12 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-
-    if ($totalSent != 0) {
-        $engagement = ($read / $sent) * 100;
-    } else {
-        $engagement = 0;
-    }
+    $engagement = ($read / $sent) * 100;
 
     $tpl->set('generatedConversations', $generatedConversations);
     $tpl->set('engagement', $engagement);
