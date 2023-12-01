@@ -110,8 +110,8 @@
 
 
 <form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
-    <input type="datetime-local" name="start">&nbsp;&nbsp;
-    <input type="datetime-local" name="end"> &nbsp;&nbsp;
+    <input type="datetime-local" name="start" value="<?php echo (isset($startTimestamp) ? date('Y-m-d\TH:i', $startTimestamp) : ''); ?>">&nbsp;&nbsp;
+    <input type="datetime-local" name="end" value="<?php echo (isset($endTimestamp) ? date('Y-m-d\TH:i', $endTimestamp) : ''); ?>"> &nbsp;&nbsp;
     <button class="btn btn-primary" type="submit"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Search'); ?></button>
 </form>
 

@@ -37,6 +37,8 @@ foreach ($templates as $template) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $startTimestamp = strtotime($_POST['start']);
     $endTimestamp = strtotime($_POST['end']);
+    $tpl->set('startTimestamp', $startTimestamp);
+    $tpl->set('endTimestamp', $endTimestamp);
     $messages = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList();
     $sent = 0;
     $read = 0;
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($totalSent != 0) {
-        $engagement = ($totalRead / $totalSent) * 100;
+        $engagement = ($read / $sent) * 100;
     } else {
         $engagement = 0;
     }
