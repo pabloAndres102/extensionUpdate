@@ -41,7 +41,7 @@ if (isset($_SESSION['deactivate'])) {
                     <a class="csfr-post text-muted csfr-required" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Copy campaign'); ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign') ?>/(action)/copy/(id)/<?php echo $item->id ?>"><i class="material-icons mr-0">content_copy</i></a>
 
                     <?php if ($item->can_edit) : ?>
-                        <a class="<?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>text-muted<?php endif; ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id ?>"><span class="material-icons">edit</span><?php echo htmlspecialchars($item->name) ?></a>
+                        <a class="<?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>text-muted<?php endif; ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id ?>/?template=<?php echo $item->template ?>"><span class="material-icons">edit</span><?php echo htmlspecialchars($item->name) ?></a>
                     <?php else : ?>
                         <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->name) ?>
                     <?php endif; ?>

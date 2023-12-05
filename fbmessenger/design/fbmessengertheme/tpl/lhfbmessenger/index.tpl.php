@@ -110,10 +110,16 @@
 
 
 <form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
-    <input type="datetime-local" name="start" value="<?php echo (isset($startTimestamp) ? date('Y-m-d\TH:i', $startTimestamp) : ''); ?>">&nbsp;&nbsp;
-    <input type="datetime-local" name="end" value="<?php echo (isset($endTimestamp) ? date('Y-m-d\TH:i', $endTimestamp) : ''); ?>"> &nbsp;&nbsp;
+    <!-- Establecer por defecto el primer día del mes actual a las 00:00 para la primera fecha -->
+    <input type="datetime-local" name="start" value="<?php echo (isset($startTimestamp) ? date('Y-m-01\T00:00', $startTimestamp) : date('Y-m-01\T00:00')); ?>">&nbsp;&nbsp;
+
+    <!-- Establecer por defecto la fecha y hora actuales para la segunda fecha -->
+    <input type="datetime-local" name="end" value="<?php echo (isset($endTimestamp) ? date('Y-m-d\TH:i', $endTimestamp) : date('Y-m-d\TH:i')); ?>"> &nbsp;&nbsp;
+
     <button class="btn btn-primary" type="submit"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Search'); ?></button>
 </form>
+
+
 
 <div class="recuadro-container">
     <div class="recuadro"> <!-- Recuadro 1 -->

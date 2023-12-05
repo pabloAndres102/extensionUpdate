@@ -1161,7 +1161,7 @@
     </message>
     <message>
       <source>Send</source>
-      <translation>Envío simple </translation>
+      <translation>Envío simple</translation>
     </message>
     <message>
       <source>Scheduled</source>

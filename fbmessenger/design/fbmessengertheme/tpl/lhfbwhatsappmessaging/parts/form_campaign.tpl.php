@@ -57,7 +57,6 @@
 
             <div><small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Only once the campaign is activated will we start sending messages. Progress can be seen in the Statistics tab.'); ?></i></small></div>
         </div>
-
         <script>
             var messageFieldsValues = <?php echo json_encode($item->message_variables_array); ?>;
             var businessAccountId = <?php echo (int)$item->business_account_id ?>;
@@ -112,7 +111,7 @@
                     // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
                     if ($template['status'] === 'APPROVED') {
                     ?>
-                        <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
+                        <option <?php if ($_GET['template'] == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
                     <?php
                     }
                     ?>
@@ -200,3 +199,4 @@
         });
     });
 </script>
+

@@ -7,6 +7,8 @@ $tpl->set('tab','');
 
 $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
+
+
 if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
     $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
 }
@@ -20,6 +22,29 @@ if ($item->business_account_id > 0) {
 
 $templates = $instance->getTemplates();
 $phones = $instance->getPhones();
+
+
+
+$messages = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList();
+
+$generatedConversations = 0;
+
+
+
+// print_r($item->template);
+// print_r('<br><br><br>');
+// print_r($messages);
+// print_r('<br><br><br>');
+// print_r($messages[95]->chat_id);
+// print_r('<br><br><br>');
+
+foreach ($messages as $message) {
+    if($item->template == $message->template && $messages->chat_id > 0){
+        $generatedConversations = $generatedConversations + 1 ;
+    }
+}
+
+$tpl->set('generatedConversations', $generatedConversations);
 
 if (ezcInputForm::hasPostData()) {
 
