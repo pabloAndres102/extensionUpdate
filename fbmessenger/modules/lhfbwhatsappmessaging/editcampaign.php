@@ -20,6 +20,13 @@ if ($item->business_account_id > 0) {
     $tpl->set('business_account_id', $account->id);
 }
 
+
+$department = erLhcoreClassModelDepartament::fetch($item->dep_id);
+
+
+$tpl->set('department',$department->name);
+
+
 $templates = $instance->getTemplates();
 $phones = $instance->getPhones();
 
@@ -30,13 +37,6 @@ $messages = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMes
 $generatedConversations = 0;
 
 
-
-// print_r($item->template);
-// print_r('<br><br><br>');
-// print_r($messages);
-// print_r('<br><br><br>');
-// print_r($messages[95]->chat_id);
-// print_r('<br><br><br>');
 
 foreach ($messages as $message) {
     if($item->template == $message->template && $messages->chat_id > 0){

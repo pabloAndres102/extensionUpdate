@@ -60,9 +60,10 @@ foreach ($messages as $key => $object) {
     if ($messageTimestamp >= $startTimestamp && $messageTimestamp <= $endTimestamp) {
         $status = $object->status;
 
-        if ($status == 0 || $status == 1 || $status == 2 || $status == 7) {
+        if ($status == 0 || $status == 3 || $status == 1 || $status == 2 || $status == 7) {
             $sent = $sent + 1;
-        } elseif ($status == 3) {
+        } 
+        if ($status == 3) {
             $read = $read + 1;
         }
 
@@ -72,12 +73,7 @@ foreach ($messages as $key => $object) {
     }
 }
 
-if ($sent > 0) {
-    $engagement = ($read / $sent) * 100;
-} else {
-    $engagement = 0;
-}
-
+$engagement = ($sent > 0) ? round(($read / $sent) * 100) : 0;
 
 $tpl->set('generatedConversations', $generatedConversations);
 $tpl->set('engagement', $engagement);
@@ -117,9 +113,6 @@ if (isset($json_response['conversation_analytics']['data'][0]['data_points'])) {
 }
 
 $tpl->set('msg_services', $msg_services);
-
-
-
 
 
 $Result['content'] = $tpl->fetch();
