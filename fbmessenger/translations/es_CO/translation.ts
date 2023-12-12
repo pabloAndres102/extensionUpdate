@@ -19,6 +19,18 @@
     <translation>Conversaciones entrantes</translation>
   </message>
   <message>
+    <source>Generated conversations</source>
+    <translation>Conversaciones generadas</translation>
+  </message>
+  <message>
+    <source>Total read</source>
+    <translation>Lecturas</translation>
+  </message>
+  <message>
+    <source>Engagement</source>
+    <translation>Porcentaje</translation>
+  </message>
+  <message>
       <source>BUSINESS_INITIATED</source>
       <translation>Iniciada por empresa</translation>
     </message>

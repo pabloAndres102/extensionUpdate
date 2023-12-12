@@ -48,37 +48,103 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $tpl->set('startTimestamp', $startTimestamp);
 $tpl->set('endTimestamp', $endTimestamp);
-$messages = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList();
-$sent = 0;
-$read = 0;
-$generatedConversations = 0;
-foreach ($messages as $key => $object) {
-    // Obtener el timestamp de la fecha del mensaje (asumiendo que $object->created_at ya es un timestamp)
-    $messageTimestamp = $object->created_at;
 
-    // Verificar si la fecha del mensaje está dentro del rango seleccionado
-    if ($messageTimestamp >= $startTimestamp && $messageTimestamp <= $endTimestamp) {
-        $status = $object->status;
 
-        if ($status == 0 || $status == 3 || $status == 1 || $status == 2 || $status == 7) {
-            $sent = $sent + 1;
-        } 
-        if ($status == 3) {
-            $read = $read + 1;
-        }
 
-        if ($object->chat_id > 0) {
-            $generatedConversations = $generatedConversations + 1;
-        }
-    }
+
+$suma = 0;
+
+$failedCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED,
+    ]
+    ]);
+
+
+$sentCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $startTimestamp
+        ],
+        'filterlte' => [
+            'created_at ' => $endTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT,
+        ]
+        ]);
+
+
+$readCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+            'filtergte' => [
+                'created_at' => $startTimestamp
+            ],
+            'filterlte' => [
+                'created_at ' => $endTimestamp
+            ],
+            'filter' => [
+                'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+            ]
+            ]);
+
+$rejectedCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+                'filtergte' => [
+                    'created_at' => $startTimestamp
+                ],
+                'filterlte' => [
+                    'created_at ' => $endTimestamp
+                ],
+                'filter' => [
+                    'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
+                ]
+                ]);
+
+
+$deliveredCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+            'filtergte' => [
+                'created_at' => $startTimestamp
+            ],
+            'filterlte' => [
+                'created_at ' => $endTimestamp
+            ],
+            'filter' => [
+                'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED,
+            ]
+            ]);
+
+$chatid = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+    'filtergt' => [
+        'chat_id' => 0,
+    ],
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+]);
+
+
+$suma = $readCount + $sentCount + $deliveredCount + $failedCount + $rejectedCount;
+
+if ($suma > 0) {
+    $engagement = round(($readCount / $suma) * 100, 2);
+} else {
+    $engagement = 0;
 }
 
-$engagement = ($sent > 0) ? round(($read / $sent) * 100) : 0;
 
-$tpl->set('generatedConversations', $generatedConversations);
+$tpl->set('totalSent', $suma);
+$tpl->set('totalRead', $readCount);
 $tpl->set('engagement', $engagement);
-$tpl->set('totalSent', $sent);
-$tpl->set('totalRead', $read);
+$tpl->set('chatid', $chatid);
+
+
 
 $curl = curl_init();
 

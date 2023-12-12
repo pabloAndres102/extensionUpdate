@@ -130,14 +130,14 @@
     </div>
 
     <div class="recuadro"> <!-- Recuadro 4 -->
-        <p><strong>Total Read</strong></p>
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Total read'); ?></strong></p>
         <?php if (isset($totalRead)) : ?>
             <h1><?php print_r($totalRead); ?></h1>
         <?php endif; ?>
     </div>
 
     <div class="recuadro"> <!-- Recuadro 3 -->
-        <p><strong>Engagement</strong></p>
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Engagement'); ?></strong></p>
         <?php if (isset($engagement)) : ?>
             <h1><?php print_r($engagement.'%'); ?></h1>
         <?php endif; ?>
@@ -151,9 +151,9 @@
     </div>
 
     <div class="recuadro"> <!-- Recuadro 3 -->
-        <p><strong>Conversaciones generadas</strong></p>
-        <?php if (isset($generatedConversations)) : ?>
-            <h1><?php echo $generatedConversations; ?></h1>
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Generated conversations'); ?></strong></p>
+        <?php if (isset($chatid)) : ?>
+            <h1><?php echo $chatid; ?></h1>
         <?php endif; ?>
     </div>
 </div>
