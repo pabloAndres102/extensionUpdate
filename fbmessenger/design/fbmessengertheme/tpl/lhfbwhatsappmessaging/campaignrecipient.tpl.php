@@ -1,9 +1,12 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaign recipient'); ?></h1>
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_campaign_recipient.tpl.php')); ?>
-<a  class="btn btn-primary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Refresh');?></a>&nbsp;
-<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'); ?>" class="btn btn-warning btn-sm"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Activate later'); ?></a> &nbsp;
-<?php if (isset($items)) : ?>
+<a  class="btn btn-primary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Refrescar contactos');?></a>&nbsp;
+<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'); ?>" class="btn btn-primary btn-sm">Ver campañas</a> &nbsp;
+<?php
+$itemsToUse = isset($items2) ? $items2 : $items;
+
+if ($itemsToUse) : ?>
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
             <tr>
@@ -17,21 +20,21 @@
                 <th width="1%"></th>
             </tr>
         </thead>
-
+        
         <?php if ($campaign->enabled == 1) : ?>
                         <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" style="display: inline-block; margin-right: 5px;" method="post">
                             <input type="hidden" name="campaign_id" value="<?php echo $campaign->id ?>">
                             <input type="hidden" name="action" value="deactivate">
-                            <button type="submit" class="btn btn-secondary btn-sm"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Deactivate campaign'); ?></button>
+                            <button type="submit" class="btn btn-secondary btn-sm">Desactivar campaña</button>
                         </form>
                     <?php else : ?>
                         <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/togglecampaign') ?>" method="post" style="display: inline-block; margin-right: 5px;" onsubmit="return validateActivation(<?php echo $item->total_contacts; ?>)">
                             <input type="hidden" name="campaign_id" value="<?php echo $campaign->id ?>">
                             <input type="hidden" name="action" value="activate">
-                            <button type="submit" class="btn btn-success btn-sm"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Activate campaign'); ?></button>
+                            <button type="submit" class="btn btn-success btn-sm">Activar campaña</button>
                         </form>
                     <?php endif; ?>
-        <?php foreach ($items as $item) : ?>
+        <?php foreach ($itemsToUse as $item) : ?>
             <tr>
                 <td><?php echo $item->id ?></td>
                 <td>

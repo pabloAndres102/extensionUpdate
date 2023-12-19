@@ -86,6 +86,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?>*</label>
             <select name="template" class="form-control form-control-sm" id="template-to-send">
@@ -154,49 +155,58 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Obtén una referencia al formulario
-        var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
+document.addEventListener('DOMContentLoaded', function () {
+    // Obtiene una referencia al formulario
+    var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
 
-        // Nombres de campos a excluir de la validación
-        var excludeFields = [];
+    // Nombres de campos a excluir de la validación
+    var excludeFields = ['email'];
 
-        // Agrega un evento de escucha para el evento "submit" del formulario
-        form.addEventListener('submit', function(event) {
-            // Obtiene una lista de todos los elementos de entrada que deseas validar
-            var inputsToValidate = form.querySelectorAll('.form-control');
+    // Agrega un evento de escucha para el evento "submit" del formulario
+    form.addEventListener('submit', function (event) {
+        // Verifica si el formulario está en la pestaña de estadísticas
+        var isStatisticsTab = document.querySelector('a[href="#statistic"]').classList.contains('active');
 
-            // Variable para rastrear si se encontró un campo vacío excluido
-            var foundEmptyExcludedField = false;
+        // Si está en la pestaña de estadísticas, permite el envío del formulario
+        if (isStatisticsTab) {
+            return;
+        }
 
-            // Recorre la lista de elementos de entrada
-            for (var i = 0; i < inputsToValidate.length; i++) {
-                var input = inputsToValidate[i];
+        // Obtiene una lista de todos los elementos de entrada que deseas validar
+        var inputsToValidate = form.querySelectorAll('.form-control');
 
-                // Verifica si el campo está vacío
-                if (input.value.trim() === '') {
-                    // Verifica si el nombre del campo está en el array de campos excluidos
-                    if (excludeFields.some(function(excludedName) {
-                            return input.name.indexOf(excludedName) === 0;
-                        })) {
-                        // Si es un campo excluido, marca que se encontró un campo vacío excluido
-                        foundEmptyExcludedField = true;
-                    } else {
-                        // Si no es un campo excluido, evita que el formulario se envíe
-                        event.preventDefault();
-                        // Muestra un mensaje de error o realiza cualquier otra acción que desees
-                        alert('Por favor, complete todos los campos obligatorios.');
-                        // Sale del bucle una vez que se encuentra un campo vacío
-                        return;
-                    }
+        // Variable para rastrear si se encontró un campo vacío excluido
+        var foundEmptyExcludedField = false;
+
+        // Recorre la lista de elementos de entrada
+        for (var i = 0; i < inputsToValidate.length; i++) {
+            var input = inputsToValidate[i];
+
+            // Verifica si el campo está vacío
+            if (input.value.trim() === '') {
+                // Verifica si el nombre del campo está en el array de campos excluidos
+                if (excludeFields.some(function (excludedName) {
+                        return input.name.indexOf(excludedName) === 0;
+                    })) {
+                    // Si es un campo excluido, marca que se encontró un campo vacío excluido
+                    foundEmptyExcludedField = true;
+                } else {
+                    // Si no es un campo excluido, evita que el formulario se envíe
+                    event.preventDefault();
+                    // Muestra un mensaje de error o realiza cualquier otra acción que desees
+                    alert('Por favor, complete todos los campos obligatorios.');
+                    // Sale del bucle una vez que se encuentra un campo vacío
+                    return;
                 }
             }
+        }
 
-            // Si se encontró un campo vacío excluido y no se encontraron otros campos vacíos, permite enviar el formulario
-            if (foundEmptyExcludedField) {
-                return;
-            }
-        });
+        // Si se encontró un campo vacío excluido y no se encontraron otros campos vacíos, permite enviar el formulario
+        if (foundEmptyExcludedField) {
+            return;
+        }
     });
+});
+
 </script>
 

@@ -15,6 +15,10 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Send information</source>
+    <translation>Enviar informe</translation>
+  </message>
+  <message>
     <source>Incoming conversations</source>
     <translation>Conversaciones entrantes</translation>
   </message>

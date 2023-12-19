@@ -9,6 +9,12 @@ $ViewList['togglecampaign'] = array(
     'functions' => array( 'use_admin' )
 );
 
+$ViewList['statistic_campaign'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['mailinglist'] = array(
     'params' => array('name','user_ids',
         'timefrom','timefrom_seconds','timefrom_minutes','timefrom_hours',

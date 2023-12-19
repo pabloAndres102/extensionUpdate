@@ -26,26 +26,31 @@ if ($Params['user_parameters_unordered']['export'] == 'csv') {
 $pages = new lhPaginator();
 $pages->items_total = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getCount($filterParams['filter']);
 $pages->translationContext = 'chat/activechats';
-$pages->serverURL = erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient').$append;
+$pages->serverURL = erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') . $append;
 $pages->paginate();
-$tpl->set('pages',$pages);
+$tpl->set('pages', $pages);
 
 if ($pages->items_total > 0) {
-    $items = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getList(array_merge(array('limit' => $pages->items_per_page, 'offset' => $pages->low),$filterParams['filter']));
-    $tpl->set('items',$items);
+    $items = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getList(array_merge(array('limit' => $pages->items_per_page, 'offset' => $pages->low), $filterParams['filter']));
+    $tpl->set('items', $items);
+    $filterParams2 = $filterParams['filter'];
+    $filterParams2['filtergt']['conversation_id'] = 0;
+    $items2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getList(array_merge(array('limit' => $pages->items_per_page, 'offset' => $pages->low), $filterParams2));
+    $tpl->set('items2', $items2);
 }
 
+
 $filterParams['input_form']->form_action = erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') . '/' . $filterParams['input_form']->campaign;
-$tpl->set('input',$filterParams['input_form']);
-$tpl->set('inputAppend',$append);
+$tpl->set('input', $filterParams['input_form']);
+$tpl->set('inputAppend', $append);
 $tpl->set('campaign', $campaign);
 
 $Result['content'] = $tpl->fetch();
 
-$Result['path'] = array (
+$Result['path'] = array(
     array(
-        'url' => erLhcoreClassDesign::baseurl('fbmessenger/index') ,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat'),
+        'url' => erLhcoreClassDesign::baseurl('fbmessenger/index'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat'),
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'),
@@ -55,7 +60,5 @@ $Result['path'] = array (
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') . '/' . $campaign->id,
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Edit campaign')
     ),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('system/xmpp','Recipients'))
+    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients'))
 );
-
-?>

@@ -3,7 +3,7 @@
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_mailinglist.tpl.php')); ?>
 
 <?php if (isset($items)) : ?>
-    <?php
+<?php
 // Comprueba si hay un mensaje de éxito en la variable de sesión
 if (isset($_SESSION['activate'])) {
     echo '<div class="alert alert-success">' . $_SESSION['activate'] . '</div>';
@@ -16,6 +16,19 @@ if (isset($_SESSION['deactivate'])) {
     echo '<div class="alert alert-warning">' . $_SESSION['deactivate'] . '</div>';
     // Elimina el mensaje de error de la variable de sesión para que no se muestre nuevamente después de la recarga
     unset($_SESSION['deactivate']);
+}
+
+if (isset($_SESSION['email_send_status'])) {
+    $status = $_SESSION['email_send_status']['type'];
+    $message = $_SESSION['email_send_status']['message'];
+
+    // Muestra el mensaje con el fondo correspondiente
+    $alertClass = ($status == 'success') ? 'alert-success' : 'alert-danger';
+
+    echo '<div class="alert ' . $alertClass . '">' . $message . '</div>';
+
+    // Limpia la variable de sesión para que no se muestre nuevamente después de la recarga
+    unset($_SESSION['email_send_status']);
 }
 ?>
 <a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
@@ -88,7 +101,7 @@ if (isset($_SESSION['deactivate'])) {
                     <a class="<?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>text-muted<?php endif; ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') ?>/(campaign)/<?php echo $item->id ?>"><span class="material-icons">list</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'List of recipients'); ?> (<?php echo $item->total_contacts ?>)</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-sm bg-dark text-white" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') ?>/<?php echo $item->id ?>?tab=statistic">
+                    <a class="btn btn-primary btn-sm bg-dark text-white" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/statistic_campaign') ?>/?id=<?php echo $item->id ?>">
                         <span class="material-icons">equalizer</span>
                     </a>
                 </td>

@@ -1,8 +1,8 @@
 <?php
 
 namespace LiveHelperChatExtension\fbmessenger\providers;
-#[\AllowDynamicProperties]
-class FBMessengerWhatsAppMailingValidator {
+
+class FBMessengerWhatsAppMailingValidator2 {
 
     public static function limitContactList() {
 
@@ -368,11 +368,11 @@ class FBMessengerWhatsAppMailingValidator {
         $form = new \ezcInputForm( \INPUT_POST, $definition );
         $Errors = array();
 
-        if ($form->hasValidData( 'dep_id' )) {
-            $item->dep_id = $form->dep_id;
-        } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a department!');
-        }
+        // if ($form->hasValidData( 'dep_id' )) {
+        //     $item->dep_id = $form->dep_id;
+        // } else {
+        //     $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a department!');
+        // }
 
         if ($form->hasValidData( 'name' )) {
             $item->name = $form->name;
@@ -408,19 +408,19 @@ class FBMessengerWhatsAppMailingValidator {
             $item->status = \LiveHelperChatExtension\fbmessenger\provider\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING;
         }
 
-        if ($form->hasValidData( 'phone_sender_id' )) {
-            $item->phone_sender_id = $form->phone_sender_id;
-        } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a send phone!');
-        }
+        // if ($form->hasValidData( 'phone_sender_id' )) {
+        //     $item->phone_sender_id = $form->phone_sender_id;
+        // } else {
+        //     $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a send phone!');
+        // }
 
-        if ($form->hasValidData( 'template' ) && $form->template != '') {
-            $template = explode('||',$form->template);
-            $item->template = $template[0];
-            $item->language = $template[1];
-        } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a template!');
-        }
+        // if ($form->hasValidData( 'template' ) && $form->template != '') {
+        //     $template = explode('||',$form->template);
+        //     $item->template = $template[0];
+        //     $item->language = $template[1];
+        // } else {
+        //     $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a template!');
+        // }
 
         $messageVariables = [];
 
@@ -623,193 +623,242 @@ class FBMessengerWhatsAppMailingValidator {
         return $Errors;
     }
 
-    public static function validateMailingRecipient($item) {
+    public static function validateMailingRecipient($item)
+    {
         $definition = array(
             'email' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'validate_email'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'validate_email'
             ),
             'disabled' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'boolean'
             ),
             'ml' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'int',array('min_range' => 1),FILTER_REQUIRE_ARRAY
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'int',
+                array('min_range' => 1),
+                FILTER_REQUIRE_ARRAY
             ),
             'name' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'phone' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'phone_recipient' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_1' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_2' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_3' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_4' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_5' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'attr_str_6' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
 
             'title' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'lastname' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'company' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'date' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'delivery_status' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 0),
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'int',
+                array('min_range' => 0),
             ),
             'file_1' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'file_2' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'file_3' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
             'file_4' => new \ezcInputFormDefinitionElement(
-                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                \ezcInputFormDefinitionElement::OPTIONAL,
+                'unsafe_raw'
             ),
         );
-        
-        $form = new \ezcInputForm( INPUT_POST, $definition );
+
+        $form = new \ezcInputForm(INPUT_POST, $definition);
         $Errors = array();
 
-        if ($form->hasValidData( 'date' )) {
+        if ($form->hasValidData('date')) {
             $item->date = \strtotime($form->date);
         } else {
             $item->date = 0;
         }
 
-        if ($form->hasValidData( 'delivery_status' )) {
+        if ($form->hasValidData('delivery_status')) {
             $item->delivery_status = $form->delivery_status;
         } else {
             $item->delivery_status = 0;
         }
 
-        if ($form->hasValidData( 'title' )) {
+        if ($form->hasValidData('title')) {
             $item->title = $form->title;
         } else {
             $item->title = '';
         }
 
-        if ($form->hasValidData( 'lastname' )) {
+        if ($form->hasValidData('lastname')) {
             $item->lastname = $form->lastname;
         } else {
             $item->lastname = '';
         }
 
-        if ($form->hasValidData( 'company' )) {
+        if ($form->hasValidData('company')) {
             $item->company = $form->company;
         } else {
             $item->company = '';
         }
 
-        if ($form->hasValidData( 'file_1' )) {
+        if ($form->hasValidData('file_1')) {
             $item->file_1 = $form->file_1;
         } else {
             $item->file_1 = '';
         }
 
-        if ($form->hasValidData( 'file_2' )) {
+        if ($form->hasValidData('file_2')) {
             $item->file_2 = $form->file_2;
         } else {
             $item->file_2 = '';
         }
 
-        if ($form->hasValidData( 'file_3' )) {
+        if ($form->hasValidData('file_3')) {
             $item->file_3 = $form->file_3;
         } else {
             $item->file_3 = '';
         }
 
-        if ($form->hasValidData( 'file_4' )) {
+        if ($form->hasValidData('file_4')) {
             $item->file_4 = $form->file_4;
         } else {
             $item->file_4 = '';
         }
 
-        if ($form->hasValidData( 'email' )) {
+        if ($form->hasValidData('email')) {
             $item->email = $form->email;
         } else {
             $item->email = '';
         }
 
-        if ($form->hasValidData( 'name' )) {
+        if ($form->hasValidData('name')) {
             $item->name = $form->name;
         }
 
-        if ($form->hasValidData( 'phone' ) && $form->phone != '') {
-            $item->phone = trim(str_replace('+','',$form->phone));
+        if ($form->hasValidData('phone') && $form->phone != '') {
+            $item->phone = trim(str_replace('+', '', $form->phone));
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please enter a phone');
         }
 
-        if ($form->hasValidData( 'phone_recipient' ) && $form->phone_recipient != '') {
-            $item->phone_recipient = trim(str_replace('+','',$form->phone_recipient));
+        if ($form->hasValidData('phone_recipient') && $form->phone_recipient != '') {
+            $item->phone_recipient = trim(str_replace('+', '', $form->phone_recipient));
         }
 
-        if ($form->hasValidData( 'attr_str_1' )) {
+        if ($form->hasValidData('attr_str_1')) {
             $item->attr_str_1 = $form->attr_str_1;
         }
 
-        if ($form->hasValidData( 'attr_str_2' )) {
+        if ($form->hasValidData('attr_str_2')) {
             $item->attr_str_2 = $form->attr_str_2;
         }
 
-        if ($form->hasValidData( 'attr_str_3' )) {
+        if ($form->hasValidData('attr_str_3')) {
             $item->attr_str_3 = $form->attr_str_3;
         }
 
-        if ($form->hasValidData( 'attr_str_4' )) {
+        if ($form->hasValidData('attr_str_4')) {
             $item->attr_str_4 = $form->attr_str_4;
         }
 
-        if ($form->hasValidData( 'attr_str_5' )) {
+        if ($form->hasValidData('attr_str_5')) {
             $item->attr_str_5 = $form->attr_str_5;
         }
 
-        if ($form->hasValidData( 'attr_str_6' )) {
+        if ($form->hasValidData('attr_str_6')) {
             $item->attr_str_6 = $form->attr_str_6;
         }
 
-        if ($form->hasValidData( 'ml' ) && !empty($form->ml)) {
+        if ($form->hasValidData('ml') && !empty($form->ml)) {
             $item->ml_ids = $item->ml_ids_front = $form->ml;
         } else {
             $item->ml_ids = [];
         }
 
-        if ($form->hasValidData( 'disabled' ) && $form->disabled == true) {
+        if ($form->hasValidData('disabled') && $form->disabled == true) {
             $item->disabled = 1;
         } else {
             $item->disabled = 0;
         }
 
+        $contactClass = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getList(['filter' => ['phone' => $item->phone]]);
+        foreach ($contactClass as $contact) {
+            $contact_id = $contact->id;
+        }
+
+        $listClass = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactListContact::getList(['filter' => ['contact_id' => $contact_id]]);
+        foreach ($listClass as $list) {
+            $list_id = $list->contact_list_id;
+        }
+        $mlIdsFrontValue = reset($item->ml_ids_front);
+        
         if ($item->id == null && \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getCount(['filter' => ['phone' => $item->phone]]) == 1) {
             $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This contact already exists, edit contact and assign it to this list!');
         }
+            // $Errors[] = 'ID DE CONTACTO: ' . $contact_id;
+            // $Errors[] = 'ID DE LISTA: ' . $list_id;
+            
+            // $Errors[] = 'ID DE LISTA SELECCIONADA: ' . $mlIdsFrontValue;
+            // if($mlIdsFrontValue != $list_id){
+            //     $Errors[] = 'DIFERENTES: ' . $mlIdsFrontValue;
+            // }else{
+            //     $Errors[] = 'IGUALES: ' . $mlIdsFrontValue;
+            // }
+
+            
+        
 
         return $Errors;
     }
+
 
     public static function getTemplates()
     {
