@@ -4,31 +4,9 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newmailingrecip
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact();
 
-
-$contactClass = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getList(['filter' => ['phone' => 573113774301]]); 
-foreach ($contactClass as $contact) {
-    $contact_id = $contact->id;
-}
-
-
-
-$listClass = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactListContact::getList(['filter' => ['contact_id' =>$contact->id]]);
 print_r('<br>');
 print_r('<br>');
-print_r($contact_id);
 print_r('<br>');
-print_r('<br>');
-
-
-
-foreach ($listClass as $list) {
-    $list_id = $list->contact_id;
-}
-
-print_r($list_id);
-
-
-
 if (is_array($Params['user_parameters_unordered']['ml'])) {
     $item->ml_ids_front = $Params['user_parameters_unordered']['ml'];
 }
@@ -37,7 +15,34 @@ if (is_array($Params['user_parameters_unordered']['ml'])) {
 if (ezcInputForm::hasPostData() && !(!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token']))) {
 
     $items = array();
+
+
     $Errors = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::validateMailingRecipient($item);
+    
+
+    $contactClass = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getList(['filter' => ['phone' => $item->phone]]);
+    $contactidarray = [];
+    foreach ($contactClass as $contact) {
+        $contact_id = $contact->id;
+        $contactidarray[] = $contact->id;
+    }
+
+
+
+    $listClass = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactListContact::getList(['filter' => ['contact_id' => $contact_id]]);
+    foreach ($listClass as $list) {
+        $list_id = $list->contact_list_id;
+    }
+
+
+    // print_r('id de contacto: '.$contact_id);
+    // print_r('<br>');
+    // print_r('id de lista donde esta el contacto: '.$list_id);
+    // print_r('<br>');
+    // $mlIdsFrontValue = reset($item->ml_ids_front);
+    // print_r('id de lista donde se ingresara el contacto: ');
+    // print_r($item->ml_ids_front);
+    
 
     if (count($Errors) == 0) {
         try {
@@ -54,17 +59,14 @@ if (ezcInputForm::hasPostData() && !(!isset($_POST['csfr_token']) || !$currentUs
         } catch (Exception $e) {
             $tpl->set('errors', array($e->getMessage()));
         }
-
     } else {
         $tpl->set('errors', $Errors);
     }
 }
 
 $tpl->set('item', $item);
-
+$tpl->set('errors', $Errors);
 $Result['content'] = $tpl->fetch();
 
 echo $tpl->fetch();
 exit;
-
-?>

@@ -68,7 +68,10 @@
     <div class="recuadro"> <!-- Recuadro 4 -->
         <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Engagement'); ?></strong></p>
         <h1><?php print_r($engagement); ?></h1>
-
+    </div>
+    <div class="recuadro"> <!-- Recuadro 4 -->
+        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Generated conversations'); ?></strong></p>
+        <h1><?php print_r($engagement); ?></h1>
     </div>
 </div>
 
@@ -122,7 +125,8 @@
                     </div>
                 </form>
             </li>
-
+            <br>
+            <a class="btn btn-primary" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign')?>"><span class="material-icons">reply</span>Regresar al panel</a>
 
         </ul>
 </div>

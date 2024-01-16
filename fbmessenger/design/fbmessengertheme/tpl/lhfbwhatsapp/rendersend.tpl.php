@@ -69,7 +69,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Body Text - {{<?php echo $i+1?>}}</label>
-                <input type="text" list="fields_placeholders" class="form-control form-control-sm" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i+1?>" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -77,7 +77,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Header Text - {{<?php echo $i+1?>}}</label>
-                <input type="text" list="fields_placeholders" class="form-control form-control-sm" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm"  id="field_header_<?php echo $i+1?>" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -87,9 +87,9 @@
             <div class="form-group">
                 <label class="font-weight-bold">Document URL - {{<?php echo $i+1?>}}</label>
                 &nbsp;&nbsp;<a data-selector="#field_header_doc_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success"href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a> 
-                <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" id="field_header_doc_<?php echo $i+1?>" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
                 <label class="font-weight-bold">Filename - {{<?php echo $i+1?>}}</label>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i+1?>" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>                
@@ -108,7 +108,7 @@
             <div class="form-group">
                 <label class="font-weight-bold">Header video URL - {{<?php echo $i+1?>}}</label>
                 &nbsp;&nbsp;<a data-selector="#field_header_video_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" id="field_header_video_<?php echo $i+1?>" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -136,6 +136,16 @@
 <?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>
 <script>
 (function() {
+    var fields = document.querySelectorAll('input[name^="field_"]');
+    
+    // Itera sobre los campos seleccionados
+    fields.forEach(function(field) {
+        // Aplica readonly solo si el campo tiene algún valor
+        if (field.value.trim() !== '') {
+            field.setAttribute('readonly', 'readonly');
+        }
+    });
+
     $('.fb-choose-file').click(function(e) {
         e.preventDefault(); // Evita que el enlace siga el href
         

@@ -22,6 +22,8 @@
         </div>
     </div>
 
+   
+
     <div class="btn-group" role="group" aria-label="...">
         <input type="submit" class="btn btn-sm btn-secondary" name="Save_page" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Save'); ?>" />
         <input type="submit" class="btn btn-sm btn-secondary" name="Update_page" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Update'); ?>" />
@@ -32,7 +34,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Obtiene una referencia al input con el nombre "name"
+        
 
         var departmentSelect = document.querySelector('select[name="dep_id"]');
         var privateCheckbox = document.querySelector('input[name="private"]');
@@ -49,5 +51,6 @@
         phoneSelect.setAttribute('disabled', 'disabled');
         businessAccountSelect.setAttribute('disabled', 'disabled');
         templateSelect.setAttribute('disabled', 'disabled');
+        
     });
 // </script>

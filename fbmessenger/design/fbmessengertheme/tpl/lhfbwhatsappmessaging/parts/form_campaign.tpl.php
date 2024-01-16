@@ -156,6 +156,7 @@
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    
     // Obtiene una referencia al formulario
     var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
 

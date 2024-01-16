@@ -11,7 +11,7 @@ $appendPrintExportURL = '';
 
         <div class="col-6">
             <div class="form-group">
-                <h6><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Sent')?></h6>
+                <h6><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Total messages')?></h6>
                 <?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount($filter); ?>
             </div>
         </div>
@@ -20,9 +20,12 @@ $appendPrintExportURL = '';
         <div class="col-6">
             <div class="form-group">
                 <h6><?php echo htmlspecialchars($statVariation->name)?></h6>
-                <?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(array_merge_recursive($filter,['filter' => ['status' => $statVariation->id]])); ?>
+               <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages_stats') ?>/?id=<?php echo $statVariation->id ?>">
+               <?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(array_merge_recursive($filter,['filter' => ['status' => $statVariation->id]])); ?>
+            </a>
             </div>
         </div>
+        
         <?php endforeach; ?>
     </div>
 </div>

@@ -11,6 +11,12 @@ $ViewList['updateflow'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['messages_stats'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['analytics'] = array(
     'params' => array(),
     'uparams' => array(),
@@ -55,6 +61,12 @@ $ViewList['deleteflow'] = array(
 );
 
 $ViewList['delete'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['template_table'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),

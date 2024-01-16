@@ -4,9 +4,9 @@
 <a  class="btn btn-primary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo $campaign->id?>?refresh=<?php echo time()?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Refrescar contactos');?></a>&nbsp;
 <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'); ?>" class="btn btn-primary btn-sm">Ver campañas</a> &nbsp;
 <?php
-$itemsToUse = isset($items2) ? $items2 : $items;
+// $itemsToUse = isset($items2) ? $items2 : $items;
 
-if ($itemsToUse) : ?>
+if ($items) : ?>
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
             <tr>
@@ -34,7 +34,7 @@ if ($itemsToUse) : ?>
                             <button type="submit" class="btn btn-success btn-sm">Activar campaña</button>
                         </form>
                     <?php endif; ?>
-        <?php foreach ($itemsToUse as $item) : ?>
+        <?php foreach ($items as $item) : ?>
             <tr>
                 <td><?php echo $item->id ?></td>
                 <td>

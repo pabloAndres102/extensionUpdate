@@ -2,7 +2,15 @@
 
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/editmailingrecipient.tpl.php');
 
-$item = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($Params['user_parameters']['id']);
+
+
+if(isset($_GET['id'])){
+    $item = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($_GET['id']);
+}else{
+    $item = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($Params['user_parameters']['id']);
+}
+
+
 
 if (ezcInputForm::hasPostData() && !(!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token']))) {
 

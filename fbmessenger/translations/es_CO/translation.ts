@@ -15,6 +15,10 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Total messages</source>
+    <translation>Mensajes totales</translation>
+  </message>
+  <message>
     <source>Send information</source>
     <translation>Enviar informe</translation>
   </message>
