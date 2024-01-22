@@ -34,16 +34,6 @@ if (ezcInputForm::hasPostData() && !(!isset($_POST['csfr_token']) || !$currentUs
         $list_id = $list->contact_list_id;
     }
 
-
-    // print_r('id de contacto: '.$contact_id);
-    // print_r('<br>');
-    // print_r('id de lista donde esta el contacto: '.$list_id);
-    // print_r('<br>');
-    // $mlIdsFrontValue = reset($item->ml_ids_front);
-    // print_r('id de lista donde se ingresara el contacto: ');
-    // print_r($item->ml_ids_front);
-    
-
     if (count($Errors) == 0) {
         try {
             $item->user_id = $currentUser->getUserID();
@@ -65,7 +55,6 @@ if (ezcInputForm::hasPostData() && !(!isset($_POST['csfr_token']) || !$currentUs
 }
 
 $tpl->set('item', $item);
-$tpl->set('errors', $Errors);
 $Result['content'] = $tpl->fetch();
 
 echo $tpl->fetch();

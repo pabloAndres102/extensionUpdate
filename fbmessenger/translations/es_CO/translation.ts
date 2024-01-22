@@ -1457,6 +1457,10 @@
       <source>Are you sure?</source>
       <translation>¿Asegurese de lo que va realizar?</translation>
     </message>
+    <message>
+      <source>The contact list and its contacts will be deleted. Are you sure?</source>
+      <translation>Se borrara la lista de contacto y sus contactos ¿Estás seguro?</translation>
+    </message>
   </context>
   <context>
     <name>system/buttons</name>

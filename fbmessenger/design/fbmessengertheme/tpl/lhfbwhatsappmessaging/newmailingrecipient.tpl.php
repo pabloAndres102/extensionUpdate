@@ -22,6 +22,9 @@ $appendPrintExportURL = '';
         </div>
         <script>
             $('#list-update-import').removeClass('hide');
+            setTimeout(function() {
+            location.reload(true); 
+        }, 2000);
         </script>
     <?php endif; ?>
 

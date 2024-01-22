@@ -71,7 +71,7 @@
     </div>
     <div class="recuadro"> <!-- Recuadro 4 -->
         <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Generated conversations'); ?></strong></p>
-        <h1><?php print_r($engagement); ?></h1>
+        <h1><?php print_r($generatedConversations); ?></h1>
     </div>
 </div>
 

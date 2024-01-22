@@ -113,7 +113,7 @@
         </div>
     <?php endfor; ?>
 
-    <datalist id="fields_placeholders">
+    <!-- <datalist id="fields_placeholders">
         <option value="{args.recipient.name_front}">Name</option>
         <option value="{args.recipient.lastname_front}">Lastname</option>
         <option value="{args.recipient.company_front}">Company</option>
@@ -129,6 +129,16 @@
         <option value="{args.recipient.attr_str_4_front}">String attribute 4</option>
         <option value="{args.recipient.attr_str_5_front}">String attribute 5</option>
         <option value="{args.recipient.attr_str_6_front}">String attribute 6</option>
+    </datalist> -->
+    
+    <datalist id="fields_placeholders">
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Email');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?></option>
+        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 1');?></option>
     </datalist>
 
 </div>

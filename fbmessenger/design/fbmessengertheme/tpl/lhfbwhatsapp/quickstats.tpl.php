@@ -4,6 +4,22 @@ $modalHeaderTitle = erTranslationClassLhTranslation::getInstance()->getTranslati
 $modalSize = 'ml';
 $modalBodyClass = 'p-1';
 $appendPrintExportURL = '';
+$engagement = 0;
+
+$rejected = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED]]);
+$failed = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED]]);
+$sent = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT]]);
+$read = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ]]);
+$delivered = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED]]);
+$generated_conversations = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount(['filtergt' => ['chat_id' => 0]]);
+$suma = $rejected + $failed + $sent + $read + $delivered;
+
+if ($suma > 0) {
+    $engagement = round(($read / $suma) * 100, 2);
+} else {
+    $engagement = 0;
+}
+
 ?>
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/modal_header.tpl.php'));?>
 <div class="modal-body">
@@ -27,6 +43,19 @@ $appendPrintExportURL = '';
         </div>
         
         <?php endforeach; ?>
+        <div class="col-6">
+            <div class="form-group">
+                <h6><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Engagement')?></h6>
+                <?php echo $engagement.'%' ?>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <h6><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Generated conversations')?></h6>
+                <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages_stats') ?>/?id=9"><?php echo $generated_conversations ?>
+            </div>
+        </div>
+
     </div>
 </div>
 <div class="modal-footer">

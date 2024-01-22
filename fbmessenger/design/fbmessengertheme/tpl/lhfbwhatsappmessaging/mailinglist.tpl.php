@@ -39,7 +39,7 @@
                 </td>
                 <td>
                     <?php if ($item->can_delete) : ?>
-                    <a class="text-danger csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletemailinglist')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE872;</i></a>
+                    <a class="text-danger csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','The contact list and its contacts will be deleted. Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/deletemailinglist')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE872;</i></a>
                     <?php endif; ?>
                 </td>
             </tr>

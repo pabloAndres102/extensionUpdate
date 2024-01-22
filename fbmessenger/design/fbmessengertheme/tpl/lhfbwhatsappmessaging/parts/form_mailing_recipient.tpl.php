@@ -1,10 +1,12 @@
+
+
 <div class="row">
     <div class="col-6">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?>*</label>
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="basic-addon1">+</span>
-                <input placeholder="37065111111" type="text" maxlength="50" class="form-control form-control-sm" name="phone" value="<?php echo htmlspecialchars($item->phone)?>" />
+                <input placeholder="37065111111" type="text" maxlength="50" class="form-control form-control-sm" name="phone" value="<?php echo isset($_GET['contact']) ? htmlspecialchars($_GET['contact']) : htmlspecialchars($item->phone) ?>" />
             </div>
         </div>
     </div>

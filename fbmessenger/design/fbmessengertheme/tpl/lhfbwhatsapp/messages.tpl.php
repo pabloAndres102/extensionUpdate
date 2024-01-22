@@ -2,7 +2,16 @@
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsapp/parts/form_filter.tpl.php')); ?>
 
-
+<?php if (isset($_SESSION['activate'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['activate'] . '</div>';
+    if (isset($_SESSION['warning'])) {
+        echo '<div class="alert alert-warning">' . $_SESSION['warning'] . '</div>';
+        unset($_SESSION['warning']);
+    }
+    // Elimina el mensaje de éxito de la variable de sesión para que no se muestre nuevamente después de la recarga
+    unset($_SESSION['activate']);
+}
+?>
 
 
 <?php if (isset($items)) : ?>
@@ -158,6 +167,13 @@
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Sent'); ?>
                     <?php endif; ?>
+                    <?php if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED) : ?>
+                        <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages') ?>" method="post">
+                            <input type="hidden" name="phone_off" value="<?php echo $item->phone ?>">
+                            <input type="hidden" name="action" value="toggle">
+                            <button type="submit" class="btn btn-danger btn-sm"><span class="material-icons">power_off</span></button>
+                        </form>
+                    <?php endif; ?>
                 </td>
                 <td>
                     <?php if ($item->scheduled_at > 0) : ?>
@@ -182,6 +198,7 @@
                         <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete message'); ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deletemessage') ?>/<?php echo htmlspecialchars($item->id) ?>">delete</a>
                     <?php endif; ?>
                 </td>
+
             </tr>
         <?php endforeach; ?>
     </table>

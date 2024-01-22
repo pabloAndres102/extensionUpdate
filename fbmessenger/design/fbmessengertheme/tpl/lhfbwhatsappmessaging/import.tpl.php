@@ -34,13 +34,13 @@
     <p><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','First row in CSV is skipped. Columns order');?> - </small>
         <span class="badge bg-secondary mr-2">phone</span>
         <span class="badge bg-secondary mr-2">phone_recipient</span>
-        <span class="badge bg-secondary mr-2">status</span>
-        <span class="badge bg-secondary mr-2">email</span>
         <span class="badge bg-secondary mr-2">name</span>
-        <span class="badge bg-secondary mr-2">title</span>
         <span class="badge bg-secondary mr-2">lastname</span>
+        <span class="badge bg-secondary mr-2">title</span>
         <span class="badge bg-secondary mr-2">company</span>
+        <span class="badge bg-secondary mr-2">email</span>
         <span class="badge bg-secondary mr-2">date</span>
+        <span class="badge bg-secondary mr-2">status</span>
         <span class="badge bg-secondary mr-2">attr_str_1</span>
         <span class="badge bg-secondary mr-2">attr_str_2</span>
         <span class="badge bg-secondary mr-2">attr_str_3</span>

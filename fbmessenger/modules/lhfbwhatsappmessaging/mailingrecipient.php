@@ -19,7 +19,10 @@ if (!empty($filterParams['input_form']->ml)) {
 if (!$currentUser->hasAccessTo('lhfbwhatsappmessaging','all_contact_list')) {
     $filterParams['filter']['customfilter'][] = ' (private = 0 OR user_id = ' . (int)$currentUser->getUserID() . ')';
 }
-
+$phone_format = $filterParams['input_form']->phone;
+$phone_format = str_replace(' ','',$phone_format);
+print_r($phone_format);
+$filterParams['input_form']->phone = $phone_format;
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
 
 $pages = new lhPaginator();
