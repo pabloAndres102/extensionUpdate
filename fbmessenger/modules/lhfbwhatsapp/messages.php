@@ -40,19 +40,6 @@ if (isset($_POST['phone_off'], $_POST['action'])) {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 erLhcoreClassChatStatistic::formatUserFilter($filterParams, 'lhc_fbmessengerwhatsapp_message');
 
 if (isset($filterParams['filter']['filterin']['lh_chat.dep_id'])) {

@@ -64,6 +64,9 @@
         <a target="_blank" class="btn btn-outline-secondary btn-sm" onclick="return lhc.revealModal({'title' : '<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Import');?>', 'iframe':true, 'height':500, 'url':WWW_DIR_JAVASCRIPT +'fbwhatsappmessaging/import<?php if (!empty($input->ml)) : ?>/(ml)/<?php echo implode('/',$input->ml)?><?php endif;?>'})">
             <i class="material-icons">file_upload</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Import');?>
         </a>
+        <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>/(export)/csv<?php echo $inputAppend?>" class="btn btn-outline-secondary btn-sm">
+            <i class="material-icons">file_download</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Export');?> (<?php echo $pages->items_total?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Contacts');?>)
+        </a>
     </div>
 
     <script>

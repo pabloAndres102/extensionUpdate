@@ -19,6 +19,18 @@
     <translation>Mensajes totales</translation>
   </message>
   <message>
+  <source>Export</source>
+  <translation>Exportar</translation>
+</message>
+<message>
+<source>Contacts</source>
+<translation>Contactos</translation>
+</message>
+  <message>
+      <source>List name</source>
+      <translation>Lista</translation>
+    </message>
+  <message>
     <source>Send information</source>
     <translation>Enviar informe</translation>
   </message>

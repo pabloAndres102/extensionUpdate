@@ -40,6 +40,96 @@ class FBMessengerWhatsAppMailingValidator {
         $stmt->execute();
     }
 
+    public static function exportMessagesCSV2($filter) {
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+
+        // force download
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename=mailing-recipients.csv");
+        header("Content-Transfer-Encoding: binary");
+
+        $df = fopen("php://output", 'w');
+
+        $firstRow = [
+            'phone',
+            'phone_recipient',
+            'name',
+            'lastname',
+            'title',
+            'company',
+            'email',
+            'date',
+            'status',
+            'attr_str_1',
+            'attr_str_2',
+            'attr_str_3',
+            'attr_str_4',
+            'attr_str_5',
+            'attr_str_6',
+            'file_1',
+            'file_2',
+            'file_3',
+            'file_4',
+        ];
+
+        fputcsv($df, $firstRow);
+
+        $chunks = ceil(\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getCount($filter)/300);
+
+        $status = [
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In progress'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Rejected'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Read'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Scheduled'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending process'),
+        ];
+
+        for($i = 0; $i < $chunks; $i ++) {
+            $filterChunk = $filter;
+            $filterChunk['offset'] = $i * 300;
+            $filterChunk['limit'] = 300;
+
+            foreach (\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getList($filterChunk) as $item) {
+                $itemCSV = [];
+
+                $itemCSV[] = (string)$item->phone;
+                $itemCSV[] = (string)$item->phone_recipient;
+                $itemCSV[] = (string)$item->name;
+                $itemCSV[] = (string)$item->lastname;
+                $itemCSV[] = (string)$item->title;
+                $itemCSV[] = (string)$item->company;
+                $itemCSV[] = (string)$item->email;
+                $itemCSV[] = (string)$item->date;
+                $itemCSV[] = (string)$item->status;
+                $itemCSV[] = (string)$item->attr_str_1;
+                $itemCSV[] = (string)$item->attr_str_2;
+                $itemCSV[] = (string)$item->attr_str_3;
+                $itemCSV[] = (string)$item->attr_str_4;
+                $itemCSV[] = (string)$item->attr_str_5;
+                $itemCSV[] = (string)$item->attr_str_6;
+                $itemCSV[] = (string)$item->attr_str_1;
+                $itemCSV[] = (string)$item->file_1;
+                $itemCSV[] = (string)$item->file_2;
+                $itemCSV[] = (string)$item->file_3;
+                $itemCSV[] = (string)$item->file_4;
+               
+                fputcsv($df, $itemCSV);
+            }
+        }
+
+        fclose($df);
+    }
 
     public static function exportMessagesCSV($filter) {
         $now = gmdate("D, d M Y H:i:s");

@@ -26,7 +26,7 @@ $ViewList['mailinglist'] = array(
 
 $ViewList['mailingrecipient'] = array(
     'params' => array(),
-    'uparams' => array('ml','name','phone','user_ids','delivery_status'),
+    'uparams' => array('ml','name','phone','user_ids','delivery_status','export'),
     'functions' => array( 'use_admin' ),
     'multiple_arguments' => array('ml','user_ids')
 );

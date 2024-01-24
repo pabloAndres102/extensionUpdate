@@ -68,7 +68,7 @@
     <?php for ($i = 0; $i < $fieldsCount; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Body Text - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Campo de texto - {{<?php echo $i+1?>}}</label>
                 <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i+1?>" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
@@ -76,7 +76,7 @@
     <?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Header Text - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i+1?>}}</label>
                 <input type="text" list="fields_placeholders" class="form-control form-control-sm"  id="field_header_<?php echo $i+1?>" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
@@ -85,10 +85,10 @@
     <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Document URL - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Campo de documento - {{<?php echo $i+1?>}}</label>
                 &nbsp;&nbsp;<a data-selector="#field_header_doc_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success"href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a> 
                 <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" id="field_header_doc_<?php echo $i+1?>" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
-                <label class="font-weight-bold">Filename - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i+1?>}}</label>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i+1?>" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
@@ -96,7 +96,7 @@
     <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Campo de imagen URL - {{<?php echo $i+1?>}}</label>
                 &nbsp;&nbsp;<a data-selector="#field_header_img_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i+1?>" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
                 </div>
@@ -106,40 +106,31 @@
     <?php for ($i = 0; $i < $fieldCountHeaderVideo; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">Header video URL - {{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Campo de video URL - {{<?php echo $i+1?>}}</label>
                 &nbsp;&nbsp;<a data-selector="#field_header_video_<?php echo $i+1?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list','Upload a file');?></a>
                 <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" id="field_header_video_<?php echo $i+1?>" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
 
-    <!-- <datalist id="fields_placeholders">
-        <option value="{args.recipient.name_front}">Name</option>
-        <option value="{args.recipient.lastname_front}">Lastname</option>
-        <option value="{args.recipient.company_front}">Company</option>
-        <option value="{args.recipient.title_front}">Title</option>
-        <option value="{args.recipient.email_front}">E-Mail</option>
-        <option value="{args.recipient.file_1_url_front}">File 1</option>
-        <option value="{args.recipient.file_2_url_front}">File 2</option>
-        <option value="{args.recipient.file_3_url_front}">File 3</option>
-        <option value="{args.recipient.file_4_url_front}">File 4</option>
-        <option value="{args.recipient.attr_str_1_front}">String attribute 1</option>
-        <option value="{args.recipient.attr_str_2_front}">String attribute 2</option>
-        <option value="{args.recipient.attr_str_3_front}">String attribute 3</option>
-        <option value="{args.recipient.attr_str_4_front}">String attribute 4</option>
-        <option value="{args.recipient.attr_str_5_front}">String attribute 5</option>
-        <option value="{args.recipient.attr_str_6_front}">String attribute 6</option>
-    </datalist> -->
-    
     <datalist id="fields_placeholders">
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Email');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?></option>
-        <option><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 1');?></option>
+        <option value="{args.recipient.name_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></option>
+        <option value="{args.recipient.lastname_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?></option>
+        <option value="{args.recipient.company_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?></option>
+        <option value="{args.recipient.title_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?></option>
+        <option value="{args.recipient.email_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Email');?></option>
+        <option value="{args.recipient.file_1_url_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?></option>
+        <option value="{args.recipient.file_2_url_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 2');?></option>
+        <option value="{args.recipient.file_3_url_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 3');?></option>
+        <option value="{args.recipient.file_4_url_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 4');?></option>
+        <option value="{args.recipient.attr_str_1_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 1');?></option>
+        <option value="{args.recipient.attr_str_2_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 2');?></option>
+        <option value="{args.recipient.attr_str_3_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 3');?></option>
+        <option value="{args.recipient.attr_str_4_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 4');?></option>
+        <option value="{args.recipient.attr_str_5_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 5');?></option>
+        <option value="{args.recipient.attr_str_6_front}"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','String attribute 6');?></option>
     </datalist>
+    
 
 </div>
 
