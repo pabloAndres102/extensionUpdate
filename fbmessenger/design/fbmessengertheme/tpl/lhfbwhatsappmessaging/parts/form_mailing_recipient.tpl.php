@@ -137,8 +137,21 @@
         </div>
     </div>
 </div>
+<div class="form-group" style="max-height: 250px; overflow-y: auto;">
+    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This recipient is a member of these mailing lists');?></label>
+    <select class="form-control form-control-sm" name="ml[]" multiple="multiple">
+        <?php
+            $mailingLists = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::getList(array('sort' => '`name` ASC, `id` ASC', 'limit' => false));
+            foreach ($mailingLists as $list) {
+                $selected = in_array($list->id, $item->ml_ids_front) ? 'selected="selected"' : '';
+                echo '<option value="' . $list->id . '" ' . $selected . '>' . htmlspecialchars($list->name) . '</option>';
+            }
+        ?>
+    </select>
+</div>
 
-<div class="form-group">
+
+<!-- <div class="form-group">
     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This recipient is a member of these mailing lists');?></label>
     <div class="row" style="max-height: 500px; overflow: auto">
         <?php
@@ -156,7 +169,7 @@
             echo erLhcoreClassRenderHelper::renderCheckbox( $params );
         ?>
     </div>
-</div>
+</div> -->
 
 <hr>
 

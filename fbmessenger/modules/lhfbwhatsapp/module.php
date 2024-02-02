@@ -73,7 +73,7 @@ $ViewList['delete'] = array(
 );
 
 $ViewList['template_table'] = array(
-    'params' => array(),
+    'params' => array('template','texto','texto2','texto3','texto4','texto5'),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );

@@ -15,8 +15,24 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Start date cannot be in the past</source>
+    <translation>Seleccione un fecha posterior a la actual</translation>
+  </message>
+  <message>
     <source>Total messages</source>
     <translation>Mensajes totales</translation>
+  </message>
+  <message>
+    <source>Contact without list</source>
+    <translation>Contacto sin lista</translation>
+  </message>
+  <message>
+    <source>Please enter a contact list</source>
+    <translation>Por favor ingrese una lista de contacto</translation>
+  </message>
+  <message>
+    <source>Contact list</source>
+    <translation>Lista de contacto</translation>
   </message>
   <message>
   <source>Export</source>

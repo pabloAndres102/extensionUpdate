@@ -56,7 +56,7 @@
                         <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipient Phone'); ?>*</label>
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="basic-addon1">+</span>
-                            <input <?php if (isset($whatsapp_contact)) : ?>disabled="disabled" <?php endif; ?> type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((isset($phone_chat) ? $phone_chat : $send->phone)) ?>"  aria-label="Username" aria-describedby="basic-addon1">
+                            <input <?php if (isset($whatsapp_contact)) : ?>disabled="disabled" <?php endif; ?> type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((isset($phone_chat) ? $phone_chat : $send->phone)) ?>" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -127,6 +127,7 @@
                 </select>
             </div>
 
+            
 
             <script>
                 var messageFieldsValues = <?php echo json_encode($send->message_variables_array); ?>;
@@ -134,7 +135,7 @@
                     var businessAccountId = <?php echo (int)$business_account_id ?>;
                 <?php endif; ?>
             </script>
-            
+
             <div id="arguments-template-form"></div>
 
             <div class="form-group">
@@ -156,8 +157,42 @@
         </div>
     </div>
 
-    <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>
+    <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>&nbsp;&nbsp;
+    <button type="button" class="btn btn-warning btn-sm" onclick="return previewTemplate()">
+                <i class="material-icons">visibility</i> Preview
+            </button>
 </form>
+
+<script>
+    function previewTemplate() {
+        var selectedTemplate = document.getElementById("template-to-send").value;
+        var texto = document.getElementById("field_1") ? document.getElementById("field_1").value : '';
+        var texto2 = document.getElementById("field_2") ? document.getElementById("field_2").value : '';
+        var texto3 = document.getElementById("field_3") ? document.getElementById("field_3").value : '';
+        var texto4 = document.getElementById("field_4") ? document.getElementById("field_4").value : '';
+        var texto5 = document.getElementById("field_5") ? document.getElementById("field_5").value : '';
+        var texto_header = document.getElementById("field_header_1") ? document.getElementById("field_header_1").value : '';
+        var parts = selectedTemplate.split("||");
+        var selectedTemplateName = parts[0];
+        var url = '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/template_table') ?>/' + selectedTemplateName + '/' + texto + '/' + texto2 + '/' + texto3 + '/' + texto4 + '/' + texto5 + '?header='+texto_header;
+        console.log(url);
+
+        if (selectedTemplateName !== "") {
+            return lhc.revealModal({
+                'title': 'Import',
+                'height': 350,
+                'backdrop': true,
+                'url': url
+            });
+        } else {
+            alert("Por favor, selecciona una plantilla antes de previsualizar.");
+        }
+    }
+</script>
+
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Selecciona el elemento de entrada de fecha y hora

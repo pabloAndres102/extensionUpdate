@@ -1,3 +1,9 @@
+<!-- Incluye la hoja de estilos de Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Incluye la librería de Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <div class="row">
     <div class="col-6">
         <div class="row">
@@ -30,7 +36,8 @@
             <div class="col-9"  style="margin-top: 10px;">
                 <div class="form-group">
                     <label class="<?php ($item->starts_at > 0 && $item->starts_at < time()) ? print 'text-danger' : '' ?> "><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Start sending at'); ?> <b><?php print date_default_timezone_get() ?></b>, Current time - <b>[<?php echo (new DateTime('now', new DateTimeZone(date_default_timezone_get())))->format('Y-m-d H:i:s') ?>]</b></label>
-                    <input id="startDateTime" class="form-control form-control-sm" name="starts_at" type="datetime-local" value="<?php echo date('Y-m-d\TH:i', $item->starts_at > 0 ? $item->starts_at : time()) ?>">
+                    <input id="startDateTime" class="form-control form-control-sm" name="starts_at" type="text" value="<?php echo date('Y-m-d\TH:i', $item->starts_at > 0 ? $item->starts_at : time()) ?>">
+
                 </div>
                 <?php if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING) : ?>
                     <div class="badge bg-warning"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Pending, campaign has not started yet.'); ?></div>
@@ -128,29 +135,15 @@
     </div>
 </div>
 
+
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona el elemento de entrada de fecha y hora
-        var startDateTimeInput = document.getElementById('startDateTime');
-
-        // Agrega un evento de escucha cuando el valor del input cambia
-        startDateTimeInput.addEventListener('change', function() {
-            // Obtiene la fecha y hora actual en formato ISO8601
-            var currentDateTime = new Date();
-            currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
-
-            // Obtiene el valor del input
-            var selectedDateTime = new Date(startDateTimeInput.value);
-
-            // Compara la fecha y hora seleccionada con la fecha y hora actual más 5 minutos
-            if (selectedDateTime < currentDateTime) {
-                // Si la fecha y hora seleccionada es anterior a la actual más 5 minutos, muestra una alerta
-                alert('La fecha y hora seleccionada debe ser posterior a al menos 5 minutos a partir de ahora.');
-                // Calcula la fecha y hora mínima permitida
-                currentDateTime.setMinutes(currentDateTime.getMinutes() - 5); // Resta 5 minutos
-                // Actualiza el valor del input al mínimo permitido
-                startDateTimeInput.value = currentDateTime.toISOString().slice(0, 16);
-            }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicializa Flatpickr en el input de fecha y hora
+        flatpickr('#startDateTime', {
+            enableTime: true, // Permite la selección de la hora
+            dateFormat: 'Y-m-d H:i', // Formato de fecha y hora
+            time_24hr: true, // Utiliza el formato de 24 horas
         });
     });
 </script>

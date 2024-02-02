@@ -471,7 +471,11 @@ class FBMessengerWhatsAppMailingValidator {
         }
 
         if ($form->hasValidData( 'starts_at' )) {
-            $item->starts_at = \strtotime($form->starts_at);
+            $starts_at_timestamp = \strtotime($form->starts_at);
+            if ($starts_at_timestamp < time()) {
+                $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Start date cannot be in the past');
+            }
+            $item->starts_at = $starts_at_timestamp;
         } else {
             $item->starts_at = 0;
         }
@@ -885,7 +889,7 @@ class FBMessengerWhatsAppMailingValidator {
         if ($form->hasValidData( 'ml' ) && !empty($form->ml)) {
             $item->ml_ids = $item->ml_ids_front = $form->ml;
         } else {
-            $item->ml_ids = [];
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a contact list');
         }
 
         if ($form->hasValidData( 'disabled' ) && $form->disabled == true) {
