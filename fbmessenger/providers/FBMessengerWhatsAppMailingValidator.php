@@ -472,10 +472,23 @@ class FBMessengerWhatsAppMailingValidator {
 
         if ($form->hasValidData( 'starts_at' )) {
             $starts_at_timestamp = \strtotime($form->starts_at);
-            if ($starts_at_timestamp < time()) {
-                $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Start date cannot be in the past');
+            $dayOfWeek = date('N', $starts_at_timestamp);
+            $hourOfDay = date('H', $starts_at_timestamp);
+            $currentTime = time();
+        
+            // Check if it's a valid time and day
+            if (($dayOfWeek >= 1 && $dayOfWeek <= 5 && $hourOfDay >= 7 && $hourOfDay < 19) ||
+                ($dayOfWeek == 6 && $hourOfDay >= 8 && $hourOfDay < 15)) {
+                
+                // Check if it's not a past date
+                if ($starts_at_timestamp >= $currentTime) {
+                    $item->starts_at = $starts_at_timestamp;
+                } else {
+                    $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Start date cannot be in the past');
+                }
+            } else {
+                $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Start date must be from Monday to Friday from 7:00 to 19:00 and Saturday from 8:00 to 15:00.');
             }
-            $item->starts_at = $starts_at_timestamp;
         } else {
             $item->starts_at = 0;
         }

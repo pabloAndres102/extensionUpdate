@@ -37,7 +37,7 @@
                     foreach ($listas as $lista) {
                         foreach ($relaciones as $relacion) {
                             if ($relacion->contact_list_id == $lista->id) {
-                                echo $lista->name;
+                                echo $lista->name.'<br>';
                             };
                         }
                     }
