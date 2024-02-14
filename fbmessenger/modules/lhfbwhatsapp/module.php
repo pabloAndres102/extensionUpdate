@@ -118,6 +118,11 @@ $ViewList['rendersend'] = array(
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
+$ViewList['rendersend2'] = array(
+    'params' => array('template', 'business_account_id'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
 
 $ViewList['rendertemplates'] = array(
     'params' => array('business_account_id'),

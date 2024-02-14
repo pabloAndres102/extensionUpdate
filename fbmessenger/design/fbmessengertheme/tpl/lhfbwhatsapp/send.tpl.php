@@ -127,7 +127,7 @@
                 </select>
             </div>
 
-            
+            <br>
 
             <script>
                 var messageFieldsValues = <?php echo json_encode($send->message_variables_array); ?>;
