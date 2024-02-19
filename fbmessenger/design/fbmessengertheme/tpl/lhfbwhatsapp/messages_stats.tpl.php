@@ -1,29 +1,32 @@
 <table cellpadding="0" cellspacing="0" class="table table-sm" width="100%" ng-non-bindable>
-        <thead>
-            <tr>
-                <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'ID'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Business Account'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaign'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Type'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Department'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Iniciación'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'User'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Phone'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send status'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Scheduled at'); ?></th>
-                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Chat ID'); ?></th>
-                <th width="1%"></th>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+            <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'ID'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Business Account'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaign'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Type'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Department'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Date'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Iniciación'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'User'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Phone'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send status'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Scheduled at'); ?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Chat ID'); ?></th>
+            <th width="1%"></th>
         </tr>
     </thead>
+    </tr>
+    </thead>
     <tbody>
-    <?php foreach ($messages  as $message) : ?>
+        <?php foreach ($messages  as $message) : ?>
             <tr>
-                <td><?php print_r($message->id)?></td>
-                <td><?php print_r($message->phone)?></td>
+                <td>
+                    <?php echo htmlspecialchars($message->id) ?>
+                    <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/rawjson/<?php echo $message->id ?>'})">info_outline</a>
+                </td>
+                <td><?php print_r($message->phone) ?></td>
                 <td>
                     <?php if ($item->campaign_id > 0) : ?>
                         <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient') ?>/(campaign)/<?php echo htmlspecialchars($message->campaign_id) ?>"><?php echo htmlspecialchars((string)$message->campaign) ?></a>
@@ -40,7 +43,7 @@
                     <?php endif; ?>
                 </td>
                 <td><?php print_r($message->department->name) ?></td>
-                <td><?php print_r($message->created_at)?></td>
+                <td><?php print_r($message->created_at) ?></td>
                 <td>
                     <?php echo htmlspecialchars((string)$message->template) ?>
                     <?php echo htmlspecialchars($message->id) ?> <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/messageview/<?php echo $message->id ?>'})">info_outline</a>
@@ -122,9 +125,9 @@
                         <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete message'); ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deletemessage') ?>/<?php echo htmlspecialchars($message->id) ?>">delete</a>
                     <?php endif; ?>
                 </td>
-                
+
                 <!-- Agrega más celdas según tus necesidades -->
             </tr>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
     </tbody>
 </table>

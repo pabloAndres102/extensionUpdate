@@ -15,6 +15,10 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Send whatsapp template</source>
+    <translation>Enviar plantilla whatsapp</translation>
+  </message>
+  <message>
     <source>Start date must be from Monday to Friday from 7:00 to 19:00 and Saturday from 8:00 to 15:00.</source>
     <translation>La fecha de inicio debe ser de lunes a viernes de 7:00 a 19:00 y los sábados de 8:00 a 15:00.</translation>
   </message>

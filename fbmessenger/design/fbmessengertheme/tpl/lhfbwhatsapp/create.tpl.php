@@ -106,6 +106,13 @@
                 </select>
             </div>
 
+            <div class="form-check form-switch hidden-content">
+                <label for="buttonCatalog">
+                    <input class="form-check-input" type="checkbox" id="buttonCatalog" name="buttonCatalog"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Catalog'); ?> </strong>
+                </label>
+            </div>
+            <br><br>
+
             <div class="mb-3 hidden-content">
                 <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong></label>
                 <select class="form-select" id="header" name="header" aria-label="Default select example">
@@ -161,6 +168,9 @@
                     <input type="text" id="variableCuerpoInput5" name="variableCuerpo5" class="form-control" />
                 </div>
             </div>
+
+           
+
             <div class="mb-3 hidden-content">
                 <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Footer'); ?></strong></label>
                 <input type="text" class="form-control" id="footer" name="footer" maxlength="60">
@@ -183,7 +193,6 @@
                 <label for="input3"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button'); ?> 3 (<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Optional'); ?>)</strong></label>
                 <input class="form-control" type="text" id="button3" name="button3" maxlength="25">
             </div>
-
 
             <div class="form-check form-switch hidden-content">
                 <label for="mostrarInputscallback">
@@ -457,7 +466,7 @@
                 <input class="form-control" type="url" id="buttonWebUrl" name="buttonWebUrl" maxlength="2000" placeholder="https://www.google.com/">
             </div>
 
-            <div class="form-check form-switch hidden-content">
+            <!-- <div class="form-check form-switch hidden-content">
                 <label for="mostrarInputsflow">
                     <input class="form-check-input" type="checkbox" id="mostrarInputsflow"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Add button (Flow)'); ?> </strong>
                 </label>
@@ -476,7 +485,7 @@
                 <label for="navigate_screen">Navigate screen</label>
                 <input type="text" class="form-control" name="navigate_screen" id="navigate_screen" placeholder="The identifier of the first page of your form">
                 <br><br>
-            </div>
+            </div> -->
 
 
             <div class="authentication-div">
@@ -510,51 +519,58 @@
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mostrarInputsCheckbox = document.getElementById('mostrarInputs');
-    const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
-    const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
-    const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
+        document.addEventListener('DOMContentLoaded', function() {
+            const mostrarInputsCheckbox = document.getElementById('mostrarInputs');
+            const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
+            const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
+            const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
 
-    mostrarInputsCheckbox.addEventListener('change', function() {
-        if (mostrarInputsCheckbox.checked) {
-            mostrarInputsflowCheckbox.style.display = 'none';
-            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'none';
-            inputsFlowButtonsDiv.style.display = 'none';
-        } else {
-            mostrarInputsflowCheckbox.style.display = 'block';
-            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'block';
-        }
-    });
+            const catalog = document.getElementById('buttonCatalog');
 
-    mostrarInputscallbackCheckbox.addEventListener('change', function() {
-        if (mostrarInputscallbackCheckbox.checked) {
-            mostrarInputsflowCheckbox.style.display = 'none';
-            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'none';
-            inputsFlowButtonsDiv.style.display = 'none';
-        } else {
-            mostrarInputsflowCheckbox.style.display = 'block';
-            document.querySelector('label[for="mostrarInputsflow"]').style.display = 'block';
-        }
-    });
+            catalog.addEventListener('change', function() {
+                if (catalog.checked) {
+                    mostrarInputscallbackCheckbox.style.display = 'none';
+                    mostrarInputsCheckbox.style.display = 'none';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
+                } else {
+                    mostrarInputsCheckbox.style.display = 'block';
+                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
+                }
+            });
 
-    mostrarInputsflowCheckbox.addEventListener('change', function() {
-        if (mostrarInputsflowCheckbox.checked) {
-            inputsFlowButtonsDiv.style.display = 'block';
-            mostrarInputsCheckbox.style.display = 'none';
-            mostrarInputscallbackCheckbox.style.display = 'none';
-            document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
-            document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
-        } else {
-            inputsFlowButtonsDiv.style.display = 'none';
-            mostrarInputsCheckbox.style.display = 'block';
-            mostrarInputscallbackCheckbox.style.display = 'block';
-            document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
-            document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
-        }
-    });
-});
-</script>
+            
+
+            mostrarInputscallbackCheckbox.addEventListener('change', function() {
+                if (mostrarInputscallbackCheckbox.checked) {
+                    mostrarInputsflowCheckbox.style.display = 'none';
+                    document.querySelector('label[for="mostrarInputsflow"]').style.display = 'none';
+                    inputsFlowButtonsDiv.style.display = 'none';
+                } else {
+                    mostrarInputsflowCheckbox.style.display = 'block';
+                    document.querySelector('label[for="mostrarInputsflow"]').style.display = 'block';
+                }
+            });
+
+            mostrarInputsflowCheckbox.addEventListener('change', function() {
+                if (mostrarInputsflowCheckbox.checked) {
+                    inputsFlowButtonsDiv.style.display = 'block';
+                    mostrarInputsCheckbox.style.display = 'none';
+                    mostrarInputscallbackCheckbox.style.display = 'none';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
+                } else {
+                    inputsFlowButtonsDiv.style.display = 'none';
+                    mostrarInputsCheckbox.style.display = 'block';
+                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
+                }
+            });
+        });
+    </script>
 
 
     <script>

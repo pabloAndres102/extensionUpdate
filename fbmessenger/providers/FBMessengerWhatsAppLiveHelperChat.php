@@ -199,6 +199,13 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                 ]
                             ];
                         }
+                         if ($button['type'] == 'CATALOG') {
+                            $bodyArguments[] = [
+                                "type" => "button",
+                                "sub_type" => "CATALOG",
+                                "index" => (int)$indexButton,
+                            ];
+                        }
                     }
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
                     $parametersHeader[] = [

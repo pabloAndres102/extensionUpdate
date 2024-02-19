@@ -3,15 +3,18 @@
 */ ?>
 <style>
     .btn-beige {
-    background-color: beige;
-    color: #212529; /* Ajusta el color del texto según tu diseño */
-    border-color: beige;
-}
+        background-color: beige;
+        color: #212529;
+        /* Ajusta el color del texto según tu diseño */
+        border-color: beige;
+    }
 
-.btn-beige:hover {
-    background-color: #e6d9b8; /* Color de hover */
-    border-color: #e6d9b8; /* Color del borde al hacer hover */
-}
+    .btn-beige:hover {
+        background-color: #e6d9b8;
+        /* Color de hover */
+        border-color: #e6d9b8;
+        /* Color del borde al hacer hover */
+    }
 </style>
 
 <h6><?php echo htmlspecialchars($template['name']) ?> <span class="badge badge-secondary"><?php echo htmlspecialchars($template['category']) ?></span></h6>
@@ -83,12 +86,80 @@ $fieldCountHeaderVideo = 0; ?>
 <!--=========||=========-->
 <div class="row">
     <div class="row">
-    <?php for ($i = 0; $i < $fieldsCount; $i++) : ?>
-        <div class="col-6 mb-3" ng-non-bindable>
-            <div class="input-group">             
-            <input placeholder="<?php echo 'Campo de texto - {{' . ($i + 1) . '}}' ?>" type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i+1?>" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  ($i + 1)])) { echo htmlspecialchars($data['field_' .  ($i + 1)]); } ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-sm btn-beige" type="button" onclick="showSelect(<?php echo $i+1?>)">Mostrar opciones</button>
+        <?php for ($i = 0; $i < $fieldsCount; $i++) : ?>
+            <div class="col-6 mb-3" ng-non-bindable>
+                <div class="input-group">
+                    <input placeholder="<?php echo 'Campo de texto - {{' . ($i + 1) . '}}' ?>" type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i + 1 ?>" name="field_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_' .  ($i + 1)])) {
+                                                                                                                                                                                                                                                        echo htmlspecialchars($data['field_' .  ($i + 1)]);
+                                                                                                                                                                                                                                                    } ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelect(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                    </div>
+                    <select id="select_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
+                        <?php for ($j = 1; $j <= 15; $j++) : ?>
+                            <option value="<?php echo $j ?>">Opción <?php echo $j ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+            </div>
+        <?php endfor; ?>
+    </div>
+    <?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i + 1 ?>}}</label>
+                <div class="input-group">
+                    <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_header_<?php echo $i + 1 ?>" name="field_header_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1]) ?><?php endif; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelectHeader(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                    </div>
+                    <select id="select_header_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
+                        <?php for ($j = 1; $j <= 15; $j++) : ?>
+                            <option value="<?php echo $j ?>">Opción <?php echo $j ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    <?php endfor; ?>
+
+    <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Campo de documento - {{<?php echo $i + 1 ?>}}</label>
+                <div class="input-group">
+                    <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" id="field_header_doc_<?php echo $i + 1 ?>" name="field_header_doc_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1]) ?><?php endif; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelect(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                        <a data-selector="#field_header_doc_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                            <span class="material-icons">upload</span>
+                            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
+                        </a>
+                    </div>
+                </div>
+                <select id="select_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
+                    <?php for ($j = 1; $j <= 15; $j++) : ?>
+                        <option value="<?php echo $j ?>">Opción <?php echo $j ?></option>
+                    <?php endfor; ?>
+                </select>
+                <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
+            </div>
+        </div>
+    <?php endfor; ?>
+    <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Campo de imagen URL - <?php echo $i + 1 ?></label>
+                <div class="input-group"> <!-- Añadimos una clase input-group -->
+                    <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i + 1 ?>" name="field_header_img_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1]) ?><?php endif; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelect(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                        <a data-selector="#field_header_img_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                            <span class="material-icons">upload</span>
+                            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
+                        </a>
+                    </div>
                 </div>
                 <select id="select_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
                     <?php for ($j = 1; $j <= 15; $j++) : ?>
@@ -98,15 +169,21 @@ $fieldCountHeaderVideo = 0; ?>
             </div>
         </div>
     <?php endfor; ?>
-</div>
-<?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
-    <div class="col-6" ng-non-bindable>
-        <div class="form-group">
-            <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i + 1 ?>}}</label>
-            <div class="input-group">             
-                <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_header_<?php echo $i + 1 ?>" name="field_header_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1]) ?><?php endif; ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-sm btn-beige" type="button" onclick="showSelectHeader(<?php echo $i+1?>)">Mostrar opciones</button>
+
+
+    <?php for ($i = 0; $i < $fieldCountHeaderVideo; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Campo de video URL - <?php echo $i + 1 ?></label>
+                <div class="input-group"> <!-- Añadimos una clase input-group -->
+                    <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp3" id="field_header_video_<?php echo $i + 1 ?>" name="field_header_video_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1]) ?><?php endif; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelectHeader(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                        <a data-selector="#field_header_video_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                            <span class="material-icons">upload</span>
+                            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
+                        </a>
+                    </div>
                 </div>
                 <select id="select_header_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
                     <?php for ($j = 1; $j <= 15; $j++) : ?>
@@ -115,39 +192,8 @@ $fieldCountHeaderVideo = 0; ?>
                 </select>
             </div>
         </div>
-    </div>
-<?php endfor; ?>
-
-    <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
-        <div class="col-6" ng-non-bindable>
-            <div class="form-group">
-                <label class="font-weight-bold">Campo de documento - {{<?php echo $i + 1 ?>}}</label>
-                <!-- &nbsp;&nbsp;<a data-selector="#field_header_doc_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?></a> -->
-                <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" id="field_header_doc_<?php echo $i + 1 ?>" name="field_header_doc_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1]) ?><?php endif; ?>">
-                <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
-            </div>
-        </div>
-    <?php endfor; ?>
-    <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
-        <div class="col-6" ng-non-bindable>
-            <div class="form-group">
-                <label class="font-weight-bold">Campo de imagen URL - {{<?php echo $i + 1 ?>}}</label>
-                <!-- &nbsp;&nbsp;<a data-selector="#field_header_img_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?></a> -->
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i + 1 ?>" name="field_header_img_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1]) ?><?php endif; ?>">
-            </div>
-        </div>
     <?php endfor; ?>
 
-    <?php for ($i = 0; $i < $fieldCountHeaderVideo; $i++) : ?>
-        <div class="col-6" ng-non-bindable>
-            <div class="form-group">
-                <label class="font-weight-bold">Campo de video URL - {{<?php echo $i + 1 ?>}}</label>
-                <!-- &nbsp;&nbsp;<a data-selector="#field_header_video_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#" class="btn btn-secondary btn-sm"><span class="material-icons">upload</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?></a> -->
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" id="field_header_video_<?php echo $i + 1 ?>" name="field_header_video_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1]) ?><?php endif; ?>">
-            </div>
-        </div>
-    <?php endfor; ?>
 
 
 </div>
@@ -204,6 +250,14 @@ $fieldCountHeaderVideo = 0; ?>
             select.addEventListener('change', function() {
                 var selectedOption = select.options[select.selectedIndex].value;
                 var inputFieldId = 'field_header_' + fieldId;
+                var inputField = document.getElementById(inputFieldId);
+                if (inputField) {
+                    inputField.value = selectedOption;
+                }
+            });
+            select.addEventListener('change', function() {
+                var selectedOption = select.options[select.selectedIndex].value;
+                var inputFieldId = 'field_header_video_' + fieldId; // FIX WITH THIS VARIABLE
                 var inputField = document.getElementById(inputFieldId);
                 if (inputField) {
                     inputField.value = selectedOption;
@@ -270,6 +324,23 @@ $fieldCountHeaderVideo = 0; ?>
                     inputField.value = selectedOption;
                 }
             });
+            select.addEventListener('change', function() {
+                var selectedOption = select.options[select.selectedIndex].value;
+                var inputFieldId = 'field_header_doc_' + fieldId; // FIX WITH THIS VARIABLE
+                var inputField = document.getElementById(inputFieldId);
+                if (inputField) {
+                    inputField.value = selectedOption;
+                }
+            });
+            select.addEventListener('change', function() {
+                var selectedOption = select.options[select.selectedIndex].value;
+                var inputFieldId = 'field_header_img_' + fieldId; // FIX WITH THIS VARIABLE
+                var inputField = document.getElementById(inputFieldId);
+                if (inputField) {
+                    inputField.value = selectedOption;
+                }
+            });
+           
         }
     }
 </script>

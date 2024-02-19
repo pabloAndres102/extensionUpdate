@@ -44,10 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $buttonCallbackText = $_POST['buttonCallbackText'];
   $buttonCallbackPhone = $_POST['buttonCallbackPhone'];
 
-  $flow_text = $_POST['flow_text'];
+  $flow_text = $_POST['flow_text']; 
   $flow_id = $_POST['flow_id'];
   $flow_action = $_POST['flow_action'];
   $navigate_screen = $_POST['navigate_screen'];
+
+  $buttonCatalog = $_POST['buttonCatalog'];
+  if($buttonCatalog == 1 || $buttonCatalog == true){
+    
+  }
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
@@ -145,6 +150,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $button[] =  [
       "type" => "QUICK_REPLY",
       "text" => $button3
+    ];
+  };
+
+
+  if (!empty($buttonCatalog)) {
+    $button[] =  [
+      "type" => "CATALOG",
+      "text" => "View catalog"
     ];
   };
 
