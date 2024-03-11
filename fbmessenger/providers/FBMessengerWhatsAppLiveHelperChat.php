@@ -158,6 +158,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = [])
         {
 
+
+
             $argumentsTemplate = [];
 
             $templatePresent = null;
@@ -199,15 +201,70 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                 ]
                             ];
                         }
-                         if ($button['type'] == 'CATALOG') {
+                        if ($button['type'] == 'CATALOG') {
                             $bodyArguments[] = [
                                 "type" => "button",
                                 "sub_type" => "CATALOG",
                                 "index" => (int)$indexButton,
                             ];
                         }
+                        if ($button['type'] == 'MPM') {
+
+                            $array_id = [];
+
+                            foreach ($item->message_variables_array as $retailer_ids) {
+                                foreach ($retailer_ids as $retailer_id) {
+                                    $array_id[] = ['product_retailer_id' => $retailer_id];
+                                }
+                            }
+                            $parameters = [
+                                [
+                                    "type" => "action",
+                                    "action" => [
+                                        "sections" => [
+                                            [
+                                                "title" => "Productos",
+                                                "product_items" => $array_id
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ];
+                            $bodyArguments[] = [
+                                "type" => "button",
+                                "sub_type" => "mpm",
+                                "index" => (int)$indexButton,
+                                "parameters" => $parameters
+                            ];
+
+                        }
                     }
-                } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
+                }
+
+                // if ($component['type'] == 'LIMITED_TIME_OFFER') {
+                //     $parameters = [
+                //         [
+                //             "type" => "coupon_code",
+                //             "coupon_code" => "CARIBE25"
+                //         ]
+                //     ];
+
+                //     $parametersOffer = ["type" => "limited_time_offer",
+                //                         "limited_time_offer" => ["expiration_time_ms" => 1209600000]];
+
+                //     $bodyArguments[] = ["type" => $component['type'],
+                //                         "parameters" => [$parametersOffer]];
+
+                //     $bodyArguments[] = [
+                //         "type" => "button",
+                //         "sub_type" => "copy_code",
+                //         "index" => (int)$indexButton,
+                //         "parameters" => $parameters
+                //     ];
+                // }
+                
+                
+                elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
                     $parametersHeader[] = [
                         "type" => "video",
                         "video" => [
@@ -234,6 +291,9 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     ];
                 }
             }
+
+
+            
 
             $item->message = $bodyText;
 
@@ -266,7 +326,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             $requestParams = [
                 'baseurl' => $this->endpoint,
-                'method' => "v15.0/{$item->phone_sender_id}/messages",
+                'method' => "v18.0/{$item->phone_sender_id}/messages",
                 'bearer' => $this->access_key,
                 'body_json' => json_encode([
                     'messaging_product' => 'whatsapp',
@@ -282,13 +342,14 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     ],
                 ])
             ];
-
+            print_r($bodyArguments);
             $response = null;
 
             try {
 
                 $response = $this->getRestAPI($requestParams);
-
+                // print_r('<br>');
+                // print_r($response);
                 // Responder
                 if (isset($response['messages'][0]['id'])) {
                     $item->fb_msg_id = $response['messages'][0]['id'];

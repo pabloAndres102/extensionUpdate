@@ -4,11 +4,7 @@ $Module = array( "name" => "FB WhatsApp module" );
 
 $ViewList = array();
 
-$ViewList['modalsendtest'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
+
 
 
 $ViewList['updateflow'] = array(
@@ -69,7 +65,7 @@ $ViewList['deleteflow'] = array(
 $ViewList['delete'] = array(
     'params' => array(),
     'uparams' => array(),
-    'functions' => array('use_admin'),
+    'functions' => array('use_admin','delete_templates'),
 );
 
 $ViewList['template_table'] = array(
@@ -180,3 +176,4 @@ $FunctionList['manage_accounts'] = array('explain' => 'Manage business accounts'
 $FunctionList['all_send_messages'] = array('explain' => 'Operator can see all send messages, otherwise only his own and public');
 $FunctionList['delete_messages'] = array('explain' => 'Allow operator to delete sent messages, only his own');
 $FunctionList['delete_all_messages'] = array('explain' => 'Allow operator to delete all sent messages, not only his own');
+$FunctionList['delete_templates'] = array('explain' => 'Allow operator to delete templates');

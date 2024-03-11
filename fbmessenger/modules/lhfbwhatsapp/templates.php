@@ -24,6 +24,14 @@ try {
     $tpl->set('error', $e->getMessage());
     $templates = [];
 }
+
+if ($currentUser->hasAccessTo('lhfbwhatsapp', 'delete_templates')) {
+    $tpl->set('delete_template',true);
+}else{
+    $tpl->set('delete_template',false); 
+}
+
+
 $pages = new lhPaginator();
 $pages->items_total = $templateCount;
 $itemsPerPage = 7; 

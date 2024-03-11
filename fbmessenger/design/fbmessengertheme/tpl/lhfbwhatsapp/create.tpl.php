@@ -111,7 +111,12 @@
                     <input class="form-check-input" type="checkbox" id="buttonCatalog" name="buttonCatalog"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Catalog'); ?> </strong>
                 </label>
             </div>
-            <br><br>
+            <br>
+            <div class="form-check form-switch hidden-content">
+                <label for="buttonMPM">
+                    <input class="form-check-input" type="checkbox" id="buttonMPM" name="buttonMPM"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Multi product'); ?> </strong>
+                </label>
+            </div>
 
             <div class="mb-3 hidden-content">
                 <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong></label>
@@ -524,23 +529,45 @@
             const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
             const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
             const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
+            
 
             const catalog = document.getElementById('buttonCatalog');
+            const buttonMPM = document.getElementById('buttonMPM');
 
             catalog.addEventListener('change', function() {
-                if (catalog.checked) {
+                if (catalog.checked ) {
+                    buttonMPM.style.display = 'none';
                     mostrarInputscallbackCheckbox.style.display = 'none';
-                    mostrarInputsCheckbox.style.display = 'none';
+                    mostrarInputsCheckbox.style.display = 'none';       
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'none';  
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
-                } else {
+                } else {     
+                    buttonMPM.style.display = 'block';              
                     mostrarInputsCheckbox.style.display = 'block';
-                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    mostrarInputscallbackCheckbox.style.display = 'block';     
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'block';               
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
                 }
             });
-
+            buttonMPM.addEventListener('change', function() {
+                if (buttonMPM.checked ) {
+                    catalog.style.display = 'none';
+                    mostrarInputscallbackCheckbox.style.display = 'none';
+                    mostrarInputsCheckbox.style.display = 'none';
+                    document.querySelector('label[for="buttonCatalog"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
+                } else {
+                    catalog.style.display = 'block';
+                    mostrarInputsCheckbox.style.display = 'block';
+                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="buttonCatalog"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
+                }
+            });
             
 
             mostrarInputscallbackCheckbox.addEventListener('change', function() {

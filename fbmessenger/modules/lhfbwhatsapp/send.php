@@ -171,6 +171,9 @@ if (ezcInputForm::hasPostData()) {
     if ($form->hasValidData('campaign_name')) {
         $item->campaign_name = $form->campaign_name;
     }
+    if ($form->hasValidData('products')) {
+        $item->products = $form->products;
+    }
 
     if ($form->hasValidData('dep_id')) {
         $item->dep_id = $form->dep_id;
@@ -239,6 +242,11 @@ if (ezcInputForm::hasPostData()) {
         $item->language = $template[1];
     } else {
         $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Please choose a template!');
+    }
+
+
+    if(isset($_POST['products'])){
+        $item->message_variables_array[] = $_POST['products'];
     }
 
     if (count($Errors) == 0) {

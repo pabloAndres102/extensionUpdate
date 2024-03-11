@@ -37,7 +37,7 @@
                     foreach ($listas as $lista) {
                         foreach ($relaciones as $relacion) {
                             if ($relacion->contact_list_id == $lista->id) {
-                                echo $lista->name.'<br>';
+                                echo $lista->name . '<br>';
                             };
                         }
                     }
@@ -66,7 +66,7 @@
                     ?>
                 </td>
                 <td>
-                    <?php if($item->disabled == 1): ?>
+                    <?php if ($item->disabled == 1) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Disabled');  ?>
                     <?php else : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Enabled');  ?>

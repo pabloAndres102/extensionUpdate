@@ -7,7 +7,8 @@
     <style>
         /* Agrega un estilo para la clase 'components-column' */
         .components-column {
-            max-width: 300px; /* Puedes ajustar el valor según tus necesidades */
+            max-width: 300px;
+            /* Puedes ajustar el valor según tus necesidades */
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -161,7 +162,7 @@
                             <div class="rounded bg-light p-2" title="<?php echo htmlspecialchars(json_encode($template, JSON_PRETTY_PRINT)) ?>">
                                 <?php foreach ($template['components'] as $component) : ?>
                                     <?php if ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE' && isset($component['example']['header_url'][0])) : ?>
-                                        <img src="<?php echo htmlspecialchars($component['example']['header_url'][0]) ?>" />
+                                        <img src="<?php echo htmlspecialchars($component['example']['header_url'][0]) ?>" width="100px" />
                                     <?php endif; ?>
                                     <?php if ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT' && isset($component['example']['header_url'][0])) : ?>
                                         <div>
@@ -195,7 +196,7 @@
                                         <?php elseif ($component['format'] == 'IMAGE') : $fieldCountHeaderImage = 1; ?>
                                             <h5 class="text-secondary">IMAGE</h5>
                                             <?php if (isset($component['example']['header_handle'][0])) : ?>
-                                                <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>" />
+                                                <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>" width="100px" />
                                             <?php endif; ?>
                                         <?php else : ?>
                                             <?php
@@ -219,20 +220,16 @@
                             </div>
                         </td>
                         <td>
-                            <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
-                                <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
-                                <button type="submit" class="btn btn-danger"><span class="material-icons">delete</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
-                            </form>
+                            <?php if ($delete_template == true) : ?>
+                                <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
+                                    <input type="hidden" name="template_name" value="<?php echo htmlspecialchars_decode($template['name']); ?>">
+                                    <button type="submit" class="btn btn-danger"><span class="material-icons">delete</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
+                                </form>
+                            <?php endif ?>
                             <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/metric_templates') ?>">
                                 <input type="hidden" name="template_id" value="<?php echo htmlspecialchars_decode($template['id']); ?>">
                                 <button type="submit" class="btn btn-dark"><span class="material-icons">equalizer</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Metrics'); ?></button>
                             </form>
-                            <!-- <td>
-                        <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/template_table') ?>">
-                                <input type="hidden" name="gg" value="<?php echo htmlspecialchars(json_encode($template)); ?>">
-                                <button type="submit" class="btn btn-dark"><span class="material-icons">visibility</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'View'); ?></button>
-                            </form>
-                        </td> -->
                         </td>
                     </tr>
                 <?php endif; ?>

@@ -50,9 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $navigate_screen = $_POST['navigate_screen'];
 
   $buttonCatalog = $_POST['buttonCatalog'];
-  if($buttonCatalog == 1 || $buttonCatalog == true){
-    
-  }
+  $buttonMPM = $_POST['buttonMPM'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
@@ -158,6 +156,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $button[] =  [
       "type" => "CATALOG",
       "text" => "View catalog"
+    ];
+  };
+
+  if (!empty($buttonMPM)) {
+    $button[] =  [
+      "type" => "MPM",
+      "text" => "View items"
     ];
   };
 

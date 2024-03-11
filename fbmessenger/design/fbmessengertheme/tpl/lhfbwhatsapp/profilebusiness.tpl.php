@@ -98,7 +98,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'About'); ?></span>
                             </div>
-                            <textarea class="form-control" name="about" aria-label="With textarea"><?php echo (isset($config['data'][0]['about'])) ? htmlspecialchars($config['data'][0]['about']) : ''; ?></textarea>
+                            <textarea class="form-control" name="about" aria-label="With textarea" required><?php echo (isset($config['data'][0]['about'])) ? htmlspecialchars($config['data'][0]['about']) : ''; ?></textarea>
 
                         </div>
                         <br>
@@ -126,7 +126,7 @@
 
                         <div class="input-group mb-3">
                             <label for="image"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile image'); ?>
-                                <input type="file" name="image" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                <input type="file" name="image" class="form-control" id="basic-url" aria-describedby="basic-addon3" required>
                                 <span><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Update business profile'); ?>Asegúrese de haber ingresado el identificador de la app para actualizar la imagen del perfil de WhatsApp.
                                         haga click <a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Aqui'); ?></a> para ingresarlo
                                     </small></span>

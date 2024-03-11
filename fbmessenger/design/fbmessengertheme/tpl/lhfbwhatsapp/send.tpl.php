@@ -156,6 +156,7 @@
             <div id="arguments-template"></div>
         </div>
     </div>
+    
 
     <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>&nbsp;&nbsp;
     <button type="button" class="btn btn-warning btn-sm" onclick="return previewTemplate()">

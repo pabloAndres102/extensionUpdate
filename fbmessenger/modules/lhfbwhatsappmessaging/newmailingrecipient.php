@@ -4,9 +4,6 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newmailingrecip
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact();
 
-print_r('<br>');
-print_r('<br>');
-print_r('<br>');
 if (is_array($Params['user_parameters_unordered']['ml'])) {
     $item->ml_ids_front = $Params['user_parameters_unordered']['ml'];
 }

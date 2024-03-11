@@ -2,6 +2,29 @@
 <pre><?php print_r($template);?></pre>
 */ ?>
 <style>
+    .form-control {
+        /* Estilos para los inputs */
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+    }
+
+    .btn-add {
+        /* Estilos para el botón de agregar */
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-add:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
     .btn-beige {
         background-color: beige;
         color: #212529;
@@ -78,6 +101,27 @@ $fieldCountHeaderVideo = 0; ?>
         <?php if ($component['type'] == 'BUTTONS') : ?>
             <?php foreach ($component['buttons'] as $button) : ?>
                 <div class="pb-2"><button class="btn btn-sm btn-secondary"><?php echo htmlspecialchars($button['text']) ?> | <?php echo htmlspecialchars($button['type']) ?></button></div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php
+    foreach ($template['components'] as $component) :
+        if ($component['type'] === 'CAROUSEL' && isset($component['cards']) && is_array($component['cards'])) : ?>
+            <h5><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Carousel'); ?></h5>
+            <?php foreach ($component['cards'] as $card) : ?>
+                <?php foreach ($card['components'] as $cardComponent) : ?>
+                    <?php if ($cardComponent['type'] == 'BODY') : ?>
+                        <p><?php echo htmlspecialchars($cardComponent['text']) ?></p>
+                    <?php endif; ?>
+                    <?php if ($cardComponent['type'] == 'BUTTONS') : ?>
+                        <?php foreach ($cardComponent['buttons'] as $button) : ?>
+                            <div class="pb-2"><button class="btn btn-sm btn-secondary"><?php echo htmlspecialchars($button['text']) ?> | <?php echo htmlspecialchars($button['type']) ?></button></div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <?php if ($cardComponent['type'] == 'HEADER') : ?>
+                        <img src="<?php print_r($cardComponent['example']['header_handle'][0]) ?>" style="width: 60%;">
+                    <?php endif; ?>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         <?php endif; ?>
     <?php endforeach; ?>
@@ -194,11 +238,50 @@ $fieldCountHeaderVideo = 0; ?>
         </div>
     <?php endfor; ?>
 
+    <?php foreach ($template['components'] as $component) : ?>
+        <?php if ($component['type'] == 'BUTTONS') : ?>
+            <?php foreach ($component['buttons'] as $indexButton => $button) : ?>
+                <?php if ($button['type'] == 'MPM') : ?>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <button type="button" class="btn btn-add" onclick="addProduct()">Agregar Producto</button>
+                            <button type="button" class="btn btn-danger ml-2" onclick="removeProduct()">Eliminar Producto</button>
+                        </div>
+                        <div id="extraProducts"></div>
+                    </div>
 
+                <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif ?>
+    <?php endforeach ?>
 
 </div>
 
 <?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>
+<script>
+    var productCount = 0; // Inicializamos el contador de productos
+
+    function addProduct() {
+        productCount++; // Incrementamos el contador
+
+        // Creamos el nuevo input
+        var newInput = document.createElement('div');
+        newInput.innerHTML = '<div class="form-group"><label class="font-weight-bold">Producto ' + productCount + '</label><input class="form-control form-control-sm" type="text" name="products[]"></div>';
+
+        // Agregamos el nuevo input al contenedor
+        document.getElementById('extraProducts').appendChild(newInput);
+    }
+
+    function removeProduct() {
+        if (productCount > 1) {
+            var lastInput = document.getElementById('extraProducts').lastChild;
+            lastInput.remove(); // Eliminamos el último input
+            productCount--; // Decrementamos el contador
+        } else {
+            alert("Se debe ingresar al menos un producto");
+        }
+    }
+</script>
 <script>
     // Función para mostrar el select al hacer clic en el botón
     function showSelectHeader(fieldId) {
