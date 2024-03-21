@@ -236,32 +236,162 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                 "index" => (int)$indexButton,
                                 "parameters" => $parameters
                             ];
-
                         }
                     }
                 }
 
-                // if ($component['type'] == 'LIMITED_TIME_OFFER') {
-                //     $parameters = [
-                //         [
-                //             "type" => "coupon_code",
-                //             "coupon_code" => "CARIBE25"
-                //         ]
-                //     ];
+                if ($component['type'] == 'LIMITED_TIME_OFFER') {
 
-                //     $parametersOffer = ["type" => "limited_time_offer",
-                //                         "limited_time_offer" => ["expiration_time_ms" => 1209600000]];
+                    $parameters = [
+                        [
+                            "type" => "coupon_code",
+                            "coupon_code" => $item->message_variables_array[0]['Codigo Oferta']
+                        ]
+                    ];
 
-                //     $bodyArguments[] = ["type" => $component['type'],
-                //                         "parameters" => [$parametersOffer]];
+                    $parametersOffer = [
+                        "type" => "limited_time_offer",
+                        "limited_time_offer" => ["expiration_time_ms" => $item->message_variables_array[1]['Expiration']]
+                    ];
 
-                //     $bodyArguments[] = [
-                //         "type" => "button",
-                //         "sub_type" => "copy_code",
-                //         "index" => (int)$indexButton,
-                //         "parameters" => $parameters
-                //     ];
-                // }
+                    $bodyArguments[] = [
+                        "type" => $component['type'],
+                        "parameters" => [$parametersOffer]
+                    ];
+
+                    $bodyArguments[] = [
+                        "type" => "button",
+                        "sub_type" => "copy_code",
+                        "index" => (int)$indexButton,
+                        "parameters" => $parameters
+                    ];
+                } elseif ($component['type'] == 'CAROUSEL') {
+
+                    $headerImageId = "1086211442696589";
+                    $bodyText3 = "10OFF";
+                    $bodyText4 = "10%";
+                    $buttonPayload1 = "59NqSd";
+                    $buttonPayload2 = "last_chance_2023";
+                    $bodyText5 = "30OFF";
+                    $bodyText6 = "30%";
+                    $buttonPayload3 = "7C4xhY";
+                    $buttonPayload4 = "summer_blues_2023";
+
+                    // Creación del array asociativo en PHP
+                    $jsonData = [
+                        [
+                            "type" => "CAROUSEL",
+                            "cards" => [
+                                [
+                                    "card_index" => 0,
+                                    "components" => [
+                                        [
+                                            "type" => "HEADER",
+                                            "parameters" => [
+                                                [
+                                                    "type" => "IMAGE",
+                                                    "image" => [
+                                                        "id" => $headerImageId
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BODY",
+                                            "parameters" => [
+                                                [
+                                                    "type" => "TEXT",
+                                                    "text" => $bodyText3
+                                                ],
+                                                [
+                                                    "type" => "TEXT",
+                                                    "text" => $bodyText4
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BUTTON",
+                                            "sub_type" => "QUICK_REPLY",
+                                            "index" => 0,
+                                            "parameters" => [
+                                                [
+                                                    "type" => "PAYLOAD",
+                                                    "payload" => $buttonPayload1
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BUTTON",
+                                            "sub_type" => "URL",
+                                            "index" => 1,
+                                            "parameters" => [
+                                                [
+                                                    "type" => "payload",
+                                                    "payload" => $buttonPayload2
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "card_index" => 1,
+                                    "components" => [
+                                        [
+                                            "type" => "HEADER",
+                                            "parameters" => [
+                                                [
+                                                    "type" => "IMAGE",
+                                                    "image" => [
+                                                        "id" => $headerImageId
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BODY",
+                                            "parameters" => [
+                                                [
+                                                    "type" => "TEXT",
+                                                    "text" => $bodyText5
+                                                ],
+                                                [
+                                                    "type" => "TEXT",
+                                                    "text" => $bodyText6
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BUTTON",
+                                            "sub_type" => "QUICK_REPLY",
+                                            "index" => 0,
+                                            "parameters" => [
+                                                [
+                                                    "type" => "PAYLOAD",
+                                                    "payload" => $buttonPayload3
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            "type" => "BUTTON",
+                                            "sub_type" => "URL",
+                                            "index" => 1,
+                                            "parameters" => [
+                                                [
+                                                    "type" => "payload",
+                                                    "payload" => $buttonPayload4
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ];
+                    
+                    $bodyArguments = $jsonData;
+                    print_r($bodyArguments);
+                    print_r('<br>');
+                } 
                 
                 
                 elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
@@ -278,9 +408,12 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                             "link" => (isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
-                    if (isset($messageVariables['field_header_doc_filename_1']) && $messageVariables['field_header_doc_filename_1'] != '') {
-                        $itemSend['document']['filename'] = $messageVariables['field_header_doc_filename_1'];
-                    }
+                    // if (isset($messageVariables['field_header_doc_filename_1']) && $messageVariables['field_header_doc_filename_1'] != '') {
+                    //     $itemSend['document']['filename'] = $messageVariables['field_header_doc_filename_1'];
+                    // }
+
+                    $itemSend['document']['filename'] = 'Ver Documento PDF';
+
                     $parametersHeader[] = $itemSend;
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
                     $parametersHeader[] = [
@@ -293,7 +426,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             }
 
 
-            
+
 
             $item->message = $bodyText;
 
@@ -342,9 +475,11 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     ],
                 ])
             ];
-            print_r($bodyArguments);
+
             $response = null;
 
+
+            // print_r($requestParams);
             try {
 
                 $response = $this->getRestAPI($requestParams);

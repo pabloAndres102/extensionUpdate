@@ -20,6 +20,12 @@ $messageVariables = $item->message_variables;
 if(isset($_GET['header'])){
     $textHeader = $_GET['header'];
 }
+if(isset($_GET['img'])){
+    $mediaIMG = $_GET['img'];
+}
+if(isset($_GET['video'])){
+    $mediaVIDEO = $_GET['video'];
+}
 
 
 
@@ -51,8 +57,44 @@ if (isset($Params['user_parameters']['template'])) {
                     }
                 }
             }
+        foreach($templatePresent['components'] as $component){
+            if($component['type'] === 'BUTTONS'){
+                $buttons = $component['buttons'];
+
+                $tpl->setArray([
+                    'buttons' => $buttons,
+                ]);
+            }
+            if($component['type'] === 'HEADER'){
+                if($component['format'] === 'IMAGE')
+                $component['example']['header_handle'][0] = $mediaIMG;
+                else{
+                    $component['example']['header_handle'][0] = ''; 
+                }
+                $tpl->set('mediaIMG', $component['example']['header_handle'][0]);
+            }   if($component['format'] === 'VIDEO'){
+                $component['example']['header_handle'][0] = $mediaVIDEO;
+                $tpl->set('mediaVIDEO', $component['example']['header_handle'][0]);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         $tpl->set('templateName', $template['name']);
         }
+
+    
+
+
     }
 }
 

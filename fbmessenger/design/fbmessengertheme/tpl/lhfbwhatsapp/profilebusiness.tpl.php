@@ -6,12 +6,15 @@
         padding: 20px;
         margin: 20px;
         text-align: center;
-        height: 100%; /* Set a fixed height for the card */
+        height: 100%;
+        /* Set a fixed height for the card */
     }
 
     .card img {
-        max-width: 100%; /* Make the image responsive within the card */
-        max-height: 100%; /* Set your desired max height for the image */
+        max-width: 100%;
+        /* Make the image responsive within the card */
+        max-height: 100%;
+        /* Set your desired max height for the image */
         border-radius: 8px;
     }
 
@@ -54,7 +57,7 @@
                         </button>
                     </form>
                     <?php
-                    
+
                     if (isset($_SESSION['desactivado'])) {
                         echo '<div class="alert alert-warning">' . $_SESSION['desactivado'] . '</div>';
                         unset($_SESSION['desactivado']);
@@ -79,7 +82,7 @@
             <div class="col-md-10">
                 <h3 class="text-center mb-4"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Update business profile'); ?></h3>
                 <div class="custom-card">
-                    <?php 
+                    <?php
                     if (isset($_SESSION['profile_error'])) {
                         echo '<div class="alert alert-danger">' . $_SESSION['profile_error'] . '<br>' . $_SESSION['profile_error2'] . '<br>' . $_SESSION['profile_error3'] . '<br>' . $_SESSION['profile_error4'] . "<p><i><small>Asegúrese de haber ingresado el identificador de la app para actualizar la imagen del perfil de WhatsApp.</small></i></p>" . '</div> <br> ' . "";
                         unset($_SESSION['profile_error']);
@@ -126,7 +129,7 @@
 
                         <div class="input-group mb-3">
                             <label for="image"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile image'); ?>
-                                <input type="file" name="image" class="form-control" id="basic-url" aria-describedby="basic-addon3" required>
+                                <input type="file" name="image" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                                 <span><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Update business profile'); ?>Asegúrese de haber ingresado el identificador de la app para actualizar la imagen del perfil de WhatsApp.
                                         haga click <a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Aqui'); ?></a> para ingresarlo
                                     </small></span>
@@ -171,15 +174,16 @@
                                     <h3 class="text-center mb-4"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Websites'); ?></h3>
                                     <div class="form-group">
                                         <label for="website1"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Website'); ?> 1:</label>
-                                        <input type="url" class="form-control" id="website1" name="website1" value="<?php echo (isset($config['data'][0]['websites'])) ? print_r($config['data'][0]['websites'][0]) : ''; ?>" placeholder="https://www.ejemplo.com">
+                                        <input type="url" class="form-control" id="website1" name="website1" value="<?php echo isset($config['data'][0]['websites'][0]) ? htmlspecialchars($config['data'][0]['websites'][0]) : ''; ?>" placeholder="https://www.ejemplo.com">
                                     </div>
                                     <div class="form-group">
                                         <label for="website2"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Website'); ?> 2:</label>
-                                        <input type="url" class="form-control" id="website2" value="<?php echo (isset($config['data'][0]['websites'][1])) ? print_r($config['data'][0]['websites'][1]) : ''; ?>" name="website2" placeholder="https://www.otroejemplo.com">
+                                        <input type="url" class="form-control" id="website2" name="website2" value="<?php echo isset($config['data'][0]['websites'][1]) ? htmlspecialchars($config['data'][0]['websites'][1]) : ''; ?>" placeholder="https://www.otroejemplo.com">
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <center><button type="submit" class="btn btn-primary"> <span class="material-icons">save</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Save'); ?></button></center>
                     </form>
                 </div>

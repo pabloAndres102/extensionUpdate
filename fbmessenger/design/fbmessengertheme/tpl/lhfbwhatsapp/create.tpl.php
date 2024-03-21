@@ -13,13 +13,14 @@
 </style>
 
 <body>
-
+    <!-- <input type="checkbox" id="checkbox"> Ocultar contenido -->
     <div class="container">
 
         <center>
             <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
         </center> <br>
         <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
+        <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel') ?>"><span class="material-icons">view_carousel</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create carousel'); ?></a></center>
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
@@ -105,20 +106,26 @@
                     <option value="AUTHENTICATION"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Authentication'); ?></option>
                 </select>
             </div>
-
+            <div class="container" id="container">
             <div class="form-check form-switch hidden-content">
                 <label for="buttonCatalog">
                     <input class="form-check-input" type="checkbox" id="buttonCatalog" name="buttonCatalog"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Catalog'); ?> </strong>
                 </label>
             </div>
-            <br>
+
             <div class="form-check form-switch hidden-content">
                 <label for="buttonMPM">
                     <input class="form-check-input" type="checkbox" id="buttonMPM" name="buttonMPM"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Multi product'); ?> </strong>
                 </label>
             </div>
 
-            <div class="mb-3 hidden-content">
+            <div class="form-check form-switch hidden-content">
+                <label for="offert">
+                    <input class="form-check-input" type="checkbox" id="offert" name="offert"> <strong> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Limited offert'); ?> </strong>
+                </label>
+            </div>
+
+            <div class="mb-3 hidden-content" id="headers">
                 <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong></label>
                 <select class="form-select" id="header" name="header" aria-label="Default select example">
                     <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
@@ -174,7 +181,7 @@
                 </div>
             </div>
 
-           
+
 
             <div class="mb-3 hidden-content">
                 <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Footer'); ?></strong></label>
@@ -523,52 +530,88 @@
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mostrarInputsCheckbox = document.getElementById('mostrarInputs');
             const mostrarInputscallbackCheckbox = document.getElementById('mostrarInputscallback');
             const mostrarInputsflowCheckbox = document.getElementById('mostrarInputsflow');
             const inputsFlowButtonsDiv = document.getElementById('inputsFlowButtons');
-            
+
 
             const catalog = document.getElementById('buttonCatalog');
             const buttonMPM = document.getElementById('buttonMPM');
+            const offert = document.getElementById('offert');
+            const headers = document.getElementById('headers'); 
+
 
             catalog.addEventListener('change', function() {
-                if (catalog.checked ) {
+                if (catalog.checked) {
+                    offert.style.display = 'none';
+                    headers.style.display = 'none';
                     buttonMPM.style.display = 'none';
                     mostrarInputscallbackCheckbox.style.display = 'none';
-                    mostrarInputsCheckbox.style.display = 'none';       
-                    document.querySelector('label[for="buttonMPM"]').style.display = 'none';  
+                    mostrarInputsCheckbox.style.display = 'none';
+                    document.querySelector('label[for="offert"]').style.display = 'none';
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'none';
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
-                } else {     
-                    buttonMPM.style.display = 'block';              
+                } else {
+                    offert.style.display = 'block';
+                    headers.style.display = 'block';
+                    buttonMPM.style.display = 'block';
                     mostrarInputsCheckbox.style.display = 'block';
-                    mostrarInputscallbackCheckbox.style.display = 'block';     
-                    document.querySelector('label[for="buttonMPM"]').style.display = 'block';               
+                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="offert"]').style.display = 'block';
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'block';
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
                 }
             });
             buttonMPM.addEventListener('change', function() {
-                if (buttonMPM.checked ) {
+                if (buttonMPM.checked) {
                     catalog.style.display = 'none';
+                    offert.style.display = 'none';
                     mostrarInputscallbackCheckbox.style.display = 'none';
                     mostrarInputsCheckbox.style.display = 'none';
                     document.querySelector('label[for="buttonCatalog"]').style.display = 'none';
+                    document.querySelector('label[for="offert"]').style.display = 'none';
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
                 } else {
                     catalog.style.display = 'block';
+                    offert.style.display = 'block';
                     mostrarInputsCheckbox.style.display = 'block';
                     mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="offert"]').style.display = 'block';
                     document.querySelector('label[for="buttonCatalog"]').style.display = 'block';
                     document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
                     document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
                 }
             });
-            
+
+            offert.addEventListener('change', function() {
+                if (offert.checked) {
+                    catalog.style.display = 'none';
+                    mostrarInputscallbackCheckbox.style.display = 'none';
+                    mostrarInputsCheckbox.style.display = 'none';
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'none';
+                    document.querySelector('label[for="buttonCatalog"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'none';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'none';
+                } else {
+                    catalog.style.display = 'block';
+                    offert.style.display = 'block';
+                    mostrarInputsCheckbox.style.display = 'block';
+                    mostrarInputscallbackCheckbox.style.display = 'block';
+                    document.querySelector('label[for="buttonMPM"]').style.display = 'block';
+                    document.querySelector('label[for="buttonCatalog"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputs"]').style.display = 'block';
+                    document.querySelector('label[for="mostrarInputscallback"]').style.display = 'block';
+                }
+            });
+
 
             mostrarInputscallbackCheckbox.addEventListener('change', function() {
                 if (mostrarInputscallbackCheckbox.checked) {

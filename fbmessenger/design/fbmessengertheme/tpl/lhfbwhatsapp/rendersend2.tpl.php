@@ -2,6 +2,15 @@
 <pre><?php print_r($template);?></pre>
 */ ?>
 <style>
+    /* Estilos para el campo de fecha */
+    .date-input {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+        /* Agrega cualquier otro estilo que desees */
+    }
+
     .form-control {
         /* Estilos para los inputs */
         border: 1px solid #ced4da;
@@ -41,7 +50,7 @@
 </style>
 
 <h6><?php echo htmlspecialchars($template['name']) ?> <span class="badge badge-secondary"><?php echo htmlspecialchars($template['category']) ?></span></h6>
-<!-- <span><?php print_r($template) ?></span> -->
+
 <?php $fieldsCount = 0;
 $fieldsCountHeader = 0;
 $fieldCountHeaderDocument = 0;
@@ -53,7 +62,7 @@ $buttonsMPM = 0;
 <div class="rounded bg-light p-2" title="<?php echo htmlspecialchars(json_encode($template, JSON_PRETTY_PRINT)) ?>">
     <?php foreach ($template['components'] as $component) : ?>
         <?php if ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE' && isset($component['example']['header_url'][0])) : ?>
-            <img src="<?php echo htmlspecialchars($component['example']['header_url'][0]) ?>"  width="100px"/>
+            <img src="<?php echo htmlspecialchars($component['example']['header_url'][0]) ?>" width="100px" />
         <?php endif; ?>
         <?php if ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT' && isset($component['example']['header_url'][0])) : ?>
             <div>
@@ -132,15 +141,19 @@ $buttonsMPM = 0;
 
 </div>
 
+
+
 <!--=========||=========-->
 <div class="row">
     <div class="row">
         <?php for ($i = 0; $i < $fieldsCount; $i++) : ?>
             <div class="col-6 mb-3" ng-non-bindable>
+                <label class="font-weight-bold">Campo de texto - {{<?php echo $i + 1 ?>}}</label>
                 <div class="input-group">
-                    <input placeholder="<?php echo 'Campo de texto - {{' . ($i + 1) . '}}' ?>" type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i + 1 ?>" name="field_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_' .  ($i + 1)])) {
-                                                                                                                                                                                                                                                        echo htmlspecialchars($data['field_' .  ($i + 1)]);
-                                                                                                                                                                                                                                                    } ?>">
+                    
+                    <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i + 1 ?>" name="field_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_' .  ($i + 1)])) {
+                                                                                                                                                                                    echo htmlspecialchars($data['field_' .  ($i + 1)]);
+                                                                                                                                                                      } ?>">
                 </div>
             </div>
         <?php endfor; ?>
@@ -148,8 +161,9 @@ $buttonsMPM = 0;
     <?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
+            <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i + 1 ?>}}</label>
                 <div class="input-group">
-                    <input placeholder="<?php echo 'Campo de encabezado - {{' . ($i + 1) . '}}' ?>" type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_header_<?php echo $i + 1 ?>" name="field_header_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1]) ?><?php endif; ?>">
+                    <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_header_<?php echo $i + 1 ?>" name="field_header_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1]) ?><?php endif; ?>">
                 </div>
             </div>
         </div>
@@ -168,11 +182,14 @@ $buttonsMPM = 0;
                         </a>
                     </div>
                 </div>
-                <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
+    <!-- <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
+        <div class="form-group">
+        <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
+        <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
+    <?php endfor; ?> -->
 
     <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
         <div class="col-6" ng-non-bindable>
@@ -219,6 +236,22 @@ $buttonsMPM = 0;
                         <div id="extraProducts"></div>
                     </div>
 
+                <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif ?>
+    <?php endforeach ?>
+    <?php foreach ($template['components'] as $component) : ?>
+        <?php if ($component['type'] == 'BUTTONS') : ?>
+            <?php foreach ($component['buttons'] as $indexButton => $button) : ?>
+                <?php if ($button['type'] == 'COPY_CODE') : ?>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <input placeholder="<?php echo 'Codigo oferta' ?>" type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
+                            <br>
+                            <!-- Agregar una clase CSS al campo de fecha -->
+                            <input placeholder="Caducidad" type="number" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
+                        </div>
+                    </div>
                 <?php endif ?>
             <?php endforeach; ?>
         <?php endif ?>

@@ -45,9 +45,23 @@ $modalBodyClass = 'p-1';
 <div class="container">
         <h2><span><?php echo $templateName ?></span></h2>
         <h4><span><?php echo $prueba ?></span></h4>
+        <?php if (isset($mediaIMG)): ?>
+            <img src="<?php echo htmlspecialchars($mediaIMG) ?>" width="100px" />
+        <?php endif; ?>
+        <?php if(isset($mediaVIDEO)): ?>
+            <video width="100">
+                    <source src="<?php echo htmlspecialchars($mediaVIDEO) ?>" type="video/mp4">
+            </video>
+        <?php endif ?>
         <div class="rounded bg-light p-2">
             <h6><span><?php echo $bodyText ?></span></h6>
         </div>
+        <br>
+        <?php if (isset($buttons)) : ?>
+            <?php foreach ($buttons as $button) : ?>
+                <div class="pb-2"><button class="btn btn-sm btn-secondary"><?php echo htmlspecialchars($button['text']) ?> | <?php echo htmlspecialchars($button['type']) ?></button></div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/modal_footer.tpl.php')); ?>

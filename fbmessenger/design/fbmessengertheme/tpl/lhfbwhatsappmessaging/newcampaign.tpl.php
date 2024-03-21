@@ -29,7 +29,7 @@
         var parts = selectedTemplate.split("||");
         var selectedTemplateName = parts[0];
         var url = '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/template_table') ?>/' + selectedTemplateName + '/' + texto + '/' + texto2 + '/' + texto3 + '/' + texto4 + '/' + texto5 + '?header='+texto_header;
-        console.log(url);
+
 
         if (selectedTemplateName !== "") {
             return lhc.revealModal({

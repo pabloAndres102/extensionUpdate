@@ -1,3 +1,8 @@
+<!-- Incluye la hoja de estilos de Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Incluye la librería de Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a single message'); ?></h1>
 
 <?php if (isset($errors)) : ?>
@@ -117,11 +122,11 @@
                         }
 
                         // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
-                        if ($template['status'] === 'APPROVED') {
+                        
                         ?>
                             <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
                         <?php
-                        }
+                        
                         ?>
                     <?php endforeach; ?>
                 </select>
@@ -160,7 +165,7 @@
 
     <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>&nbsp;&nbsp;
     <button type="button" class="btn btn-warning btn-sm" onclick="return previewTemplate()">
-                <i class="material-icons">visibility</i> Preview
+                <i class="material-icons">visibility</i> Previsualizar
             </button>
 </form>
 
@@ -172,10 +177,14 @@
         var texto3 = document.getElementById("field_3") ? document.getElementById("field_3").value : '';
         var texto4 = document.getElementById("field_4") ? document.getElementById("field_4").value : '';
         var texto5 = document.getElementById("field_5") ? document.getElementById("field_5").value : '';
+        
+        var header_img = document.getElementById("field_header_img_1") ? document.getElementById("field_header_img_1").value : '';
+        var header_video = document.getElementById("field_header_video_1") ? document.getElementById("field_header_video_1").value : '';
+
         var texto_header = document.getElementById("field_header_1") ? document.getElementById("field_header_1").value : '';
         var parts = selectedTemplate.split("||");
         var selectedTemplateName = parts[0];
-        var url = '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/template_table') ?>/' + selectedTemplateName + '/' + texto + '/' + texto2 + '/' + texto3 + '/' + texto4 + '/' + texto5 + '?header='+texto_header;
+        var url = '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/template_table') ?>/' + selectedTemplateName + '/' + texto + '/' + texto2 + '/' + texto3 + '/' + texto4 + '/' + texto5 + '?header='+texto_header + '&img=' + header_img + '&video=' + header_video;
         console.log(url);
 
         if (selectedTemplateName !== "") {
@@ -195,43 +204,46 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona el elemento de entrada de fecha y hora
-        var scheduledAtInput = document.getElementById('scheduled_at');
-        var scheduleCheckbox = document.getElementById('schedule_message');
+   document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el elemento de entrada de fecha y hora
+    var scheduledAtInput = document.getElementById('scheduled_at');
+    var scheduleCheckbox = document.getElementById('schedule_message');
 
-        // Agrega un evento de escucha al cambio en el valor del input
-        scheduledAtInput.addEventListener('change', function() {
-            // Obtiene la fecha y hora actual en formato ISO8601
+    // Función para validar la fecha y hora seleccionadas
+    function validateScheduledDateTime() {
+        // Obtiene la fecha y hora actual en formato ISO8601
+        var currentDateTime = new Date();
+        currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
+
+        // Obtiene la fecha y hora seleccionada
+        var selectedDateTime = new Date(scheduledAtInput.value);
+
+        // Verifica si la fecha seleccionada es anterior a la actual más 5 minutos
+        if (selectedDateTime < currentDateTime) {
+            // Calcula la fecha y hora mínima permitida (actual más 5 minutos)
+            currentDateTime.setMinutes(currentDateTime.getMinutes() - 5);
+            
+            
+            scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
+        }
+    }
+
+    // Agrega un evento de escucha al cambio en el valor del input
+    scheduledAtInput.addEventListener('change', validateScheduledDateTime);
+
+    // Agrega un evento de escucha al cambio en el estado del checkbox "Schedule a message"
+    scheduleCheckbox.addEventListener('change', function() {
+        // Si el checkbox se desmarca, restablece la fecha y hora mínima permitida
+        if (!scheduleCheckbox.checked) {
             var currentDateTime = new Date();
             currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
-
-            // Obtiene la fecha y hora seleccionada
-            var selectedDateTime = new Date(scheduledAtInput.value);
-
-            // Verifica si la fecha seleccionada es anterior a la actual más 5 minutos
-            if (selectedDateTime < currentDateTime) {
-                // Muestra una alerta
-                alert('La fecha y hora seleccionada debe ser posterior a al menos 5 minutos a partir de ahora.');
-
-                // Calcula la fecha y hora mínima permitida (actual más 5 minutos)
-                currentDateTime.setMinutes(currentDateTime.getMinutes() - 5);
-
-                // Actualiza el valor del input al mínimo permitido
-                scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
-            }
-        });
-
-        // Agrega un evento de escucha al cambio en el estado del checkbox "Schedule a message"
-        scheduleCheckbox.addEventListener('change', function() {
-            // Si el checkbox se desmarca, restablece la fecha y hora mínima permitida
-            if (!scheduleCheckbox.checked) {
-                var currentDateTime = new Date();
-                currentDateTime.setMinutes(currentDateTime.getMinutes() + 5); // Agrega 5 minutos
-                scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
-            }
-        });
+            scheduledAtInput.value = currentDateTime.toISOString().slice(0, 16);
+        }
     });
+
+    // Ejecuta la validación inicial al cargar la página
+    validateScheduledDateTime();
+});
 </script>
 
 <script>
@@ -304,5 +316,15 @@
     // Agrega una función de validación previa al envío del formulario
     document.getElementById("whatsapp-form").addEventListener("submit", function(event) {
         toggleScheduleFields(); // Ejecuta la validación antes de enviar
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicializa Flatpickr en el input de fecha y hora
+        flatpickr('#scheduled_at', {
+            enableTime: true, // Permite la selección de la hora
+            dateFormat: 'Y-m-d H:i', // Formato de fecha y hora
+            time_24hr: true, // Utiliza el formato de 24 horas
+        });
     });
 </script>

@@ -7,14 +7,16 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/create.tpl.php');
 
 $Result['content'] = $tpl->fetch();
 $Result['path'] = array(
-    array('url' => erLhcoreClassDesign::baseurl('fbmessenger/index'), 
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat')),
-    array(
-        'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/templates'), 
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates')
-    ),
-    array(
-      'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create')
+  array(
+    'url' => erLhcoreClassDesign::baseurl('fbmessenger/index'),
+    'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat')
+  ),
+  array(
+    'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/templates'),
+    'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates')
+  ),
+  array(
+    'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create')
   )
 );
 
@@ -44,13 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $buttonCallbackText = $_POST['buttonCallbackText'];
   $buttonCallbackPhone = $_POST['buttonCallbackPhone'];
 
-  $flow_text = $_POST['flow_text']; 
+  $flow_text = $_POST['flow_text'];
   $flow_id = $_POST['flow_id'];
   $flow_action = $_POST['flow_action'];
   $navigate_screen = $_POST['navigate_screen'];
 
   $buttonCatalog = $_POST['buttonCatalog'];
   $buttonMPM = $_POST['buttonMPM'];
+  $offert = $_POST['offert'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
@@ -102,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $ch2 = curl_init();
   $post_data = isset($archivo_bytes) ? $archivo_bytes : $textHeader;
-  
+
   curl_setopt_array($ch2, array(
     CURLOPT_URL => 'https://graph.facebook.com/v17.0/' . $session_id . '',
     CURLOPT_RETURNTRANSFER => true,
@@ -159,6 +162,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
   };
 
+  if (!empty($offert)) {
+    $button[] =  [
+      "type" => "copy_code",
+      "example"=> "CARIBE25"
+    ];
+
+    $button[] = [
+      "type" => "url",
+      "text" => "Book now!",
+      "url" => "https://awesomedestinations.com/",
+    ];
+  }
+
   if (!empty($buttonMPM)) {
     $button[] =  [
       "type" => "MPM",
@@ -188,8 +204,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       "type" => "FLOW",
       "text" => $flow_text,
       "flow_id" => $flow_id,
-      "flow_action"=> $flow_action,
-      "navigate_screen"=> $navigate_screen
+      "flow_action" => $flow_action,
+      "navigate_screen" => $navigate_screen
     ];
   };
 
@@ -239,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $components = [];
 
-  if (!empty($headertype)){
+  if (!empty($headertype)) {
     $components[] = $header;
   }
 
@@ -303,6 +319,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $componentsAuthentication[] = $buttonsAuthentication;
 
 
+
+  $components[] = [
+    "type" => "limited_time_offer",
+    "limited_time_offer" => [
+      "text" => "Expiring offer!",
+      "has_expiration" => 1
+    ]
+  ];
+
   if (!empty($otp_type)) {
     $data = array(
       'allow_category_change' => true,
@@ -344,8 +369,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $_SESSION['api_response'] = $jsonresponse;
   }
-  
+
   header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsapp/templates'));
-
-
 }

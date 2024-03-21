@@ -249,6 +249,21 @@ if (ezcInputForm::hasPostData()) {
         $item->message_variables_array[] = $_POST['products'];
     }
 
+    if(isset($_POST['offert'])){
+        $item->message_variables_array[] = ['Codigo Oferta' => $_POST['offert']];
+    }
+
+    if(isset($_POST['expiration_offert'])){
+        $item->message_variables_array[] = ['Expiration' => $_POST['expiration_offert']];
+    }
+
+    if(isset($_POST['urlOffert'])){
+        $item->message_variables_array[] = ['urlOffert' => $_POST['urlOffert']];
+
+    }
+
+    
+
     if (count($Errors) == 0) {
         try {
 

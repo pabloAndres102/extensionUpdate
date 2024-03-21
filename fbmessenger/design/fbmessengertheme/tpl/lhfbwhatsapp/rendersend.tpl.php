@@ -376,9 +376,8 @@ $fieldCountHeaderVideo = 0; ?>
                 'Título': '{args.recipient.title_front}',
                 'Email': '{args.recipient.email_front}',
                 'Agregar solo Imágenes JPG': '{args.recipient.file_1_url_front}',
-                'Agregar solo Imágenes JPG': '{args.recipient.file_2_url_front}',
-                'Agregar solo Documentos PDF': '{args.recipient.file_3_url_front}',
-                'Agregar solo Videos MP4': '{args.recipient.file_4_url_front}',
+                'Agregar solo Documentos PDF': '{args.recipient.file_2_url_front}',
+                'Agregar solo Videos MP4': '{args.recipient.file_3_url_front}',
                 'Campo personalizado 1': '{args.recipient.attr_str_1_front}',
                 'Campo personalizado 2': '{args.recipient.attr_str_2_front}',
                 'Campo personalizado 3': '{args.recipient.attr_str_3_front}',
@@ -386,7 +385,6 @@ $fieldCountHeaderVideo = 0; ?>
                 'Campo personalizado 5': '{args.recipient.attr_str_5_front}',
                 'Campo personalizado 6': '{args.recipient.attr_str_6_front}'
             };
-
 
             // Agrega las opciones al select
             for (var optionName in optionsMap) {
@@ -406,27 +404,25 @@ $fieldCountHeaderVideo = 0; ?>
                 if (inputField) {
                     inputField.value = selectedOption;
                 }
-            });
-            select.addEventListener('change', function() {
-                var selectedOption = select.options[select.selectedIndex].value;
-                var inputFieldId = 'field_header_doc_' + fieldId; // FIX WITH THIS VARIABLE
-                var inputField = document.getElementById(inputFieldId);
-                if (inputField) {
-                    inputField.value = selectedOption;
+
+                // Agregar lógica para actualizar el campo de imagen URL
+                var inputFieldImgId = 'field_header_img_' + fieldId;
+                var inputFieldImg = document.getElementById(inputFieldImgId);
+                if (inputFieldImg) {
+                    inputFieldImg.value = selectedOption;
+                }
+
+                // Agregar lógica para actualizar el campo de documento
+                var inputFieldDocId = 'field_header_doc_' + fieldId;
+                var inputFieldDoc = document.getElementById(inputFieldDocId);
+                if (inputFieldDoc) {
+                    inputFieldDoc.value = selectedOption;
                 }
             });
-            select.addEventListener('change', function() {
-                var selectedOption = select.options[select.selectedIndex].value;
-                var inputFieldId = 'field_header_img_' + fieldId; // FIX WITH THIS VARIABLE
-                var inputField = document.getElementById(inputFieldId);
-                if (inputField) {
-                    inputField.value = selectedOption;
-                }
-            });
-           
         }
     }
 </script>
+
 
 <script>
     (function() {
