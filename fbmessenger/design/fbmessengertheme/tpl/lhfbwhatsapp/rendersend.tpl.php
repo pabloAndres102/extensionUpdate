@@ -83,7 +83,7 @@ $fieldCountHeaderVideo = 0; ?>
             <?php elseif ($component['format'] == 'IMAGE') : $fieldCountHeaderImage = 1; ?>
                 <h5 class="text-secondary">IMAGE</h5>
                 <?php if (isset($component['example']['header_handle'][0])) : ?>
-                    <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>" />
+                    <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>"  width="100px"/>
                 <?php endif; ?>
             <?php else : ?>
                 <?php
@@ -198,14 +198,14 @@ $fieldCountHeaderVideo = 0; ?>
                 <div class="input-group"> <!-- Añadimos una clase input-group -->
                     <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i + 1 ?>" name="field_header_img_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1]) ?><?php endif; ?>">
                     <div class="input-group-append">
-                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelect(<?php echo $i + 1 ?>)">Mostrar opciones</button>
+                        <button class="btn btn-sm btn-beige" type="button" onclick="showSelectHeader(<?php echo $i + 1 ?>)">Mostrar opciones</button>
                         <a data-selector="#field_header_img_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
                             <span class="material-icons">upload</span>
                             <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
                         </a>
                     </div>
                 </div>
-                <select id="select_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
+                <select id="select_header_<?php echo $i + 1 ?>" class="field-select form-control form-control-sm" style="display: none;">
                     <?php for ($j = 1; $j <= 15; $j++) : ?>
                         <option value="<?php echo $j ?>">Opción <?php echo $j ?></option>
                     <?php endfor; ?>
@@ -254,6 +254,26 @@ $fieldCountHeaderVideo = 0; ?>
             <?php endforeach; ?>
         <?php endif ?>
     <?php endforeach ?>
+
+    <?php foreach ($template['components'] as $component) : ?>
+    <?php if ($component['type'] == 'BUTTONS') : ?>
+        <?php foreach ($component['buttons'] as $indexButton => $button) : ?>
+            <?php if ($button['type'] == 'COPY_CODE') : ?>
+                <div class="col-6">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Código de oferta</label>
+                        <input type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <label class="font-weight-bold" for="expiration_offert">Fecha de caducidad</label>
+                        <input placeholder="Caducidad" type="date" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
+                    </div>
+                    <!-- <input placeholder="URL" type="url" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input"> -->
+                </div>
+            <?php endif ?>
+        <?php endforeach; ?>
+    <?php endif ?>
+<?php endforeach ?>
 
 </div>
 
@@ -346,6 +366,14 @@ $fieldCountHeaderVideo = 0; ?>
                     inputField.value = selectedOption;
                 }
             });
+            select.addEventListener('change', function() {
+                var selectedOption = select.options[select.selectedIndex].value;
+                var inputFieldId = 'field_header_img_' + fieldId; // FIX WITH THIS VARIABLE
+                var inputField = document.getElementById(inputFieldId);
+                if (inputField) {
+                    inputField.value = selectedOption;
+                }
+            });
         }
     }
 </script>
@@ -403,13 +431,6 @@ $fieldCountHeaderVideo = 0; ?>
                 var inputField = document.getElementById(inputFieldId);
                 if (inputField) {
                     inputField.value = selectedOption;
-                }
-
-                // Agregar lógica para actualizar el campo de imagen URL
-                var inputFieldImgId = 'field_header_img_' + fieldId;
-                var inputFieldImg = document.getElementById(inputFieldImgId);
-                if (inputFieldImg) {
-                    inputFieldImg.value = selectedOption;
                 }
 
                 // Agregar lógica para actualizar el campo de documento

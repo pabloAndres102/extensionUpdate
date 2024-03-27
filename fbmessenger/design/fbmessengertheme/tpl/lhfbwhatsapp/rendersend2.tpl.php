@@ -58,6 +58,7 @@ $fieldCountHeaderImage = 0;
 $fieldCountHeaderVideo = 0;
 $buttonsMPM = 0;
 
+
 ?>
 <div class="rounded bg-light p-2" title="<?php echo htmlspecialchars(json_encode($template, JSON_PRETTY_PRINT)) ?>">
     <?php foreach ($template['components'] as $component) : ?>
@@ -150,10 +151,10 @@ $buttonsMPM = 0;
             <div class="col-6 mb-3" ng-non-bindable>
                 <label class="font-weight-bold">Campo de texto - {{<?php echo $i + 1 ?>}}</label>
                 <div class="input-group">
-                    
+
                     <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_<?php echo $i + 1 ?>" name="field_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_' .  ($i + 1)])) {
                                                                                                                                                                                     echo htmlspecialchars($data['field_' .  ($i + 1)]);
-                                                                                                                                                                      } ?>">
+                                                                                                                                                                                } ?>">
                 </div>
             </div>
         <?php endfor; ?>
@@ -161,7 +162,7 @@ $buttonsMPM = 0;
     <?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-            <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i + 1 ?>}}</label>
+                <label class="font-weight-bold">Campo de encabezado - {{<?php echo $i + 1 ?>}}</label>
                 <div class="input-group">
                     <input type="text" list="fields_placeholders" class="form-control form-control-sm" id="field_header_<?php echo $i + 1 ?>" name="field_header_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1]) ?><?php endif; ?>">
                 </div>
@@ -246,16 +247,66 @@ $buttonsMPM = 0;
                 <?php if ($button['type'] == 'COPY_CODE') : ?>
                     <div class="col-6">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <input placeholder="<?php echo 'Codigo oferta' ?>" type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
-                            <br>
-                            <!-- Agregar una clase CSS al campo de fecha -->
-                            <input placeholder="Caducidad" type="number" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
+                            <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Código de oferta</label>
+                            <input type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <label class="font-weight-bold" for="expiration_offert">Fecha de caducidad</label>
+                            <input placeholder="Caducidad" type="date" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <label class="font-weight-bold" for="expiration_offert">Variable de oferta</label>
+                            <input placeholder="URL" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
                         </div>
                     </div>
                 <?php endif ?>
             <?php endforeach; ?>
         <?php endif ?>
     <?php endforeach ?>
+
+
+    <?php
+    $bodyCard = 0;
+    $carouselquickbutton = 0;
+    $carouselURLbutton = 0;  // Inicializamos el contador
+    foreach ($template['components'] as $component) : ?>
+        <?php if ($component['type'] == 'CAROUSEL') : ?>
+            <?php foreach ($component['cards'] as $card) : ?>
+                <?php foreach ($card['components'] as $cardComponent) : ?>
+
+                    <?php if ($cardComponent['type'] == 'BODY') : ?>
+                        <label class="font-weight-bold" for="bodyCard<?php echo $bodyCard + 1 ?>">Cuerpo de tarjeta <?php echo $bodyCard + 1 ?> </label>
+                        <input type="text" class="form-control form-control-sm" id="bodyCard<?php echo $bodyCard + 1 ?>" name="bodyCard<?php echo $bodyCard + 1 ?>">
+                        <?php $bodyCard++; // Incrementamos el contador 
+                        ?>
+                    <?php endif ?>
+
+                    <?php if ($cardComponent['type'] == 'BUTTONS') : ?>
+                        <?php foreach ($cardComponent['buttons'] as $buttonsCard) : ?>
+                            <?php if ($buttonsCard['type'] == 'QUICK_REPLY') : ?>
+                                <label class="font-weight-bold" for="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">Boton respuesta tarjeta: <?php echo $carouselquickbutton + 1 ?> </label>
+                                <input type="text" class="form-control form-control-sm" id="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>" name="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">
+                                <?php $carouselquickbutton++; // Incrementamos el contador 
+                                ?>
+                            <?php endif ?>
+
+                            <?php if ($buttonsCard['type'] == 'URL') : ?>
+                                <label class="font-weight-bold" for="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">Boton URL tarjeta: <?php echo $carouselURLbutton + 1 ?> </label>
+                                <input type="url" class="form-control form-control-sm" id="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>" name="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">
+                                <?php $carouselURLbutton++; // Incrementamos el contador 
+                                ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
+
+                <?php endforeach ?>
+            <?php endforeach ?>
+
+        <?php endif ?>
+    <?php endforeach ?>
+
+
+
 
 
 

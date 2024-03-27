@@ -19,8 +19,9 @@ $Result['path'] = array(
     'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create')
   )
 );
-
+$components = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  
   $token = $data['whatsapp_access_token'];
   $app_id = $data['app_id'];
   $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
@@ -53,7 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $buttonCatalog = $_POST['buttonCatalog'];
   $buttonMPM = $_POST['buttonMPM'];
+  
   $offert = $_POST['offert'];
+  $buttonOffertURL = $_POST['buttonOffertURL'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
@@ -163,6 +166,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   };
 
   if (!empty($offert)) {
+
+    $components[] = [
+      "type" => "limited_time_offer",
+      "limited_time_offer" => [
+        "text" => "Expiring offer!",
+        "has_expiration" => 1
+      ]
+    ];
+
+
     $button[] =  [
       "type" => "copy_code",
       "example"=> "CARIBE25"
@@ -170,8 +183,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $button[] = [
       "type" => "url",
-      "text" => "Book now!",
-      "url" => "https://awesomedestinations.com/",
+      "text" => "Reservar ahora",
+      "url" => $buttonOffertURL,
+      "example" => "TEST"
     ];
   }
 
@@ -253,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
 
-  $components = [];
+
 
   if (!empty($headertype)) {
     $components[] = $header;
@@ -320,13 +334,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-  $components[] = [
-    "type" => "limited_time_offer",
-    "limited_time_offer" => [
-      "text" => "Expiring offer!",
-      "has_expiration" => 1
-    ]
-  ];
 
   if (!empty($otp_type)) {
     $data = array(
@@ -361,7 +368,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $result = curl_exec($ch);
 
   $jsonresponse = json_decode($result, true);
-  print_r($jsonresponse);
+  // print_r($jsonresponse);
   curl_close($ch);
 
   if (isset($jsonresponse['error'])) {

@@ -122,11 +122,11 @@
                         }
 
                         // Verifica si la plantilla tiene estado "approved" antes de agregarla al select
-                        
+                        if ($template['status'] === 'APPROVED') {
                         ?>
                             <option <?php if ($send->template == $template['name']) : ?>selected="selected" <?php endif; ?> value="<?php echo htmlspecialchars($template['name'] . '||' . $template['language'] . '||' . $template['id']) ?>"><?php echo htmlspecialchars($template['name'] . ' [' . $template['language'] . ']') ?></option>
                         <?php
-                        
+                        }
                         ?>
                     <?php endforeach; ?>
                 </select>

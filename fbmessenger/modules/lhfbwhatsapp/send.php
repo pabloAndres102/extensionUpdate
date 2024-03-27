@@ -248,19 +248,38 @@ if (ezcInputForm::hasPostData()) {
     if(isset($_POST['products'])){
         $item->message_variables_array[] = $_POST['products'];
     }
-
     if(isset($_POST['offert'])){
         $item->message_variables_array[] = ['Codigo Oferta' => $_POST['offert']];
     }
-
     if(isset($_POST['expiration_offert'])){
-        $item->message_variables_array[] = ['Expiration' => $_POST['expiration_offert']];
+        // Convertir la fecha de caducidad a marca de tiempo UNIX en milisegundos
+        $expiration_date = new DateTime($_POST['expiration_offert']);
+        $expiration_timestamp = $expiration_date->getTimestamp() * 1000;
+        $item->message_variables_array[] = ['Expiration' => $expiration_timestamp];
     }
-
     if(isset($_POST['urlOffert'])){
         $item->message_variables_array[] = ['urlOffert' => $_POST['urlOffert']];
 
     }
+
+    // CAROUSEL INPUTS
+
+
+    if(isset($_POST['bodyCard1'])){
+        $item->message_variables_array[] = $_POST['bodyCard1'];
+        $item->message_variables_array[] = $_POST['bodyCard2'];
+
+        $item->message_variables_array[] = $_POST['carouselquickbutton1'];
+        $item->message_variables_array[] = $_POST['carouselquickbutton2'];
+
+        $item->message_variables_array[] = $_POST['carouselURLbutton1'];
+        $item->message_variables_array[] = $_POST['carouselURLbutton2'];
+        
+    }
+
+
+
+
 
     
 

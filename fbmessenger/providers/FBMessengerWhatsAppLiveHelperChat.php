@@ -249,6 +249,13 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         ]
                     ];
 
+                    $parameters2 = [
+                        [
+                            "type" => "text",
+                            "text" => $item->message_variables_array[2]['urlOffert']
+                        ]
+                    ];
+
                     $parametersOffer = [
                         "type" => "limited_time_offer",
                         "limited_time_offer" => ["expiration_time_ms" => $item->message_variables_array[1]['Expiration']]
@@ -265,17 +272,30 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         "index" => (int)$indexButton,
                         "parameters" => $parameters
                     ];
+
+                    $bodyArguments[] = [
+                        "type" => "button",
+                        "sub_type" => "url",
+                        "index" => 1,
+                        "parameters" => $parameters2
+                    ];
+                    
+                    
+
+
                 } elseif ($component['type'] == 'CAROUSEL') {
 
-                    $headerImageId = "1086211442696589";
-                    $bodyText3 = "10OFF";
-                    $bodyText4 = "10%";
-                    $buttonPayload1 = "59NqSd";
-                    $buttonPayload2 = "last_chance_2023";
-                    $bodyText5 = "30OFF";
-                    $bodyText6 = "30%";
-                    $buttonPayload3 = "7C4xhY";
-                    $buttonPayload4 = "summer_blues_2023";
+                   
+
+                    $headerImageId = "2257130667818028";
+                    $bodyText3 =  $item->message_variables_array[0];
+                    $bodyText4 = $item->message_variables_array[1];
+                    $buttonPayload1 = $item->message_variables_array[2];
+                    $buttonPayload2 = $item->message_variables_array[4];
+                    $bodyText5 = $item->message_variables_array[0];
+                    $bodyText6 = $item->message_variables_array[1];
+                    $buttonPayload3 = $item->message_variables_array[2];
+                    $buttonPayload4 = $item->message_variables_array[5];
 
                     // Creación del array asociativo en PHP
                     $jsonData = [
@@ -389,8 +409,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     ];
                     
                     $bodyArguments = $jsonData;
-                    print_r($bodyArguments);
-                    print_r('<br>');
+                    // print_r($bodyArguments);
+                    // print_r('<br>');
                 } 
                 
                 

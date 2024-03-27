@@ -7,13 +7,12 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php')); ?>
 
     <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/form_campaign.tpl.php')); ?>
-    <button class="btn btn-secondary btn-sm" type="submit" value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a test message'); ?></button>
     <div class="btn-group" role="group" aria-label="...">
         <input type="submit" class="btn btn-sm btn-secondary" name="Save_continue" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Assign recipients'); ?>" />
         <input type="submit" class="btn btn-sm btn-secondary" name="Cancel_page" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Cancel'); ?>" />
     </div> &nbsp;&nbsp;
     <button type="button" class="btn btn-warning btn-sm" onclick="return previewTemplate()">
-                <i class="material-icons">visibility</i> Preview
+                <i class="material-icons">visibility</i> Previsualizar
     </button>
 
 </form>
