@@ -183,11 +183,13 @@
                 </div>
 
                 <label style="display: none;" for="buttonOffertURL"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'URL site'); ?></strong></strong></label>
+                <input class="form-control" type="text" id="buttonNameOffertURL" name="buttonNameOffertURL" maxlength="25" placeholder="Nombre del boton" style="display: none;">
                 <input class="form-control" type="url" id="buttonOffertURL" name="buttonOffertURL" maxlength="2000" placeholder="https://www.google.com/" style="display: none;">
+                <button style="display: none;" type="button" id="validateButton" class="btn btn-dark"><span class="material-icons">edit_square</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Agregar campo para oferta'); ?></button>
 
                 <br>
                 <div class="mb-3 hidden-content">
-                    <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Footer'); ?></strong></label>
+                    <label for="footer" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Footer'); ?></strong></label>
                     <input type="text" class="form-control" id="footer" name="footer" maxlength="60">
                 </div>
 
@@ -534,6 +536,70 @@
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
 
+    <script>
+document.getElementById('buttonMPM').addEventListener('change', function() {
+    var headersDiv = document.getElementById('headers');
+    var headerSelect = document.getElementById('header');
+    var textHeaderLabel = document.getElementById('labelCampoDeTexto');
+    var textField = document.getElementById('campoDeTexto');
+
+    // Siempre mantener el estado del headerSelect cuando el checkbox está desmarcado
+    if (!this.checked) {
+        headerSelect.value = ''; // Reset header type
+        textHeaderLabel.hidden = true;
+        textField.hidden = true;
+    }
+
+    if (this.checked) {
+        headersDiv.style.display = 'block';
+        headerSelect.value = 'TEXT'; // Set header type to Text
+        headerSelect.disabled = true; // Disable header selection
+        textHeaderLabel.hidden = false;
+        textField.hidden = false;
+    } else {
+        headersDiv.style.display = 'none';
+        headerSelect.disabled = false; // Enable header selection
+    }
+});
+</script>
+    <script>
+        offert.addEventListener('change', function() {
+            const offert = document.getElementById('offert');
+            const buttonAddOffert = document.getElementById('validateButton');
+            const buttonNameOffertURL = document.getElementById('buttonNameOffertURL');
+            const footer = document.getElementById('footer');
+
+            if (offert.checked) {
+                footer.style.display = 'none';
+                buttonNameOffertURL.style.display = 'block';
+                buttonOffertURL.style.display = 'block';
+                buttonAddOffert.style.display = 'block';
+                document.querySelector('label[for="footer"]').style.display = 'none';
+                document.querySelector('label[for="buttonNameOffertURL"]').style.display = 'block';
+                document.querySelector('label[for="buttonOffertURL"]').style.display = 'block';
+                document.querySelector('label[for="buttonAddOffert"]').style.display = 'block';
+
+            } else {
+                buttonNameOffertURL.style.display = 'none';
+                buttonOffertURL.style.display = 'none';
+                buttonAddOffert.style.display = 'none';
+                document.querySelector('label[for="buttonNameOffertURL"]').style.display = 'none';
+                document.querySelector('label[for="buttonOffertURL"]').style.display = 'none';
+                document.querySelector('label[for="buttonAddOffert"]').style.display = 'none';
+
+            }
+        });
+        document.getElementById('validateButton').addEventListener('click', function() {
+            var urlInput = document.getElementById('buttonOffertURL');
+            var validSuffix = "?code={{1}}";
+
+            // Verificar si la URL ya contiene el sufijo
+            if (!urlInput.value.trim().endsWith(validSuffix)) {
+                // Agregar el sufijo si no está presente
+                urlInput.value = urlInput.value.trim() + validSuffix;
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

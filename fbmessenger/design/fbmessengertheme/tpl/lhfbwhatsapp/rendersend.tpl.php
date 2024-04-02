@@ -83,7 +83,7 @@ $fieldCountHeaderVideo = 0; ?>
             <?php elseif ($component['format'] == 'IMAGE') : $fieldCountHeaderImage = 1; ?>
                 <h5 class="text-secondary">IMAGE</h5>
                 <?php if (isset($component['example']['header_handle'][0])) : ?>
-                    <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>"  width="100px"/>
+                    <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0]) ?>" width="100px" />
                 <?php endif; ?>
             <?php else : ?>
                 <?php
@@ -187,7 +187,7 @@ $fieldCountHeaderVideo = 0; ?>
                     <?php endfor; ?>
                 </select>
                 <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
-                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="nombre_archivo<?php echo $i + 1 ?>" name="nombre_archivo<?php echo $i + 1 ?>" value="<?php if (isset($data['nombre_archivo' .  $i + 1])) : ?><?php echo htmlspecialchars($data['nombre_archivo' .  $i + 1]) ?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -256,24 +256,68 @@ $fieldCountHeaderVideo = 0; ?>
     <?php endforeach ?>
 
     <?php foreach ($template['components'] as $component) : ?>
-    <?php if ($component['type'] == 'BUTTONS') : ?>
-        <?php foreach ($component['buttons'] as $indexButton => $button) : ?>
-            <?php if ($button['type'] == 'COPY_CODE') : ?>
-                <div class="col-6">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Código de oferta</label>
-                        <input type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
+        <?php if ($component['type'] == 'BUTTONS') : ?>
+            <?php foreach ($component['buttons'] as $indexButton => $button) : ?>
+                <?php if ($button['type'] == 'COPY_CODE') : ?>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Código de oferta</label>
+                            <input type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <label class="font-weight-bold" for="expiration_offert">Fecha de caducidad</label>
+                            <input placeholder="Caducidad" type="date" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <label class="font-weight-bold" for="expiration_offert">Variable de oferta</label>
+                            <input placeholder="URL" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
+                        </div>
+
                     </div>
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <label class="font-weight-bold" for="expiration_offert">Fecha de caducidad</label>
-                        <input placeholder="Caducidad" type="date" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
-                    </div>
-                    <!-- <input placeholder="URL" type="url" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input"> -->
-                </div>
-            <?php endif ?>
-        <?php endforeach; ?>
-    <?php endif ?>
-<?php endforeach ?>
+                <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif ?>
+    <?php endforeach ?>
+
+    <?php
+    $bodyCard = 0;
+    $carouselquickbutton = 0;
+    $carouselURLbutton = 0;  // Inicializamos el contador
+    foreach ($template['components'] as $component) : ?>
+        <?php if ($component['type'] == 'CAROUSEL') : ?>
+            <?php foreach ($component['cards'] as $card) : ?>
+                <?php foreach ($card['components'] as $cardComponent) : ?>
+
+                    <?php if ($cardComponent['type'] == 'BODY') : ?>
+                        <label class="font-weight-bold" for="bodyCard<?php echo $bodyCard + 1 ?>">Cuerpo de tarjeta <?php echo $bodyCard + 1 ?> </label>
+                        <input type="text" class="form-control form-control-sm" id="bodyCard<?php echo $bodyCard + 1 ?>" name="bodyCard<?php echo $bodyCard + 1 ?>">
+                        <?php $bodyCard++; // Incrementamos el contador 
+                        ?>
+                    <?php endif ?>
+
+                    <?php if ($cardComponent['type'] == 'BUTTONS') : ?>
+                        <?php foreach ($cardComponent['buttons'] as $buttonsCard) : ?>
+                            <?php if ($buttonsCard['type'] == 'QUICK_REPLY') : ?>
+                                <label class="font-weight-bold" for="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">Boton respuesta tarjeta: <?php echo $carouselquickbutton + 1 ?> </label>
+                                <input type="text" class="form-control form-control-sm" id="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>" name="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">
+                                <?php $carouselquickbutton++; // Incrementamos el contador 
+                                ?>
+                            <?php endif ?>
+
+                            <?php if ($buttonsCard['type'] == 'URL') : ?>
+                                <label class="font-weight-bold" for="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">Boton URL tarjeta: <?php echo $carouselURLbutton + 1 ?> </label>
+                                <input type="url" class="form-control form-control-sm" id="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>" name="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">
+                                <?php $carouselURLbutton++; // Incrementamos el contador 
+                                ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
+
+                <?php endforeach ?>
+            <?php endforeach ?>
+
+        <?php endif ?>
+    <?php endforeach ?>
 
 </div>
 

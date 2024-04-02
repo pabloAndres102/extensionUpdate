@@ -186,11 +186,11 @@ $buttonsMPM = 0;
             </div>
         </div>
     <?php endfor; ?>
-    <!-- <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
+   <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
         <div class="form-group">
         <label class="font-weight-bold">Nombre de archivo - {{<?php echo $i + 1 ?>}}</label>
-        <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="field_header_doc_filename_<?php echo $i + 1 ?>" name="field_header_doc_filename_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1]) ?><?php endif; ?>">
-    <?php endfor; ?> -->
+        <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="nombre_archivo<?php echo $i + 1 ?>" name="nombre_archivo<?php echo $i + 1 ?>" value="<?php if (isset($data['nombre_archivo' .  $i + 1])) : ?><?php echo htmlspecialchars($data['nombre_archivo' .  $i + 1]) ?><?php endif; ?>">
+    <?php endfor; ?> 
 
     <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
         <div class="col-6" ng-non-bindable>
@@ -258,6 +258,7 @@ $buttonsMPM = 0;
                             <label class="font-weight-bold" for="expiration_offert">Variable de oferta</label>
                             <input placeholder="URL" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
                         </div>
+
                     </div>
                 <?php endif ?>
             <?php endforeach; ?>

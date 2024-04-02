@@ -130,7 +130,7 @@ if (ezcInputForm::hasPostData()) {
             ezcInputFormDefinitionElement::OPTIONAL,
             'unsafe_raw'
         ),
-        'field_header_doc_filename_1' => new ezcInputFormDefinitionElement(
+        'nombre_archivo1' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL,
             'unsafe_raw'
         ),
@@ -216,7 +216,7 @@ if (ezcInputForm::hasPostData()) {
     for ($i = 0; $i < 6; $i++) {
         if ($form->hasValidData('field_header_doc_' . $i) && $form->{'field_header_doc_' . $i}) {
             $messageVariables['field_header_doc_' . $i] = $form->{'field_header_doc_' . $i};
-            $messageVariables['field_header_doc_filename_' . $i] = $form->hasValidData('field_header_doc_filename_' . $i) && $form->{'field_header_doc_filename_' . $i} ? $form->{'field_header_doc_filename_' . $i} : '';
+            $messageVariables['nombre_archivo' . $i] = $form->hasValidData('nombre_archivo' . $i) && $form->{'nombre_archivo' . $i} ? $form->{'nombre_archivo' . $i} : '';
         }
     }
 

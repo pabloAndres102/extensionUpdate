@@ -158,7 +158,9 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = [])
         {
 
-
+            $protocol = 'https://';
+            $http = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+            $host = $protocol.$http;
 
             $argumentsTemplate = [];
 
@@ -415,31 +417,52 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 
                 
                 elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
+
+                    $videoLink = isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
+                    if (strpos($videoLink, $host) !== 0) {
+                        $videoLink = rtrim($host, '/') . '/' . ltrim($videoLink, '/');
+                    }
+
                     $parametersHeader[] = [
                         "type" => "video",
                         "video" => [
-                            "link" => (isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                            "link" => $videoLink
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
+                    
+
+                    $documentLink = isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
+                
+                    // Verificar si el host no está presente al principio de $documentLink y concatenarlo si es necesario
+                    if (strpos($documentLink, $host) !== 0) {
+                        $documentLink = rtrim($host, '/') . '/' . ltrim($documentLink, '/');
+                    }
+                
                     $itemSend = [
                         "type" => "document",
                         "document" => [
-                            "link" => (isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                            "link" => $documentLink
                         ]
                     ];
-                    // if (isset($messageVariables['field_header_doc_filename_1']) && $messageVariables['field_header_doc_filename_1'] != '') {
-                    //     $itemSend['document']['filename'] = $messageVariables['field_header_doc_filename_1'];
-                    // }
-
-                    $itemSend['document']['filename'] = 'Ver Documento PDF';
-
+                
+                    // Si tienes el nombre del archivo, puedes adjuntarlo aquí
+                    if (isset($messageVariables['nombre_archivo1']) && $messageVariables['nombre_archivo1'] != '') {
+                        $itemSend['document']['filename'] = $messageVariables['nombre_archivo1'];
+                    }
+                   
                     $parametersHeader[] = $itemSend;
+                  
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
+                    $imageLink = isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
+                    if (strpos($imageLink, $host) !== 0) {
+                        $imageLink = rtrim($host, '/') . '/' . ltrim($imageLink, '/');
+                    }
+                
                     $parametersHeader[] = [
                         "type" => "image",
                         "image" => [
-                            "link" => (isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
+                            "link" => $imageLink
                         ]
                     ];
                 }

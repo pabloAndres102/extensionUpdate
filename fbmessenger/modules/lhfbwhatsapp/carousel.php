@@ -176,3 +176,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $Result['content'] = $tpl->fetch();
+
+$Result['path'] = array(
+    array(
+        'url' => erLhcoreClassDesign::baseurl('fbmessenger/index'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat')
+    ),
+    array(
+        'url' => erLhcoreClassDesign::baseurl('fbwhatsapp/templates'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates')
+    ),
+    array(
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Carousel')
+    )
+);

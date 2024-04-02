@@ -19,6 +19,9 @@ $Result['path'] = array(
     'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create')
   )
 );
+
+
+
 $components = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
@@ -57,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
   $offert = $_POST['offert'];
   $buttonOffertURL = $_POST['buttonOffertURL'];
+  $buttonNameOffertURL = $_POST['buttonNameOffertURL'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
 
@@ -183,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $button[] = [
       "type" => "url",
-      "text" => "Reservar ahora",
+      "text" => $buttonNameOffertURL,
       "url" => $buttonOffertURL,
       "example" => "TEST"
     ];

@@ -1,3 +1,37 @@
+<style>
+    .carousel-card {
+        display: inline-block;
+        /* Hacer que el contenedor se ajuste al contenido */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+
+    .carousel-card label {
+        margin-top: 5px;
+    }
+
+    .carousel-card textarea,
+    .carousel-card input[type="text"],
+    .carousel-card input[type="url"] {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .carousel-card textarea {
+        height: 100px;
+        /* Ajusta la altura del textarea según sea necesario */
+    }
+</style>
+
+<center>
+    <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create carousel'); ?></h1>
+</center> <br>
+<center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
+
+
 <form action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel') ?> enctype="multipart/form-data" method="post">
     <div class="mb-3">
         <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
@@ -76,7 +110,7 @@
     <input type="hidden" name="templateCat" value="MARKETING">
 
     <div class="mb-3">
-        <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong></label>
+        <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong><small>  (Card header)</small></label>
         <select class="form-select" id="header" name="header" aria-label="Default select example" required>
             <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
             <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
@@ -84,34 +118,68 @@
         </select>
 
         <input type="file" name="archivo" id="archivo" class="form-control" required>
+        <br>
         <div>
-            <label for="cardBody"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Body'); ?></strong></label>
+            <label for="cardBody"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Body'); ?></strong><small>  (Message bubble)</small></label>
             <textarea id="cardBody" name="cardBody" class="form-control z-depth-1" rows="3" maxlength="1024" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Remember that you can load a maximum of 5 variables'); ?>"></textarea>
+            <button type="button" onclick="agregarVariable()" class="btn btn-primary"><span class="material-icons">visibility</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Agregar variable'); ?></button>
         </div>
-
-        <br><br>
-        <h3>Cards</h3>
-        <div>
-            <label for="textAreacard"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Card body'); ?></strong></label>
-            <textarea id="textAreacard" name="textAreacard" class="form-control z-depth-1" rows="3" maxlength="1024"></textarea required>
+        <br>
+        <br>
+        <div class="mb-3" style="display: flex;">
+            <div style="flex: 1;">
+                <h3><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Tarjeta de carrusel'); ?></strong></h3>
+                <div class="carousel-card">
+                    <label for="textAreacard"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Cuerpo de tarjeta'); ?></strong><small>  (Card body)</small></label>
+                    <textarea id="textAreacard" name="textAreacard" class="form-control z-depth-1" rows="2" maxlength="1024" required></textarea>
+                    <label for="buttonquickcard"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Boton de respuesta rapida'); ?></strong><small>  (Card buttons)</small></label>
+                    <input class="form-control" type="text" id="buttonquickcard" name="buttonquickcard" maxlength="25" required>
+                    <label for="urlButton"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Boton de enlace URL'); ?></strong><small>  (Card buttons)</small></label>
+                    <input class="form-control" type="url" id="urlButton" name="urlButton" maxlength="500" required>
+                </div>
+            </div>
+            <div style="flex: 1;">
+                <a href="#" id="showImageLink"><span class="material-icons">
+                question_mark
+                    </span>Ver ejemplo</a>
+                <div id="imageContainer" style="display: none;">
+                    <img id="imageToShow" src="https://scontent.feoh3-1.fna.fbcdn.net/v/t39.2365-6/400516056_3407655096213958_4402509594423009060_n.png?stp=dst-webp&_nc_cat=102&ccb=1-7&_nc_sid=e280be&_nc_ohc=jsRvy7q2tQkAX9d7ic4&_nc_ht=scontent.feoh3-1.fna&oh=00_AfC2GImtpy-2GJqXhvhTEbS2cT-J32kN6UXdeQksS0aneA&oe=6626556E" alt="Imagen">
+                </div>
+            </div>
         </div>
-
-        <label for="buttonquickcard"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button quick card'); ?></strong></label>
-        <input class="form-control" type="text" id="buttonquickcard" name="buttonquickcard" maxlength="25" required>
-
-        <label for="urlButton"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Button URL card'); ?></strong></label>
-        <input class="form-control" type="url" id="urlButton" name="urlButton" maxlength="500" required>
-
     </div>
 
-    <button type="submit" class="btn btn-success"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Send'); ?></button>
-
-
-
-
-
-
-
-
-
+    <button type="submit" class="btn btn-success"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Create'); ?></button>
 </form>
+<script>
+    function agregarVariable() {
+        // Obtener el textarea y su contenido actual
+        let textarea = document.getElementById('cardBody');
+        let contenido = textarea.value;
+
+        // Contar cuántas variables ya están presentes
+        let numVariables = (contenido.match(/{{\d+}}/g) || []).length;
+
+        // Verificar si ya se han agregado 5 variables
+        if (numVariables < 5) {
+            // Agregar la cadena {{n}} al contenido del textarea
+            contenido += ' {{' + (numVariables + 1) + '}} ';
+            // Actualizar el contenido del textarea
+            textarea.value = contenido;
+        } else {
+            // Si ya se han agregado 5 variables, mostrar un mensaje de error
+            alert('Solo se permiten hasta 5 variables.');
+        }
+    }
+</script>
+<script>
+    document.getElementById('showImageLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        var imageContainer = document.getElementById('imageContainer');
+        if (imageContainer.style.display === 'none') {
+            imageContainer.style.display = 'block';
+        } else {
+            imageContainer.style.display = 'none';
+        }
+    });
+</script>
