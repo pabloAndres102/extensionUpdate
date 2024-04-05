@@ -265,17 +265,17 @@ if (ezcInputForm::hasPostData()) {
     // CAROUSEL INPUTS
 
 
-    if(isset($_POST['bodyCard1'])){
-        $item->message_variables_array[] = $_POST['bodyCard1'];
-        $item->message_variables_array[] = $_POST['bodyCard2'];
+    // if(isset($_POST['bodyCard1'])){
+    //     $item->message_variables_array[] = $_POST['bodyCard1'];
+    //     $item->message_variables_array[] = $_POST['bodyCard2'];
 
-        $item->message_variables_array[] = $_POST['carouselquickbutton1'];
-        $item->message_variables_array[] = $_POST['carouselquickbutton2'];
+    //     $item->message_variables_array[] = $_POST['carouselquickbutton1'];
+    //     $item->message_variables_array[] = $_POST['carouselquickbutton2'];
 
-        $item->message_variables_array[] = $_POST['carouselURLbutton1'];
-        $item->message_variables_array[] = $_POST['carouselURLbutton2'];
+    //     $item->message_variables_array[] = $_POST['carouselURLbutton1'];
+    //     $item->message_variables_array[] = $_POST['carouselURLbutton2'];
         
-    }
+    // }
 
 
 

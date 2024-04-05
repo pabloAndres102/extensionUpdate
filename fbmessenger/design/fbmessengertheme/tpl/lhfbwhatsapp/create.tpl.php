@@ -20,7 +20,6 @@
             <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?></h1>
         </center> <br>
         <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates'); ?>" class="btn btn-primary"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></center>
-        <center><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel') ?>"><span class="material-icons">view_carousel</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create carousel'); ?></a></center>
         <form method="POST" action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create') ?> enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
@@ -185,7 +184,6 @@
                 <label style="display: none;" for="buttonOffertURL"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'URL site'); ?></strong></strong></label>
                 <input class="form-control" type="text" id="buttonNameOffertURL" name="buttonNameOffertURL" maxlength="25" placeholder="Nombre del boton" style="display: none;">
                 <input class="form-control" type="url" id="buttonOffertURL" name="buttonOffertURL" maxlength="2000" placeholder="https://www.google.com/" style="display: none;">
-                <button style="display: none;" type="button" id="validateButton" class="btn btn-dark"><span class="material-icons">edit_square</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Agregar campo para oferta'); ?></button>
 
                 <br>
                 <div class="mb-3 hidden-content">
@@ -565,7 +563,7 @@ document.getElementById('buttonMPM').addEventListener('change', function() {
     <script>
         offert.addEventListener('change', function() {
             const offert = document.getElementById('offert');
-            const buttonAddOffert = document.getElementById('validateButton');
+
             const buttonNameOffertURL = document.getElementById('buttonNameOffertURL');
             const footer = document.getElementById('footer');
 
@@ -573,30 +571,20 @@ document.getElementById('buttonMPM').addEventListener('change', function() {
                 footer.style.display = 'none';
                 buttonNameOffertURL.style.display = 'block';
                 buttonOffertURL.style.display = 'block';
-                buttonAddOffert.style.display = 'block';
+               
                 document.querySelector('label[for="footer"]').style.display = 'none';
                 document.querySelector('label[for="buttonNameOffertURL"]').style.display = 'block';
                 document.querySelector('label[for="buttonOffertURL"]').style.display = 'block';
-                document.querySelector('label[for="buttonAddOffert"]').style.display = 'block';
+
 
             } else {
                 buttonNameOffertURL.style.display = 'none';
                 buttonOffertURL.style.display = 'none';
-                buttonAddOffert.style.display = 'none';
+
                 document.querySelector('label[for="buttonNameOffertURL"]').style.display = 'none';
                 document.querySelector('label[for="buttonOffertURL"]').style.display = 'none';
-                document.querySelector('label[for="buttonAddOffert"]').style.display = 'none';
 
-            }
-        });
-        document.getElementById('validateButton').addEventListener('click', function() {
-            var urlInput = document.getElementById('buttonOffertURL');
-            var validSuffix = "?code={{1}}";
 
-            // Verificar si la URL ya contiene el sufijo
-            if (!urlInput.value.trim().endsWith(validSuffix)) {
-                // Agregar el sufijo si no está presente
-                urlInput.value = urlInput.value.trim() + validSuffix;
             }
         });
     </script>

@@ -19,6 +19,10 @@
     <translation>Enviar plantilla whatsapp</translation>
   </message>
   <message>
+    <source>Send campaign</source>
+    <translation>Enviar campaña</translation>
+  </message>
+  <message>
     <source>Create carousel</source>
     <translation>Crear carrusel</translation>
   </message>

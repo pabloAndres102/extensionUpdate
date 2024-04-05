@@ -1,7 +1,8 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaigns list'); ?></h1>
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_mailinglist.tpl.php')); ?>
-
+<a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
+<br>
 <?php if (isset($items)) : ?>
 <?php
 // Comprueba si hay un mensaje de éxito en la variable de sesión
@@ -9,6 +10,13 @@ if (isset($_SESSION['activate'])) {
     echo '<div class="alert alert-success">' . $_SESSION['activate'] . '</div>';
     // Elimina el mensaje de éxito de la variable de sesión para que no se muestre nuevamente después de la recarga
     unset($_SESSION['activate']);
+}
+
+if (isset($_SESSION['create'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['create'] . '</div>';
+    echo '<div class="alert alert-warning">' . $_SESSION['remember'] . '</div>';
+    unset($_SESSION['create']);
+    unset($_SESSION['remember']);
 }
 
 // Comprueba si hay un mensaje de error en la variable de sesión
@@ -31,7 +39,7 @@ if (isset($_SESSION['email_send_status'])) {
     unset($_SESSION['email_send_status']);
 }
 ?>
-<a class="btn btn-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'New'); ?></a>
+
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
             <tr>

@@ -5,7 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Agrega un estilo para la clase 'components-column' */
+        .btn-group>a {
+            margin-right: 10px;
+            /* Puedes ajustar el valor según tu preferencia */
+        }
+
         .components-column {
             max-width: 300px;
             /* Puedes ajustar el valor según tus necesidades */
@@ -17,7 +21,22 @@
 
 <body>
     <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></h1>
-    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary"><span class="material-icons">add_circle_outline</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create'); ?></a> <br><br>
+
+    <div class="btn-group" role="group" aria-label="Acciones">
+        <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/create'); ?>" class="btn btn-primary d-flex align-items-center">
+            <span class="material-icons mr-2">add_circle_outline</span>
+            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create template'); ?>
+        </a>
+        <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel'); ?>" class="btn btn-primary d-flex align-items-center">
+            <span class="material-icons mr-2">view_carousel</span>
+            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Create carousel'); ?>
+        </a>
+    </div>
+
+
+
+    <br><br>
+    </div>
     <?php
     // Comprueba si hay un mensaje de éxito en la variable de sesión
     if (isset($_SESSION['delete_template_message'])) {
@@ -98,6 +117,7 @@
                 <th>Idioma</th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/pendingchats', 'Status') ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation', 'Category') ?></th>
+                <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/proactivechatinvitation', 'Template type') ?></th>
                 <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/file', 'Components') ?></th>
             </tr>
         </thead>
@@ -153,6 +173,31 @@
                             }
                             ?>
                         </td>
+                        <td>
+                            <?php
+                            $templateType = ''; // Variable para almacenar el tipo de plantilla
+                            foreach ($template['components'] as $component) {
+                                if ($component['type'] == 'CAROUSEL') {
+                                    $templateType = 'CARRUSEL';
+                                } elseif ($component['type'] == 'LIMITED_TIME_OFFER') {
+                                    $templateType = 'OFERTA';
+                                }
+                                foreach ($component['buttons'] as $buttons) {
+                                    if ($buttons['type'] == 'MPM') {
+                                        $templateType = 'MULTIPRODUCTO';
+                                    }
+                                    if ($buttons['type'] == 'CATALOG') {
+                                        $templateType = 'CATALOGO';
+                                    }
+                                }
+                            }
+                            if (empty($templateType)) {
+                                $templateType = 'ESTÁNDAR';
+                            }
+                            echo htmlspecialchars($templateType);
+                            ?>
+                        </td>
+
                         <td class="components-column">
                             <?php $fieldsCount = 0;
                             $fieldsCountHeader = 0;

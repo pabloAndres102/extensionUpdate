@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $carouselHeadertext = $_POST['carouselHeadertext'];
     $headertype = isset($_POST['header']) ? $_POST['header'] : "";
+    $numTarjetas = $_POST['numTarjetas'];
 
     $cardBody = $_POST['cardBody'];
     $urlButton = $_POST['urlButton'];
@@ -22,87 +23,104 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $textBodyCard = $_POST['textAreacard'];
     $buttonquickcard = $_POST['buttonquickcard'];
 
-    $archivo_temporal = $_FILES['archivo']['tmp_name'];
-    $nombre_archivo = $_FILES["archivo"]["name"];
-    $tipo_archivo = $_FILES["archivo"]["type"];
-    $tamaño_archivo = $_FILES["archivo"]["size"];
-
-
-    if (!empty($archivo_temporal)) {
-        $archivo_bytes = file_get_contents($archivo_temporal);
-    }
-
-
-    $ch = curl_init();
-    $nombre_archivo = str_replace(' ', '', $nombre_archivo);
-
-    curl_setopt_array($ch, array(
-        CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $app_id . '/uploads?file_length=' . $tamaño_archivo . '&file_type=' . $tipo_archivo . '&file_name=' . $nombre_archivo . '', # Revisar en caso de que requiera la extension el nombre
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $token
-        ),
-    ));
-
-    $responseid = curl_exec($ch);
-    $response_data = json_decode($responseid, true);
-    $session_id = $response_data['id'] ?? "";
-
-    curl_close($ch);
-
-    # UPLOAD
-
-    $ch2 = curl_init();
-    $post_data = isset($archivo_bytes) ? $archivo_bytes : $carouselHeadertext;
-
-    curl_setopt_array($ch2, array(
-        CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $session_id . '',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => $post_data,
-        CURLOPT_HTTPHEADER => array(
-            'file_offset: 0',
-            'Content-Type: application/json',
-            'Authorization: OAuth ' . $token
-        ),
-    ));
-
-    $response = curl_exec($ch2);
-    $response_data2 = json_decode($response, true);
-
-    $uploadedFileId = $response_data2['h'] ?? "";
-
-
-    curl_close($ch2);
+   
 
     // print_r($response_data2);
 
     $url = 'https://graph.facebook.com/v18.0/' . $whatsapp_business_account_id . '/message_templates';
 
     if (isset($templateCat)) {
-        $components = [
+        $cards = [];
+        
+
+    for ($i = 0; $i < $numTarjetas; $i++) {
+
+        $archivo_temporal = $_FILES['archivo'.$i]['tmp_name'];
+        $nombre_archivo = $_FILES["archivo".$i]["name"];
+        $tipo_archivo = $_FILES["archivo".$i]["type"];
+        $tamaño_archivo = $_FILES["archivo".$i]["size"];
+    
+    
+        if (!empty($archivo_temporal)) {
+            $archivo_bytes = file_get_contents($archivo_temporal);
+        }
+    
+    
+        $ch = curl_init();
+        $nombre_archivo = str_replace(' ', '', $nombre_archivo);
+    
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $app_id . '/uploads?file_length=' . $tamaño_archivo . '&file_type=' . $tipo_archivo . '&file_name=' . $nombre_archivo . '', # Revisar en caso de que requiera la extension el nombre
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $token
+            ),
+        ));
+    
+        $responseid = curl_exec($ch);
+        $response_data = json_decode($responseid, true);
+        $session_id = $response_data['id'] ?? "";
+    
+        curl_close($ch);
+    
+        # UPLOAD
+    
+        $ch2 = curl_init();
+        $post_data = isset($archivo_bytes) ? $archivo_bytes : $carouselHeadertext;
+    
+        curl_setopt_array($ch2, array(
+            CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $session_id . '',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => array(
+                'file_offset: 0',
+                'Content-Type: application/json',
+                'Authorization: OAuth ' . $token
+            ),
+        ));
+    
+        $response = curl_exec($ch2);
+        $response_data2 = json_decode($response, true);
+    
+        $uploadedFileId = $response_data2['h'] ?? "";
+    
+    
+        curl_close($ch2);
+
+
+
+        $components = [];
+        // Obtener los valores de cada campo de la tarjeta actual
+        $textBodyCard = $_POST['textAreacard'.$i];
+        $buttonquickcard = $_POST['buttonquickcard'.$i];
+        $urlButton = $_POST['urlButton'.$i];
+
+        // Crear un array asociativo para representar los datos de la tarjeta actual
+        $components[] = 
             [
                 "type" => "HEADER",
                 "format" => $headertype,
                 "example" => ["header_handle" => [$uploadedFileId]]
-            ],
-            [
+            ];
+
+        $components[] =  [
                 "type" => "BODY",
                 "text" => $textBodyCard
-            ],
-            [
+        ];
+        $components[] =  [
                 "type" => "BUTTONS",
                 "buttons" => [
                     [
@@ -116,7 +134,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ]
                 ]
             ]
+        ;
+                      
+        $cards[] = [
+            "components" => $components
         ];
+    }
 
 
         $cardComponents[] = [
@@ -127,14 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $cardComponents[] = [
             "type" => "CAROUSEL",
-            "cards" => [
-                [
-                    "components" => $components
-                ],
-                [
-                    "components" => $components
-                ]
-            ]
+            "cards" => $cards
         ];
     }
 
@@ -147,6 +163,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'components' => $cardComponents
         );
     }
+
+
+    // print_r($data);
+    // print_r('<br>');
 
     $ch = curl_init();
     $headers = array();

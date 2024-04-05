@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-9"  style="margin-top: 10px;">
+            <div class="col-9" style="margin-top: 10px;">
                 <div class="form-group">
                     <label class="<?php ($item->starts_at > 0 && $item->starts_at < time()) ? print 'text-danger' : '' ?> "><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Start sending at'); ?> <b><?php print date_default_timezone_get() ?></b>, Current time - <b>[<?php echo (new DateTime('now', new DateTimeZone(date_default_timezone_get())))->format('Y-m-d H:i:s') ?>]</b></label>
                     <input id="startDateTime" class="form-control form-control-sm" name="starts_at" type="text" value="<?php echo date('Y-m-d\TH:i', $item->starts_at > 0 ? $item->starts_at : time()) ?>">
@@ -58,11 +58,24 @@
                 </label> -->
             </div>
 
-            <?php if (isset($disabledCampaign) && $disabledCampaign == true) : ?>
-                <div class="text-danger"><small><i>You will be able to activate the campaign once you have at least one recipient</i></small></div>
-            <?php endif; ?>
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Seleccionar lista de contactos'); ?></label>
+            <div>
+                <?php
+                    $params = array (
+                        'input_name'     => 'ml[]',
+                        'display_name'   => 'name',
+                        'css_class'      => 'form-control',
+                        'multiple'       => true,
+                        'wrap_prepend'   => '<div class="col-4">',
+                        'wrap_append'    => '</div>',
+                        'selected_id'    => [],
+                        'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::getList',
+                        'list_function_params'  => \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::limitContactList()
+                    );
+                    echo erLhcoreClassRenderHelper::renderCombobox( $params );
+                ?>
+            </div>
 
-            <div><small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Only once the campaign is activated will we start sending messages. Progress can be seen in the Statistics tab.'); ?></i></small></div>
         </div>
         <script>
             var messageFieldsValues = <?php echo json_encode($item->message_variables_array); ?>;
@@ -93,7 +106,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Template'); ?>*</label>
             <select name="template" class="form-control form-control-sm" id="template-to-send">
@@ -138,7 +151,7 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Inicializa Flatpickr en el input de fecha y hora
         flatpickr('#startDateTime', {
             enableTime: true, // Permite la selección de la hora
@@ -148,59 +161,57 @@
     });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    
-    // Obtiene una referencia al formulario
-    var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
+    document.addEventListener('DOMContentLoaded', function() {
 
-    // Nombres de campos a excluir de la validación
-    var excludeFields = ['email'];
+        // Obtiene una referencia al formulario
+        var form = document.querySelector('form'); // Reemplaza 'form' con el selector correcto para tu formulario
 
-    // Agrega un evento de escucha para el evento "submit" del formulario
-    form.addEventListener('submit', function (event) {
-        // Verifica si el formulario está en la pestaña de estadísticas
-        var isStatisticsTab = document.querySelector('a[href="#statistic"]').classList.contains('active');
+        // Nombres de campos a excluir de la validación
+        var excludeFields = ['email'];
 
-        // Si está en la pestaña de estadísticas, permite el envío del formulario
-        if (isStatisticsTab) {
-            return;
-        }
+        // Agrega un evento de escucha para el evento "submit" del formulario
+        form.addEventListener('submit', function(event) {
+            // Verifica si el formulario está en la pestaña de estadísticas
+            var isStatisticsTab = document.querySelector('a[href="#statistic"]').classList.contains('active');
 
-        // Obtiene una lista de todos los elementos de entrada que deseas validar
-        var inputsToValidate = form.querySelectorAll('.form-control');
+            // Si está en la pestaña de estadísticas, permite el envío del formulario
+            if (isStatisticsTab) {
+                return;
+            }
 
-        // Variable para rastrear si se encontró un campo vacío excluido
-        var foundEmptyExcludedField = false;
+            // Obtiene una lista de todos los elementos de entrada que deseas validar
+            var inputsToValidate = form.querySelectorAll('.form-control');
 
-        // Recorre la lista de elementos de entrada
-        for (var i = 0; i < inputsToValidate.length; i++) {
-            var input = inputsToValidate[i];
+            // Variable para rastrear si se encontró un campo vacío excluido
+            var foundEmptyExcludedField = false;
 
-            // Verifica si el campo está vacío
-            if (input.value.trim() === '') {
-                // Verifica si el nombre del campo está en el array de campos excluidos
-                if (excludeFields.some(function (excludedName) {
-                        return input.name.indexOf(excludedName) === 0;
-                    })) {
-                    // Si es un campo excluido, marca que se encontró un campo vacío excluido
-                    foundEmptyExcludedField = true;
-                } else {
-                    // Si no es un campo excluido, evita que el formulario se envíe
-                    event.preventDefault();
-                    // Muestra un mensaje de error o realiza cualquier otra acción que desees
-                    alert('Por favor, complete todos los campos obligatorios.');
-                    // Sale del bucle una vez que se encuentra un campo vacío
-                    return;
+            // Recorre la lista de elementos de entrada
+            for (var i = 0; i < inputsToValidate.length; i++) {
+                var input = inputsToValidate[i];
+
+                // Verifica si el campo está vacío
+                if (input.value.trim() === '') {
+                    // Verifica si el nombre del campo está en el array de campos excluidos
+                    if (excludeFields.some(function(excludedName) {
+                            return input.name.indexOf(excludedName) === 0;
+                        })) {
+                        // Si es un campo excluido, marca que se encontró un campo vacío excluido
+                        foundEmptyExcludedField = true;
+                    } else {
+                        // Si no es un campo excluido, evita que el formulario se envíe
+                        event.preventDefault();
+                        // Muestra un mensaje de error o realiza cualquier otra acción que desees
+                        alert('Por favor, complete todos los campos obligatorios.');
+                        // Sale del bucle una vez que se encuentra un campo vacío
+                        return;
+                    }
                 }
             }
-        }
 
-        // Si se encontró un campo vacío excluido y no se encontraron otros campos vacíos, permite enviar el formulario
-        if (foundEmptyExcludedField) {
-            return;
-        }
+            // Si se encontró un campo vacío excluido y no se encontraron otros campos vacíos, permite enviar el formulario
+            if (foundEmptyExcludedField) {
+                return;
+            }
+        });
     });
-});
-
 </script>
-

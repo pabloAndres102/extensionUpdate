@@ -16,6 +16,8 @@ if (!($campaign instanceof \LiveHelperChatExtension\fbmessenger\providers\erLhco
     die('Invalid campaign!');
 }
 
+
+
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
 
 if ($Params['user_parameters_unordered']['export'] == 'csv') {

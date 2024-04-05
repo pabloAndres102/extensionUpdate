@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $buttonMPM = $_POST['buttonMPM'];
   
   $offert = $_POST['offert'];
-  $buttonOffertURL = $_POST['buttonOffertURL'];
+  $buttonOffertURL = $_POST['buttonOffertURL'] . '?code={{1}}';
   $buttonNameOffertURL = $_POST['buttonNameOffertURL'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;

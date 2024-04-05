@@ -289,128 +289,128 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                    
 
-                    $headerImageId = "2257130667818028";
-                    $bodyText3 =  $item->message_variables_array[0];
-                    $bodyText4 = $item->message_variables_array[1];
-                    $buttonPayload1 = $item->message_variables_array[2];
-                    $buttonPayload2 = $item->message_variables_array[4];
-                    $bodyText5 = $item->message_variables_array[0];
-                    $bodyText6 = $item->message_variables_array[1];
-                    $buttonPayload3 = $item->message_variables_array[2];
-                    $buttonPayload4 = $item->message_variables_array[5];
+                    // $headerImageId = "2257130667818028";
+                    // $bodyText3 =  $item->message_variables_array[0];
+                    // $bodyText4 = $item->message_variables_array[1];
+                    // $buttonPayload1 = $item->message_variables_array[2];
+                    // $buttonPayload2 = $item->message_variables_array[4];
+                    // $bodyText5 = $item->message_variables_array[0];
+                    // $bodyText6 = $item->message_variables_array[1];
+                    // $buttonPayload3 = $item->message_variables_array[2];
+                    // $buttonPayload4 = $item->message_variables_array[5];
 
-                    // Creación del array asociativo en PHP
-                    $jsonData = [
-                        [
-                            "type" => "CAROUSEL",
-                            "cards" => [
-                                [
-                                    "card_index" => 0,
-                                    "components" => [
-                                        [
-                                            "type" => "HEADER",
-                                            "parameters" => [
-                                                [
-                                                    "type" => "IMAGE",
-                                                    "image" => [
-                                                        "id" => $headerImageId
-                                                    ]
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BODY",
-                                            "parameters" => [
-                                                [
-                                                    "type" => "TEXT",
-                                                    "text" => $bodyText3
-                                                ],
-                                                [
-                                                    "type" => "TEXT",
-                                                    "text" => $bodyText4
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BUTTON",
-                                            "sub_type" => "QUICK_REPLY",
-                                            "index" => 0,
-                                            "parameters" => [
-                                                [
-                                                    "type" => "PAYLOAD",
-                                                    "payload" => $buttonPayload1
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BUTTON",
-                                            "sub_type" => "URL",
-                                            "index" => 1,
-                                            "parameters" => [
-                                                [
-                                                    "type" => "payload",
-                                                    "payload" => $buttonPayload2
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                [
-                                    "card_index" => 1,
-                                    "components" => [
-                                        [
-                                            "type" => "HEADER",
-                                            "parameters" => [
-                                                [
-                                                    "type" => "IMAGE",
-                                                    "image" => [
-                                                        "id" => $headerImageId
-                                                    ]
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BODY",
-                                            "parameters" => [
-                                                [
-                                                    "type" => "TEXT",
-                                                    "text" => $bodyText5
-                                                ],
-                                                [
-                                                    "type" => "TEXT",
-                                                    "text" => $bodyText6
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BUTTON",
-                                            "sub_type" => "QUICK_REPLY",
-                                            "index" => 0,
-                                            "parameters" => [
-                                                [
-                                                    "type" => "PAYLOAD",
-                                                    "payload" => $buttonPayload3
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            "type" => "BUTTON",
-                                            "sub_type" => "URL",
-                                            "index" => 1,
-                                            "parameters" => [
-                                                [
-                                                    "type" => "payload",
-                                                    "payload" => $buttonPayload4
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ];
+                    // // Creación del array asociativo en PHP
+                    // $jsonData = [
+                    //     [
+                    //         "type" => "CAROUSEL",
+                    //         "cards" => [
+                    //             [
+                    //                 "card_index" => 0,
+                    //                 "components" => [
+                    //                     [
+                    //                         "type" => "HEADER",
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "IMAGE",
+                    //                                 "image" => [
+                    //                                     "id" => $headerImageId
+                    //                                 ]
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BODY",
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "TEXT",
+                    //                                 "text" => $bodyText3
+                    //                             ],
+                    //                             [
+                    //                                 "type" => "TEXT",
+                    //                                 "text" => $bodyText4
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BUTTON",
+                    //                         "sub_type" => "QUICK_REPLY",
+                    //                         "index" => 0,
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "PAYLOAD",
+                    //                                 "payload" => $buttonPayload1
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BUTTON",
+                    //                         "sub_type" => "URL",
+                    //                         "index" => 1,
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "payload",
+                    //                                 "payload" => $buttonPayload2
+                    //                             ]
+                    //                         ]
+                    //                     ]
+                    //                 ]
+                    //             ],
+                    //             [
+                    //                 "card_index" => 1,
+                    //                 "components" => [
+                    //                     [
+                    //                         "type" => "HEADER",
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "IMAGE",
+                    //                                 "image" => [
+                    //                                     "id" => $headerImageId
+                    //                                 ]
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BODY",
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "TEXT",
+                    //                                 "text" => $bodyText5
+                    //                             ],
+                    //                             [
+                    //                                 "type" => "TEXT",
+                    //                                 "text" => $bodyText6
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BUTTON",
+                    //                         "sub_type" => "QUICK_REPLY",
+                    //                         "index" => 0,
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "PAYLOAD",
+                    //                                 "payload" => $buttonPayload3
+                    //                             ]
+                    //                         ]
+                    //                     ],
+                    //                     [
+                    //                         "type" => "BUTTON",
+                    //                         "sub_type" => "URL",
+                    //                         "index" => 1,
+                    //                         "parameters" => [
+                    //                             [
+                    //                                 "type" => "payload",
+                    //                                 "payload" => $buttonPayload4
+                    //                             ]
+                    //                         ]
+                    //                     ]
+                    //                 ]
+                    //             ]
+                    //         ]
+                    //     ]
+                    // ];
                     
-                    $bodyArguments = $jsonData;
+                    // $bodyArguments = $jsonData;
                     // print_r($bodyArguments);
                     // print_r('<br>');
                 } 

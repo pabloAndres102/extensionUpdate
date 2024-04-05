@@ -256,7 +256,7 @@ $buttonsMPM = 0;
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <label class="font-weight-bold" for="expiration_offert">Variable de oferta</label>
-                            <input placeholder="URL" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
+                            <input placeholder="Codigo de oferta" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
                         </div>
 
                     </div>
@@ -266,45 +266,7 @@ $buttonsMPM = 0;
     <?php endforeach ?>
 
 
-    <?php
-    $bodyCard = 0;
-    $carouselquickbutton = 0;
-    $carouselURLbutton = 0;  // Inicializamos el contador
-    foreach ($template['components'] as $component) : ?>
-        <?php if ($component['type'] == 'CAROUSEL') : ?>
-            <?php foreach ($component['cards'] as $card) : ?>
-                <?php foreach ($card['components'] as $cardComponent) : ?>
 
-                    <?php if ($cardComponent['type'] == 'BODY') : ?>
-                        <label class="font-weight-bold" for="bodyCard<?php echo $bodyCard + 1 ?>">Cuerpo de tarjeta <?php echo $bodyCard + 1 ?> </label>
-                        <input type="text" class="form-control form-control-sm" id="bodyCard<?php echo $bodyCard + 1 ?>" name="bodyCard<?php echo $bodyCard + 1 ?>">
-                        <?php $bodyCard++; // Incrementamos el contador 
-                        ?>
-                    <?php endif ?>
-
-                    <?php if ($cardComponent['type'] == 'BUTTONS') : ?>
-                        <?php foreach ($cardComponent['buttons'] as $buttonsCard) : ?>
-                            <?php if ($buttonsCard['type'] == 'QUICK_REPLY') : ?>
-                                <label class="font-weight-bold" for="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">Boton respuesta tarjeta: <?php echo $carouselquickbutton + 1 ?> </label>
-                                <input type="text" class="form-control form-control-sm" id="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>" name="carouselquickbutton<?php echo $carouselquickbutton + 1 ?>">
-                                <?php $carouselquickbutton++; // Incrementamos el contador 
-                                ?>
-                            <?php endif ?>
-
-                            <?php if ($buttonsCard['type'] == 'URL') : ?>
-                                <label class="font-weight-bold" for="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">Boton URL tarjeta: <?php echo $carouselURLbutton + 1 ?> </label>
-                                <input type="url" class="form-control form-control-sm" id="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>" name="carouselURLbutton<?php echo $carouselURLbutton + 1 ?>">
-                                <?php $carouselURLbutton++; // Incrementamos el contador 
-                                ?>
-                            <?php endif ?>
-                        <?php endforeach ?>
-                    <?php endif ?>
-
-                <?php endforeach ?>
-            <?php endforeach ?>
-
-        <?php endif ?>
-    <?php endforeach ?>
 
 
 
