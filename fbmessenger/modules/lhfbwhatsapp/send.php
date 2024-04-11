@@ -1,7 +1,8 @@
 <?php
 
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
-
+$fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+$data = (array)$fbOptions->data;
 $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 $item->campaign_name = '';
 
@@ -13,7 +14,7 @@ if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
 
 if (isset($_GET['phone'])) {
     $phone_chat = $_GET['phone'];
-    $tpl->set('phone_chat', $phone_chat); 
+    $tpl->set('phone_chat', $phone_chat);
 }
 
 
@@ -245,43 +246,82 @@ if (ezcInputForm::hasPostData()) {
     }
 
 
-    if(isset($_POST['products'])){
+    if (isset($_POST['products'])) {
         $item->message_variables_array[] = $_POST['products'];
     }
-    if(isset($_POST['offert'])){
+    if (isset($_POST['offert'])) {
         $item->message_variables_array[] = ['Codigo Oferta' => $_POST['offert']];
     }
-    if(isset($_POST['expiration_offert'])){
+    if (isset($_POST['expiration_offert'])) {
         // Convertir la fecha de caducidad a marca de tiempo UNIX en milisegundos
         $expiration_date = new DateTime($_POST['expiration_offert']);
         $expiration_timestamp = $expiration_date->getTimestamp() * 1000;
         $item->message_variables_array[] = ['Expiration' => $expiration_timestamp];
     }
-    if(isset($_POST['urlOffert'])){
+    if (isset($_POST['urlOffert'])) {
         $item->message_variables_array[] = ['urlOffert' => $_POST['urlOffert']];
-
     }
 
     // CAROUSEL INPUTS
 
 
-    // if(isset($_POST['bodyCard1'])){
-    //     $item->message_variables_array[] = $_POST['bodyCard1'];
-    //     $item->message_variables_array[] = $_POST['bodyCard2'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $item->image_ids = [];
+        if (isset($_FILES['imageCard'])) {
+            $imageCards = $_FILES['imageCard'];
 
-    //     $item->message_variables_array[] = $_POST['carouselquickbutton1'];
-    //     $item->message_variables_array[] = $_POST['carouselquickbutton2'];
+            // Ahora $imageCards es un array de archivos, puedes recorrerlo
+            foreach ($imageCards['tmp_name'] as $index => $name) {
+                $file = $imageCards['tmp_name'][$index];
 
-    //     $item->message_variables_array[] = $_POST['carouselURLbutton1'];
-    //     $item->message_variables_array[] = $_POST['carouselURLbutton2'];
-        
-    // }
+                if (!empty($file)) {
+                    $archivo_bytes = file_get_contents($file);
+                }
 
+                $token = $data['whatsapp_access_token'];
+                $app_id = $data['app_id'];
+                $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+                $mime_type = mime_content_type($file);
+                if ($mime_type !== 'image/png' && $mime_type !== 'image/jpeg') {
+                    $image = imagecreatefromstring(file_get_contents($file));
+                    $png_file = tempnam(sys_get_temp_dir(), 'converted_image_') . '.png';
+                    imagepng($image, $png_file);
+                    imagedestroy($image);
+                    $file = $png_file;
+                    $mime_type = 'image/png';
+                }
 
+                $curl = curl_init();
 
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['business_phone_id'] . '/media',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => array(
+                        'messaging_product' => 'whatsapp',
+                        'file' => new CURLFILE($file, $mime_type)
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        'Authorization: Bearer ' . $token,
+                        'Cookie: ps_l=0; ps_n=0'
+                    ),
+                ));
 
+                $response = curl_exec($curl);
+                $response = json_decode($response, true);
 
-    
+                curl_close($curl);
+
+                $item->image_ids[] = $response;
+            }
+        }
+    }
+
 
     if (count($Errors) == 0) {
         try {

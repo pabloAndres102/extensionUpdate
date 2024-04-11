@@ -1,4 +1,57 @@
 <!-- Incluye la hoja de estilos de Flatpickr -->
+<style>
+    .checkbox-label {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .checkbox-label input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 5px;
+    }
+
+    .checkbox-label:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .checkbox-label input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .checkbox-label .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid #333;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+</style>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <!-- Incluye la librería de Flatpickr -->
@@ -58,23 +111,22 @@
                 </label> -->
             </div>
 
-            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Seleccionar lista de contactos'); ?></label>
-            <div>
-                <?php
-                    $params = array (
-                        'input_name'     => 'ml[]',
-                        'display_name'   => 'name',
-                        'css_class'      => 'form-control',
-                        'multiple'       => true,
-                        'wrap_prepend'   => '<div class="col-4">',
-                        'wrap_append'    => '</div>',
-                        'selected_id'    => [],
-                        'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::getList',
-                        'list_function_params'  => \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::limitContactList()
-                    );
-                    echo erLhcoreClassRenderHelper::renderCombobox( $params );
-                ?>
+            <div class="form-group">
+                <div class="form-group">
+                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Seleccionar lista de contactos'); ?></label>
+                    <br><br>
+                    <div class="contact-list-checkboxes" style="max-height: 200px; overflow-y: auto;">
+                        <?php
+                        $contactLists = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::getList();
+                        foreach ($contactLists as $contactList) {
+                            echo '<label class="checkbox-label"><input type="checkbox" name="ml[]" value="' . $contactList->id . '"><span class="checkmark"></span>' . htmlspecialchars($contactList->name) . '</label>';
+                        }
+                        ?>
+                    </div>
+                </div>
+
             </div>
+
 
         </div>
         <script>

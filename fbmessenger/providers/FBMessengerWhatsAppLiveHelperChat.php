@@ -160,7 +160,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             $protocol = 'https://';
             $http = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-            $host = $protocol.$http;
+            $host = $protocol . $http;
 
             $argumentsTemplate = [];
 
@@ -281,142 +281,76 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         "index" => 1,
                         "parameters" => $parameters2
                     ];
-                    
-                    
-
-
                 } elseif ($component['type'] == 'CAROUSEL') {
 
-                   
+                    // print_r('<mark>');
+                    // print_r($item->image_ids);
+                    // print_r('</mark>');
 
-                    // $headerImageId = "2257130667818028";
-                    // $bodyText3 =  $item->message_variables_array[0];
-                    // $bodyText4 = $item->message_variables_array[1];
-                    // $buttonPayload1 = $item->message_variables_array[2];
-                    // $buttonPayload2 = $item->message_variables_array[4];
-                    // $bodyText5 = $item->message_variables_array[0];
-                    // $bodyText6 = $item->message_variables_array[1];
-                    // $buttonPayload3 = $item->message_variables_array[2];
-                    // $buttonPayload4 = $item->message_variables_array[5];
+                    $numCards = count($component['cards']);
+                    $carousel_cards = [];
+                    for ($i = 0; $i < $numCards; $i++) {
+                        $card_index = $i;
+                        $carousel_card = [
+                            "card_index" => $card_index,
+                            "components" => []
+                        ];
+                        foreach ($component['cards'][$i]['components'] as $cardComponents) {
+                            $componentToAdd = [];
+                            if ($cardComponents['type'] == 'HEADER') {
 
-                    // // Creación del array asociativo en PHP
-                    // $jsonData = [
-                    //     [
-                    //         "type" => "CAROUSEL",
-                    //         "cards" => [
-                    //             [
-                    //                 "card_index" => 0,
-                    //                 "components" => [
-                    //                     [
-                    //                         "type" => "HEADER",
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "IMAGE",
-                    //                                 "image" => [
-                    //                                     "id" => $headerImageId
-                    //                                 ]
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BODY",
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "TEXT",
-                    //                                 "text" => $bodyText3
-                    //                             ],
-                    //                             [
-                    //                                 "type" => "TEXT",
-                    //                                 "text" => $bodyText4
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BUTTON",
-                    //                         "sub_type" => "QUICK_REPLY",
-                    //                         "index" => 0,
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "PAYLOAD",
-                    //                                 "payload" => $buttonPayload1
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BUTTON",
-                    //                         "sub_type" => "URL",
-                    //                         "index" => 1,
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "payload",
-                    //                                 "payload" => $buttonPayload2
-                    //                             ]
-                    //                         ]
-                    //                     ]
-                    //                 ]
-                    //             ],
-                    //             [
-                    //                 "card_index" => 1,
-                    //                 "components" => [
-                    //                     [
-                    //                         "type" => "HEADER",
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "IMAGE",
-                    //                                 "image" => [
-                    //                                     "id" => $headerImageId
-                    //                                 ]
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BODY",
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "TEXT",
-                    //                                 "text" => $bodyText5
-                    //                             ],
-                    //                             [
-                    //                                 "type" => "TEXT",
-                    //                                 "text" => $bodyText6
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BUTTON",
-                    //                         "sub_type" => "QUICK_REPLY",
-                    //                         "index" => 0,
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "PAYLOAD",
-                    //                                 "payload" => $buttonPayload3
-                    //                             ]
-                    //                         ]
-                    //                     ],
-                    //                     [
-                    //                         "type" => "BUTTON",
-                    //                         "sub_type" => "URL",
-                    //                         "index" => 1,
-                    //                         "parameters" => [
-                    //                             [
-                    //                                 "type" => "payload",
-                    //                                 "payload" => $buttonPayload4
-                    //                             ]
-                    //                         ]
-                    //                     ]
-                    //                 ]
-                    //             ]
-                    //         ]
-                    //     ]
-                    // ];
-                    
-                    // $bodyArguments = $jsonData;
-                    // print_r($bodyArguments);
-                    // print_r('<br>');
-                } 
-                
-                
-                elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
+                                $header_component = [
+                                    "type" => "HEADER",
+                                    "parameters" => [
+                                        [
+                                            "type" => "IMAGE",
+                                            "image" => [
+                                                "id" =>  $item->image_ids[$card_index]['id']
+                                            ]
+                                        ]
+                                    ]
+                                ];
+                                $componentToAdd = $header_component;
+                            } elseif ($cardComponents['type'] == 'BUTTON') {
+                                $button_components = [
+                                    [
+                                        "type" => "BUTTON",
+                                        "sub_type" => "QUICK_REPLY",
+                                        "index" => 0,
+                                        "parameters" => [
+                                            [
+                                                "type" => "PAYLOAD",
+                                                "payload" => "Boton respuesta tarjeta: 1"
+                                            ]
+                                        ]
+                                    ],
+                                    [
+                                        "type" => "BUTTON",
+                                        "sub_type" => "URL",
+                                        "index" => 1,
+                                        "parameters" => [
+                                            [
+                                                "type" => "payload",
+                                                "payload" => "https:\/\/www.google.com\/webhp?hl=es-419&sa=X&ved=0ahUKEwju5c3q_ZCFAxVcSzABHdgqAl4QPAgJ"
+                                            ]
+                                        ]
+                                    ]
+                                ];
+                                $componentToAdd = $button_components;
+                            }
+                            if (!empty($componentToAdd)) {
+                                $carousel_card['components'][] = $componentToAdd;
+                                $card_index += count($componentToAdd);
+                            }
+                        }
+                        $carousel_cards[] = $carousel_card;
+                    }
+                    $final_cards = [
+                        "type" => 'CAROUSEL',
+                        "cards" => $carousel_cards
+                    ];
+                    $bodyArguments[] = $final_cards;
+                } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
 
                     $videoLink = isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
                     if (strpos($videoLink, $host) !== 0) {
@@ -430,35 +364,34 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
-                    
+
 
                     $documentLink = isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
-                
+
                     // Verificar si el host no está presente al principio de $documentLink y concatenarlo si es necesario
                     if (strpos($documentLink, $host) !== 0) {
                         $documentLink = rtrim($host, '/') . '/' . ltrim($documentLink, '/');
                     }
-                
+
                     $itemSend = [
                         "type" => "document",
                         "document" => [
                             "link" => $documentLink
                         ]
                     ];
-                
+
                     // Si tienes el nombre del archivo, puedes adjuntarlo aquí
                     if (isset($messageVariables['nombre_archivo1']) && $messageVariables['nombre_archivo1'] != '') {
                         $itemSend['document']['filename'] = $messageVariables['nombre_archivo1'];
                     }
-                   
+
                     $parametersHeader[] = $itemSend;
-                  
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
                     $imageLink = isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
                     if (strpos($imageLink, $host) !== 0) {
                         $imageLink = rtrim($host, '/') . '/' . ltrim($imageLink, '/');
                     }
-                
+
                     $parametersHeader[] = [
                         "type" => "image",
                         "image" => [

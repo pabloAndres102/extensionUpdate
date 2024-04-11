@@ -49,8 +49,7 @@
     </div>
 <?php endif; ?>
 
-<form id="whatsapp-form" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send') ?><?php if (isset($whatsapp_contact)) : ?>/(recipient)/<?php echo $whatsapp_contact->id;
-                                                                                                                                                endif; ?>" method="post" ng-non-bindable>
+<form id="whatsapp-form" enctype="multipart/form-data" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send') ?><?php if (isset($whatsapp_contact)) : ?>/(recipient)/<?php echo $whatsapp_contact->id; endif; ?>" method="post" ng-non-bindable>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php')); ?>
     <div class="row">
         <div class="col-8">

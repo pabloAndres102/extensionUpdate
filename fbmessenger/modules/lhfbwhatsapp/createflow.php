@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $response = curl_exec($curl);
     $response = json_decode($response, true);   
-    print_r($response); 
+    // print_r($response); 
     curl_close($curl);
 }
 

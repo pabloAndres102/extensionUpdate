@@ -429,7 +429,7 @@
     </message>
     <message>
       <source>Text header</source>
-      <translation>Texto de header</translation>
+      <translation>Texto de encabezado</translation>
     </message>
     <message>
       <source>You can upload a variable</source>

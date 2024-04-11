@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $templateName = strtolower($_POST['templateName']);
     $templateCat = strtolower($_POST['templateCat']);
     $language = $_POST['language'];
+    
 
     $carouselHeadertext = $_POST['carouselHeadertext'];
     $headertype = isset($_POST['header']) ? $_POST['header'] : "";

@@ -35,7 +35,7 @@
 <form action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel') ?> enctype="multipart/form-data" method="post">
     <div class="mb-3">
         <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
-        <input type="text" class="form-control" id="templateName" name="templateName" placeholder=<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> required>
+        <input type="text" class="form-control" id="templateName" name="templateName" placeholder=<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> pattern="[a-z_]+" title="Por favor, ingresa solo letras minúsculas y guiones bajos" required>
     </div>
 
     <div class="mb-3">
@@ -139,10 +139,18 @@
                 <h3><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Tarjeta de carrusel'); ?></strong></h3>
                 <button type="button" onclick="agregarTarjeta()" class="btn btn-primary"><span class="material-icons">add</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Agregar tarjeta'); ?></button>
                 <div id="carouselContainer" style="display: flex; flex-wrap: wrap;"></div>
-            
+                <div class="notice-container">
+                    <div class="notice">
+                        <mark>
+                            <span class="material-icons">error</span>
+                            <span class="text">Tenga en cuenta que las imágenes cargadas en cada tarjeta son tomadas como ejemplos. Asegúrese de adjuntar la imagen correspondiente al enviar la el carrusel.</span>
+                        </mark>
+                    </div>
+                </div>
+
             </div>
         </div>
-        
+
     </div>
 
 

@@ -533,33 +533,82 @@
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
-
     <script>
-document.getElementById('buttonMPM').addEventListener('change', function() {
-    var headersDiv = document.getElementById('headers');
-    var headerSelect = document.getElementById('header');
-    var textHeaderLabel = document.getElementById('labelCampoDeTexto');
-    var textField = document.getElementById('campoDeTexto');
+    document.addEventListener('DOMContentLoaded', function() {
+        var checkbox = document.getElementById('offert');
+        var select = document.getElementById('header');
+        var fileInput = document.getElementById('archivo');
+        var textInput = document.getElementById('campoDeTexto');
+        var textInputLabel = document.getElementById('labelCampoDeTexto');
+        var nuevoInput = document.getElementById('nuevoInput');
 
-    // Siempre mantener el estado del headerSelect cuando el checkbox está desmarcado
-    if (!this.checked) {
-        headerSelect.value = ''; // Reset header type
-        textHeaderLabel.hidden = true;
-        textField.hidden = true;
-    }
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                for (var i = 0; i < select.options.length; i++) {
+                    var option = select.options[i];
+                    if (option.value !== 'IMAGE' && option.value !== '') {
+                        option.style.display = 'none';
+                    }
+                }
+                select.value = ''; // Cambiar a Sin encabezado
+                textInput.style.display = 'none';
+                textInputLabel.style.display = 'none';
+                nuevoInput.style.display = 'none';
+                fileInput.style.display = 'none';
+            } else {
+                for (var i = 0; i < select.options.length; i++) {
+                    select.options[i].style.display = '';
+                }
+                fileInput.style.display = 'none';
+            }
+        });
 
-    if (this.checked) {
-        headersDiv.style.display = 'block';
-        headerSelect.value = 'TEXT'; // Set header type to Text
-        headerSelect.disabled = true; // Disable header selection
-        textHeaderLabel.hidden = false;
-        textField.hidden = false;
-    } else {
-        headersDiv.style.display = 'none';
-        headerSelect.disabled = false; // Enable header selection
-    }
-});
+        select.addEventListener('change', function() {
+            if (select.value === 'IMAGE' && checkbox.checked) {
+                fileInput.style.display = '';
+                textInput.style.display = 'none';
+                textInputLabel.style.display = 'none';
+                nuevoInput.style.display = 'none';
+            } else if (select.value === 'TEXT') {
+                textInput.style.display = '';
+                textInputLabel.style.display = '';
+                nuevoInput.style.display = '';
+                fileInput.style.display = 'none';
+            } else {
+                textInput.style.display = 'none';
+                textInputLabel.style.display = 'none';
+                nuevoInput.style.display = 'none';
+                fileInput.style.display = 'none';
+            }
+        });
+    });
 </script>
+    <script>
+        document.getElementById('buttonMPM').addEventListener('change', function() {
+            var headersDiv = document.getElementById('headers');
+            var headerSelect = document.getElementById('header');
+            var textHeaderLabel = document.getElementById('labelCampoDeTexto');
+            var textField = document.getElementById('campoDeTexto');
+
+            // Siempre mantener el estado del headerSelect cuando el checkbox está desmarcado
+            if (!this.checked) {
+                headerSelect.value = ''; // Reset header type
+                textHeaderLabel.hidden = true;
+                textField.hidden = true;
+            }
+
+            if (this.checked) {
+                headersDiv.style.display = 'block';
+                headerSelect.value = 'TEXT'; // Set header type to Text
+                headerSelect.disabled = true; // Disable header selection
+                textHeaderLabel.hidden = false;
+                textField.hidden = false;
+            } else {
+                headersDiv.style.display = 'none';
+                headerSelect.disabled = false; // Enable header selection
+            }
+        });
+    </script>
     <script>
         offert.addEventListener('change', function() {
             const offert = document.getElementById('offert');
@@ -571,7 +620,7 @@ document.getElementById('buttonMPM').addEventListener('change', function() {
                 footer.style.display = 'none';
                 buttonNameOffertURL.style.display = 'block';
                 buttonOffertURL.style.display = 'block';
-               
+
                 document.querySelector('label[for="footer"]').style.display = 'none';
                 document.querySelector('label[for="buttonNameOffertURL"]').style.display = 'block';
                 document.querySelector('label[for="buttonOffertURL"]').style.display = 'block';

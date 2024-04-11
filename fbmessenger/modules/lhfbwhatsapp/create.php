@@ -58,7 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $buttonCatalog = $_POST['buttonCatalog'];
   $buttonMPM = $_POST['buttonMPM'];
   
-  $offert = $_POST['offert'];
+  if(isset($_POST['buttonMPM'])){
+    $headertype = 'TEXT';
+  }
+  
+
+
   $buttonOffertURL = $_POST['buttonOffertURL'] . '?code={{1}}';
   $buttonNameOffertURL = $_POST['buttonNameOffertURL'];
 
@@ -368,6 +373,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+  // print_r('<br>');
+  // print_r($data);
 
   $result = curl_exec($ch);
 

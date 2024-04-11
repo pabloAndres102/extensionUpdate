@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 class erLhcoreClassExtensionFbmessenger {
     
 	public function __construct() {
@@ -37,10 +38,6 @@ class erLhcoreClassExtensionFbmessenger {
 		    'sendMessageToFb'
 		));
 
-		$dispatcher->listen('telegram.msg_received', array(
-		    $this,
-		    'sendMessageToFb'
-		));
 		
 		$dispatcher->listen('chat.workflow.canned_message_before_save', array(
 		    $this,
@@ -141,7 +138,54 @@ class erLhcoreClassExtensionFbmessenger {
             'addWhatsAppToken'
         ));
 
+        $dispatcher->listen('chat.webhook_incoming_chat_started', array(
+            $this,
+            'setWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_continue', array(
+            $this,
+            'setWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_before_save', array(
+            $this,
+            'verifyPhoneBeforeSave'
+        ));
 	}
+
+    public function verifyPhoneBeforeSave($params)
+    {
+        if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookwhatsappscope') {
+            if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
+                $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+                $data = (array)$tOptions->data;
+                if (isset($data['whatsapp_business_account_phone_number']) && !empty($data['whatsapp_business_account_phone_number'])) {
+                    $validPhoneNumbers = explode(',',str_replace(' ','',$data['whatsapp_business_account_phone_number']));
+                    if (!in_array($params['chat']->chat_variables_array['iwh_field_2'],$validPhoneNumbers)) {
+                        echo json_encode(['error' => true, 'message' => 'Not defined phone number - ' . $params['chat']->chat_variables_array['iwh_field_2']]);
+                        exit; // Not supported phone number
+                    }
+                }
+            }
+        }
+    }
+
+    public function setWhatsAppToken($params)
+    {
+        if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookwhatsappscope') {
+            if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
+                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+                // Override only if we found separate business account for that phone number
+                if (is_object($businessAccount)) {
+                    $attributes = $params['webhook']->attributes;
+                    $attributes['access_token']= $businessAccount->access_token;
+                    $params['webhook']->attributes = $attributes;
+                }
+            }
+        }
+    }
 
     public function addWhatsAppToken($params) {
         if (is_object($params['chat']->incoming_chat) && $params['chat']->incoming_chat->incoming->scope == 'facebookwhatsappscope') {
@@ -1564,7 +1608,7 @@ class erLhcoreClassExtensionFbmessenger {
                     ));
                 }
 
-				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
 
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb',array('chat' => & $chat, 'msg' => & $msg));
 				
@@ -1684,7 +1728,7 @@ class erLhcoreClassExtensionFbmessenger {
 
             $db->commit();
 
-            erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+            erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
 
         } catch (Exception $e) {
             $db->rollback();
@@ -1935,7 +1979,7 @@ class erLhcoreClassExtensionFbmessenger {
                     }
                 }
 
-                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive', array('chat' => & $chat, 'msg' => & $msg));
+                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser', array('chat' => & $chat, 'msg' => & $msg));
 
                 erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb', array('chat' => & $chat, 'msg' => & $msg));
             }
@@ -1961,7 +2005,6 @@ class erLhcoreClassExtensionFbmessenger {
             // Find a new messages
             $botMessages = erLhcoreClassModelmsg::getList(array('filter' => array('user_id' => -2, 'chat_id' => $chat->id), 'filtergt' => array('id' => $msg->id)));
             foreach ($botMessages as $botMessage) {
-
                 erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
                     'chat' => & $chat,
                     'msg' => $botMessage
@@ -2051,5 +2094,3 @@ class erLhcoreClassExtensionFbmessenger {
 	
 	private $instanceManual = false;
 }
-
-
