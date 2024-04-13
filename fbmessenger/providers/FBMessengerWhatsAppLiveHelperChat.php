@@ -299,17 +299,33 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                             $componentToAdd = [];
                             if ($cardComponents['type'] == 'HEADER') {
 
-                                $header_component = [
-                                    "type" => "HEADER",
-                                    "parameters" => [
-                                        [
-                                            "type" => "IMAGE",
-                                            "image" => [
-                                                "id" =>  $item->image_ids[$card_index]['id']
+                                if ($cardComponents['format'] == 'IMAGE') {
+                                    $header_component = [
+                                        "type" => "HEADER",
+                                        "parameters" => [
+                                            [
+                                                "type" => "IMAGE",
+                                                "image" => [
+                                                    "id" =>  $item->image_ids[$card_index]['id']
+                                                ]
                                             ]
                                         ]
-                                    ]
-                                ];
+                                    ];
+                                }
+                                if ($cardComponents['format'] == 'VIDEO') {
+                                    $header_component = [
+                                        "type" => "HEADER",
+                                        "parameters" => [
+                                            [
+                                                "type" => "VIDEO",
+                                                "video" => [
+                                                    "id" =>  $item->image_ids[$card_index]['id']
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                }
+
                                 $componentToAdd = $header_component;
                             } elseif ($cardComponents['type'] == 'BUTTON') {
                                 $button_components = [

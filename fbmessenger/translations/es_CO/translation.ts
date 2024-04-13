@@ -15,9 +15,17 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
-    <source>Send whatsapp template</source>
-    <translation>Enviar plantilla whatsapp</translation>
+    <source>Multi product</source>
+    <translation>Multiproducto</translation>
   </message>
+  <message>
+    <source>Send whatsapp template</source>
+    <translation>Enviar plantilla WhatsApp</translation>
+  </message>
+  <message>
+  <source>Limited offert</source>
+  <translation>Oferta limitada</translation>
+</message>
   <message>
     <source>Send campaign</source>
     <translation>Enviar campaña</translation>
@@ -36,7 +44,7 @@
   </message>
   <message>
     <source>Start date cannot be in the past</source>
-    <translation>Seleccione un fecha posterior a la actual</translation>
+    <translation>Seleccione una fecha posterior a la actual</translation>
   </message>
   <message>
     <source>Total messages</source>
@@ -48,11 +56,11 @@
   </message>
   <message>
     <source>Please enter a contact list</source>
-    <translation>Por favor ingrese una lista de contacto</translation>
+    <translation>Por favor selecciona una lista de contacto</translation>
   </message>
   <message>
     <source>Contact list</source>
-    <translation>Lista de contacto</translation>
+    <translation>Lista de contactos</translation>
   </message>
   <message>
   <source>Export</source>
@@ -84,7 +92,7 @@
   </message>
   <message>
     <source>Engagement</source>
-    <translation>Porcentaje</translation>
+    <translation>Engagement</translation>
   </message>
   <message>
       <source>BUSINESS_INITIATED</source>
@@ -105,11 +113,11 @@
   </message>
   <message>
     <source>These metrics once reflected the last 3 months</source>
-    <translation>En estas metricas vez reflejado los ultimos 3 meses</translation>
+    <translation>En estas métricas está reflejado los últimos 3 meses</translation>
   </message>
   <message>
     <source>Summary of the last month</source>
-    <translation>Resumen del ultimo mes</translation>
+    <translation>Resumen del último mes</translation>
   </message>
   <message>
   <source>Granularity</source>
@@ -125,7 +133,7 @@
   </message>
   <message>
     <source>Direction of conversation</source>
-    <translation>Direccion de conversación</translation>
+    <translation>Dirección de conversación</translation>
   </message>
   <message>
     <source>Conversation category</source>
@@ -149,7 +157,7 @@
   </message>
   <message>
     <source>Button name</source>
-    <translation>Nombre del boton</translation>
+    <translation>Nombre del botón</translation>
   </message>
   <message>
     <source>Cost</source>
@@ -157,7 +165,7 @@
   </message>
   <message>
     <source>End</source>
-    <translation>Finalizacion</translation>
+    <translation>Finalización</translation>
   </message>
   <message>
     <source>Flow</source>
@@ -165,7 +173,7 @@
   </message>
   <message>
     <source>Metrics</source>
-    <translation>Metricas</translation>
+    <translation>Métricas</translation>
   </message>
   <message>
     <source>Sended</source>
@@ -257,7 +265,7 @@
   </message>
   <message>
     <source>Country code</source>
-    <translation>Codigo de pais</translation>
+    <translation>Código de país</translation>
   </message>
   <message>
     <source>URL site</source>
@@ -269,7 +277,7 @@
   </message>
   <message>
     <source>Phone number</source>
-    <translation>Numero de telefono</translation>
+    <translation>Número de teléfono</translation>
   </message>
   <message>
     <source>APPROVED</source>
@@ -293,23 +301,23 @@
   </message>
   <message>
     <source>Address</source>
-    <translation>Direccion</translation>
+    <translation>Dirección</translation>
   </message>
   <message>
-    <source>Catalogue</source>
-    <translation>Catalogo</translation>
+    <source>Catalog</source>
+    <translation>Catálogo</translation>
   </message>
   <message>
     <source>Whatsapp profile</source>
-    <translation>Perfil de whatsapp</translation>
+    <translation>Perfil de WhatsApp</translation>
   </message>
   <message>
     <source>Description</source>
-    <translation>Descripcion</translation>
+    <translation>Descripción</translation>
   </message>
     <message>
       <source>Email</source>
-      <translation>Correo</translation>
+      <translation>Correo electrónico</translation>
     </message>
     <message>
       <source>Profile image</source>
@@ -341,7 +349,7 @@
     </message>
     <message>
       <source>Button</source>
-      <translation>Boton</translation>
+      <translation>Botón</translation>
     </message>
     <message>
       <source>Autofill</source>
@@ -349,7 +357,7 @@
     </message>
     <message>
       <source>Copy code</source>
-      <translation>Copiar codigo</translation>
+      <translation>Copiar código</translation>
     </message>
     <message>
       <source>Package name</source>
@@ -361,7 +369,7 @@
     </message>
     <message>
       <source>Button autofill</source>
-      <translation>Boton autocompletado</translation>
+      <translation>Botón autocompletado</translation>
     </message>
     <message>
       <source>Add the expiration date for the code</source>
@@ -377,11 +385,11 @@
     </message>
     <message>
       <source>Add button (Callback)</source>
-      <translation>Agregar boton (Llamada a la accion)</translation>
+      <translation>Agregar botón (Llamada a la acción)</translation>
     </message>
     <message>
       <source>Add button (Flow)</source>
-      <translation>Agregar boton (Flujo)</translation>
+      <translation>Agregar botón (Flujo)</translation>
     </message>
     <message>
       <source>Body</source>
@@ -389,7 +397,7 @@
     </message>
     <message>
       <source>Remember that you can load a maximum of 5 variables</source>
-      <translation>Recuerda que puedes cargar un maximo de 5 variables</translation>
+      <translation>Recuerda que puedes cargar un máximo de 5 variables</translation>
     </message>
     <message>
       <source>Add variable</source>
@@ -401,11 +409,11 @@
     </message>
      <message>
       <source>Footer</source>
-      <translation>Pie de pagina</translation>
+      <translation>Pie de página</translation>
     </message>
     <message>
     <source>Add button (Quick Reply)</source>
-    <translation>Agregar boton (Respuesta rapida)</translation>
+    <translation>Agregar botón (Respuesta rapida)</translation>
   </message>
     <message>
       <source>Header type</source>
@@ -540,12 +548,12 @@
     </message>
     <message>
       <source>Please enter start date!</source>
-                  <translation>Por favor ingresar fecha de inicio</translation>
+                  <translation>Por favor ingresa fecha de inicio</translation>
 
     </message>
     <message>
       <source>Please enter interval!</source>
-                  <translation>Por favor ingrese intervalo</translation>
+                  <translation>Por favor ingresa intervalo</translation>
 
     </message>
     <message>
@@ -554,7 +562,7 @@
     </message>
     <message>
       <source>Please enter message!</source>
-                <translation>Por favor ingrese mensaje</translation>
+                <translation>Por favor ingresea mensaje</translation>
 
     </message>
     <message>
@@ -643,19 +651,19 @@
     </message>
     <message>
       <source>Send a single message</source>
-       <translation>Enviar un mensaje individual MANUAL</translation>
+       <translation>Enviar Mensaje Simple</translation>
     </message>
     <message>
       <source>Send a mass message</source>
-       <translation>Enviar masivo MANUAL</translation>
+       <translation>Enviar Masivo </translation>
     </message>
     <message>
       <source>Messages</source>
-       <translation>Reportes e Historial</translation>
+       <translation>Historial</translation>
     </message>
     <message>
       <source>Business Accounts</source>
-       <translation>Cuenta comercial</translation>
+       <translation>Cuentas Business</translation>
     </message>
     <message>
       <source>WhatsApp Messaging</source>
@@ -867,7 +875,7 @@
     </message>
     <message>
       <source>Business Account ID</source>
-      <translation>ID cuenta coemrcial</translation>
+      <translation>ID cuenta comercial</translation>
     </message>
     <message>
       <source>Access Token</source>
@@ -921,7 +929,7 @@
     </message>
     <message>
       <source>Import and start sending</source>
-      <translation>Importar e iniciar envio</translation>
+      <translation>Importar e iniciar envío</translation>
     </message>
     <message>
       <source>Select department</source>
@@ -929,7 +937,7 @@
     </message>
     <message>
       <source>Default configuration</source>
-      <translation>Configiración por defecto</translation>
+      <translation>Configuración por defecto</translation>
     </message>
     <message>
       <source>Messages history</source>
@@ -937,7 +945,7 @@
     </message>
     <message>
       <source>Business Account</source>
-      <translation>Cuenta WB</translation>
+      <translation>Business Account</translation>
     </message>
     <message>
       <source>Campaign</source>
@@ -1197,7 +1205,7 @@
     </message>
     <message>
       <source>Based on recipient list</source>
-      <translation> Basado en la lista de conatctos</translation>
+      <translation> Basado en la lista de contactos</translation>
     </message>
     <message>
       <source>¡El mensaje aún no se ha leído!</source>
@@ -1241,7 +1249,7 @@
     </message>
     <message>
       <source>Number of recipients who opened an e-mail</source>
-      <translation> Numero de contactos que abrieron el mensaje</translation>
+      <translation> Número de contactos que abrieron el mensaje</translation>
     </message>
     <message>
       <source>Created at</source>
@@ -1401,7 +1409,7 @@
     </message>
     <message>
       <source>Facebook logout</source>
-      <translation>facebook Salir</translation>
+      <translation>Salir de Facebook</translation>
     </message>
     <message>
       <source>Facebook leads</source>
@@ -1469,7 +1477,7 @@
     </message>
     <message>
       <source>Has been read</source>
-      <translation>Ha sido leido</translation>
+      <translation>Ha sido leído</translation>
     </message>
     <message>
       <source>Please enter account name!</source>

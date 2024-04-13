@@ -12,10 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $templateName = strtolower($_POST['templateName']);
     $templateCat = strtolower($_POST['templateCat']);
     $language = $_POST['language'];
-    
+
 
     $carouselHeadertext = $_POST['carouselHeadertext'];
-    $headertype = isset($_POST['header']) ? $_POST['header'] : "";
+   
     $numTarjetas = $_POST['numTarjetas'];
 
     $cardBody = $_POST['cardBody'];
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
     for ($i = 0; $i < $numTarjetas; $i++) {
-
+        $headertype = isset($_POST['header'.$i]) ? $_POST['header'.$i] : "";
         $archivo_temporal = $_FILES['archivo'.$i]['tmp_name'];
         $nombre_archivo = $_FILES["archivo".$i]["name"];
         $tipo_archivo = $_FILES["archivo".$i]["type"];
@@ -141,6 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "components" => $components
         ];
     }
+
 
 
         $cardComponents[] = [

@@ -133,7 +133,12 @@ $buttonsMPM = 0;
                             <div class="pb-2"><button class="btn btn-sm btn-secondary"><?php echo htmlspecialchars($button['text']) ?> | <?php echo htmlspecialchars($button['type']) ?></button></div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <?php if ($cardComponent['type'] == 'HEADER') : ?>
+                    <?php if ($cardComponent['format'] == 'VIDEO') : ?>
+                        <video width="100">
+                        <source src="<?php echo htmlspecialchars($cardComponent['example']['header_handle'][0]) ?>" type="video/mp4">
+                    </video>
+                    <?php endif; ?>
+                    <?php if ($cardComponent['format'] == 'IMAGE') : ?>
                         <img src="<?php print_r($cardComponent['example']['header_handle'][0]) ?>" width="100px">
                     <?php endif; ?>
                 <?php endforeach; ?>

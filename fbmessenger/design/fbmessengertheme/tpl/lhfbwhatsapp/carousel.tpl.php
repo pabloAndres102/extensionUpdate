@@ -35,7 +35,7 @@
 <form action=<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/carousel') ?> enctype="multipart/form-data" method="post">
     <div class="mb-3">
         <label for="edad" class="form-label"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> <?php echo htmlspecialchars($template['name']) ?></strong></label>
-        <input type="text" class="form-control" id="templateName" name="templateName" placeholder=<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> pattern="[a-z_]+" title="Por favor, ingresa solo letras minúsculas y guiones bajos" required>
+        <input type="text" class="form-control" id="templateName" name="templateName" placeholder=<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('abstract/widgettheme', 'Name'); ?> pattern="[a-z0-9_]+" title="Por favor, ingresa solo letras minúsculas y guiones bajos" required>
     </div>
 
     <div class="mb-3">
@@ -112,13 +112,6 @@
 
 
     <div class="mb-3">
-        <label for="header" class="form-label"> <strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong><small> (Card header)</small></label>
-        <select class="form-select" id="header" name="header" aria-label="Default select example" required>
-            <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
-            <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
-            <option value="IMAGE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Image'); ?></option>
-        </select>
-        <br>
         <div>
             <label for="cardBody"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Body'); ?></strong><small> (Message bubble)</small></label>
             <textarea id="cardBody" name="cardBody" class="form-control z-depth-1" rows="3" maxlength="1024" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Remember that you can load a maximum of 5 variables'); ?>"></textarea>
@@ -143,7 +136,7 @@
                     <div class="notice">
                         <mark>
                             <span class="material-icons">error</span>
-                            <span class="text">Tenga en cuenta que las imágenes cargadas en cada tarjeta son tomadas como ejemplos. Asegúrese de adjuntar la imagen correspondiente al enviar la el carrusel.</span>
+                            <span class="text">Tenga en cuenta que las imágenes cargadas en cada tarjeta son tomadas como ejemplos. Asegúrese de adjuntar la imagen correspondiente al enviar el carrusel.</span>
                         </mark>
                     </div>
                 </div>
@@ -162,6 +155,7 @@
     var numTarjetas = 0; // Iniciar con 1 en lugar de 0
 
     function agregarTarjeta() {
+        
         var container = document.getElementById('carouselContainer');
         // Crear el contenedor de la tarjeta
         var tarjetaDiv = document.createElement('div');
@@ -172,16 +166,22 @@
         var tarjeta = document.createElement('div');
         tarjeta.className = 'carousel-card';
         tarjeta.innerHTML = `
-    <label for="textAreacard${numTarjetas}"><strong>Cuerpo de tarjeta</strong><small> (Card body)</small></label>
-    <textarea id="textAreacard${numTarjetas}" name="textAreacard${numTarjetas}" class="form-control z-depth-1" rows="2" maxlength="1024" required></textarea>
-    <label for="buttonquickcard${numTarjetas}"><strong>Boton de respuesta rapida</strong><small> (Card buttons)</small></label>
-    <input class="form-control" type="text" id="buttonquickcard${numTarjetas}" name="buttonquickcard${numTarjetas}" maxlength="25" required>
-    <label for="urlButton${numTarjetas}"><strong>Boton de enlace URL</strong><small> (Card buttons)</small></label>
-    <input class="form-control" type="url" id="urlButton${numTarjetas}" name="urlButton${numTarjetas}" maxlength="500" required>
-    <label for="archivo${numTarjetas}"><strong>Imagen de tarjeta</strong></label>
-    <input type="file" id="archivo${numTarjetas}" name="archivo${numTarjetas}" class="form-control" required>
-    <button type="button" onclick="eliminarTarjeta('tarjeta${numTarjetas}')" class="btn btn-danger">Eliminar</button>
-`;
+        <label for="header${numTarjetas}"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong><small> (Card header)</small></label>
+        <select class="form-select" id="header${numTarjetas}" name="header${numTarjetas}" aria-label="Default select example" required>
+            <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
+            <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
+            <option value="IMAGE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Image'); ?></option>
+        </select>
+        <label for="textAreacard${numTarjetas}"><strong>Cuerpo de tarjeta</strong><small> (Card body)</small></label>
+        <textarea id="textAreacard${numTarjetas}" name="textAreacard${numTarjetas}" class="form-control z-depth-1" rows="2" maxlength="1024" required></textarea>
+        <label for="buttonquickcard${numTarjetas}"><strong>Boton de respuesta rapida</strong><small> (Card buttons)</small></label>
+        <input class="form-control" type="text" id="buttonquickcard${numTarjetas}" name="buttonquickcard${numTarjetas}" maxlength="25" required>
+        <label for="urlButton${numTarjetas}"><strong>Boton de enlace URL</strong><small> (Card buttons)</small></label>
+        <input class="form-control" type="url" id="urlButton${numTarjetas}" name="urlButton${numTarjetas}" maxlength="500" required>
+        <label for="archivo${numTarjetas}"><strong>Archivo de tarjeta</strong></label>
+        <input type="file" id="archivo${numTarjetas}" name="archivo${numTarjetas}" class="form-control" required>
+        <button type="button" onclick="eliminarTarjeta('tarjeta${numTarjetas}')" class="btn btn-danger">Eliminar</button>
+    `;
 
 
         // Agregar la tarjeta al contenedor
@@ -195,13 +195,21 @@
 
         numTarjetas++;
         document.getElementById('numTarjetas').value = numTarjetas;
+        console.log(numTarjetas);
     }
 
     function eliminarTarjeta(id) {
+    // Preguntar al usuario si está seguro de eliminar la tarjeta
+    if (confirm("¿Estás seguro de que quieres eliminar esta tarjeta?")) {
         var tarjeta = document.getElementById(id);
         tarjeta.parentNode.removeChild(tarjeta);
+        numTarjetas--; // Disminuir el contador de tarjetas
         document.getElementById('numTarjetas').value = numTarjetas;
+        console.log(numTarjetas);
     }
+    
+}
+
 </script>
 <script>
     function agregarVariable() {

@@ -84,6 +84,6 @@ $fileSearchOptions = array(
 
         var response = 'URL del archivo cargada con éxito';
         document.getElementById('message').innerHTML = '<div class="alert alert-success">' + response + '</div>';
-        lhinst.sendLinkToGeneralEditor("<?php echo $host . erLhcoreClassDesign::baseurl('file/downloadfile') ?>/<?php echo $file->id ?>/<?php echo $file->security_hash ?>", <?php echo json_encode($paramseditor) ?>);
+        lhinst.sendLinkToGeneralEditor("<?php echo $host . erLhcoreClassDesign::baseurl('file/downloadfile') ?>/" + fileId + "/<?php echo $file->security_hash ?>", <?php echo json_encode($paramseditor) ?>);
     }
 </script>

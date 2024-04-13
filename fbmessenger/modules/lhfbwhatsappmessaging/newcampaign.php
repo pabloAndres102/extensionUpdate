@@ -104,10 +104,23 @@ if (ezcInputForm::hasPostData()) {
                 $tpl->set('errors', ['Please choose at-least one mailing list']);
             }
 
+
+
+
             if (isset($_POST['Save_continue'])) {
-                erLhcoreClassModule::redirect('fbwhatsappmessaging/campaign');
-                $_SESSION['create'] = 'Su campaña se creo con exito.';
-                $_SESSION['remember'] = 'Recuerde activar su campaña';
+                
+                $campaignId = $item->id;
+                if (!empty($campaignId)) {
+                    $campaign = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::fetch($campaignId);
+
+                    if ($campaign instanceof \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign) {
+                        $campaign->enabled = 1;
+                        $campaign->saveThis();
+                    }
+                    header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'));
+                    $_SESSION['create'] = 'Su campaña se creo con exito.';
+
+                }
             }
 
             exit;

@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $language = $_POST['language'];
   $text = $_POST['text'];
   $headertype = isset($_POST['header']) ? $_POST['header'] : "";
-  // print_r('encabezado aca > '.$headertype);
+ 
   $footer = $_POST['footer'];
   $button1 = $_POST['button1'];
   $button2 = $_POST['button2'];
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   
 
-
+  $offert = $_POST['offert'];
   $buttonOffertURL = $_POST['buttonOffertURL'] . '?code={{1}}';
   $buttonNameOffertURL = $_POST['buttonNameOffertURL'];
 
@@ -232,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
   };
 
-  $url = 'https://graph.facebook.com/v17.0/' . $whatsapp_business_account_id . '/message_templates';
+  $url = 'https://graph.facebook.com/v19.0/' . $whatsapp_business_account_id . '/message_templates';
 
 
   $bodytext = [
@@ -374,14 +374,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
+  // print_r($url);
   // print_r('<br>');
   // print_r($data);
 
   $result = curl_exec($ch);
 
   $jsonresponse = json_decode($result, true);
+  // print_r('<br>');
   // print_r($jsonresponse);
-  curl_close($ch);
+  // curl_close($ch);
 
   if (isset($jsonresponse['error'])) {
     $_SESSION['api_error'] = $jsonresponse;

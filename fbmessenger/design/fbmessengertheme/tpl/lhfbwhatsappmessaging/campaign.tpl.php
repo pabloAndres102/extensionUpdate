@@ -14,9 +14,7 @@ if (isset($_SESSION['activate'])) {
 
 if (isset($_SESSION['create'])) {
     echo '<div class="alert alert-success">' . $_SESSION['create'] . '</div>';
-    echo '<div class="alert alert-warning">' . $_SESSION['remember'] . '</div>';
     unset($_SESSION['create']);
-    unset($_SESSION['remember']);
 }
 
 // Comprueba si hay un mensaje de error en la variable de sesión

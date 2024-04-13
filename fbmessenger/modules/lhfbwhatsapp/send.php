@@ -282,7 +282,7 @@ if (ezcInputForm::hasPostData()) {
                 $app_id = $data['app_id'];
                 $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
                 $mime_type = mime_content_type($file);
-                if ($mime_type !== 'image/png' && $mime_type !== 'image/jpeg') {
+                if ($mime_type == 'image/webp') {
                     $image = imagecreatefromstring(file_get_contents($file));
                     $png_file = tempnam(sys_get_temp_dir(), 'converted_image_') . '.png';
                     imagepng($image, $png_file);
@@ -318,6 +318,7 @@ if (ezcInputForm::hasPostData()) {
                 curl_close($curl);
 
                 $item->image_ids[] = $response;
+                // print_r($response);
             }
         }
     }
