@@ -57,8 +57,34 @@ $fieldCountHeaderDocument = 0;
 $fieldCountHeaderImage = 0;
 $fieldCountHeaderVideo = 0;
 $buttonsMPM = 0;
+$allowedExtensions = [];
 
+// Recorre los componentes de la plantilla para determinar los tipos de archivo permitidos
+foreach ($template['components'] as $component) {
+    if ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
+        // Si el header es una imagen, agrega las extensiones de imagen permitidas
+        $allowedExtensions = array_merge($allowedExtensions, ['jpg', 'jpeg', 'png']);
+    }
+    if ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
+        // Si el header es un video, agrega la extensión de video permitida
+        $allowedExtensions[] = 'mp4';
+    }
+    if ($component['type'] == 'CAROUSEL'){
+        foreach ($component['cards'] as $card) {
+            $header_type = $card['components'][0]['type'];
+            if ($header_type == 'HEADER' && $card['components'][0]['format'] == 'IMAGE') {
+                $allowedExtensions = array_merge($allowedExtensions, ['jpg', 'jpeg', 'png']);
+            }
+            if ($header_type == 'HEADER' && $card['components'][0]['format'] == 'VIDEO') {
+                $allowedExtensions[] = 'mp4';
+            }
+        }
+    }
 
+}
+echo '<script>';
+echo 'const allowedExtensions = ' . json_encode($allowedExtensions) . ';';
+echo '</script>';
 
 ?>
 <div class="rounded bg-light p-2" title="<?php echo htmlspecialchars(json_encode($template, JSON_PRETTY_PRINT)) ?>">
@@ -135,8 +161,8 @@ $buttonsMPM = 0;
                     <?php endif; ?>
                     <?php if ($cardComponent['format'] == 'VIDEO') : ?>
                         <video width="100">
-                        <source src="<?php echo htmlspecialchars($cardComponent['example']['header_handle'][0]) ?>" type="video/mp4">
-                    </video>
+                            <source src="<?php echo htmlspecialchars($cardComponent['example']['header_handle'][0]) ?>" type="video/mp4">
+                        </video>
                     <?php endif; ?>
                     <?php if ($cardComponent['format'] == 'IMAGE') : ?>
                         <img src="<?php print_r($cardComponent['example']['header_handle'][0]) ?>" width="100px">
@@ -181,12 +207,12 @@ $buttonsMPM = 0;
             <div class="form-group">
                 <label class="font-weight-bold">Campo de documento - {{<?php echo $i + 1 ?>}}</label>
                 <div class="input-group">
-                    <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" id="field_header_doc_<?php echo $i + 1 ?>" name="field_header_doc_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1]) ?><?php endif; ?>">
+                    <input type="file" id="imageCard" name="imageCard[]" class="form-control" required>
                     <div class="input-group-append">
-                        <a data-selector="#field_header_doc_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                        <!-- <a data-selector="#field_header_doc_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
                             <span class="material-icons">upload</span>
                             <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>
@@ -198,34 +224,37 @@ $buttonsMPM = 0;
             <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" id="nombre_archivo<?php echo $i + 1 ?>" name="nombre_archivo<?php echo $i + 1 ?>" value="<?php if (isset($data['nombre_archivo' .  $i + 1])) : ?><?php echo htmlspecialchars($data['nombre_archivo' .  $i + 1]) ?><?php endif; ?>">
         <?php endfor; ?>
 
+
+
         <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
             <div class="col-6" ng-non-bindable>
                 <div class="form-group">
                     <label class="font-weight-bold">Campo de imagen URL - <?php echo $i + 1 ?></label>
                     <div class="input-group"> <!-- Añadimos una clase input-group -->
-                        <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" id="field_header_img_<?php echo $i + 1 ?>" name="field_header_img_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1]) ?><?php endif; ?>">
+                        <input type="file" id="imageCard" name="imageCard[]" class="form-control" required onchange="validateFile(this)">
                         <div class="input-group-append">
-                            <a data-selector="#field_header_img_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                            <!-- <a data-selector="#field_header_img_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
                                 <span class="material-icons">upload</span>
                                 <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
             </div>
         <?php endfor; ?>
 
+
         <?php for ($i = 0; $i < $fieldCountHeaderVideo; $i++) : ?>
             <div class="col-6" ng-non-bindable>
                 <div class="form-group">
                     <label class="font-weight-bold">Campo de video URL - <?php echo $i + 1 ?></label>
                     <div class="input-group"> <!-- Añadimos una clase input-group -->
-                        <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp3" id="field_header_video_<?php echo $i + 1 ?>" name="field_header_video_<?php echo $i + 1 ?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1]) ?><?php endif; ?>">
+                        <input type="file" id="imageCard" name="imageCard[]" class="form-control" required onchange="validateFile(this)">
                         <div class="input-group-append">
-                            <a data-selector="#field_header_video_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
+                            <!-- <a data-selector="#field_header_video_<?php echo $i + 1 ?>" class="fb-choose-file btn btn-sm btn-success" href="#">
                                 <span class="material-icons">upload</span>
                                 <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('file/list', 'Upload a file'); ?>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -253,16 +282,12 @@ $buttonsMPM = 0;
                     <?php if ($button['type'] == 'COPY_CODE') : ?>
                         <div class="col-6">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Código de oferta</label>
+                                <label class="font-weight-bold" for="offert_<?php echo $i + 1 ?>">Codigo de oferta</label>
                                 <input type="text" class="form-control form-control-sm" id="offert_<?php echo $i + 1 ?>" name="offert">
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <label class="font-weight-bold" for="expiration_offert">Fecha de caducidad</label>
                                 <input placeholder="Caducidad" type="date" name="expiration_offert" id="expiration_offert" class="form-control form-control-sm date-input">
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <label class="font-weight-bold" for="expiration_offert">Variable de oferta</label>
-                                <input placeholder="Codigo de oferta" type="text" name="urlOffert" id="urlOffert" class="form-control form-control-sm date-input">
                             </div>
                         </div>
                     <?php endif ?>
@@ -278,7 +303,7 @@ $buttonsMPM = 0;
                 <?php foreach ($component['cards'] as $card) : ?>
                     <div>
                         <label for="imageCard"><strong>Imagen de tarjeta {{<?php print_r($tarjeta) ?>}}</strong></label>
-                        <input type="file" id="imageCard" name="imageCard[]" class="form-control" required>
+                        <input type="file" id="imageCard" name="imageCard[]" class="form-control" required onchange="validateFile(this)">
                         <?php $tarjeta++; ?>
                     </div>
                 <?php endforeach; ?>
@@ -296,6 +321,24 @@ $buttonsMPM = 0;
         </div>
 
         <?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>
+        <script>
+    function validateFile(input) {
+        // Tipos de archivo permitidos obtenidos del PHP
+        const allowedExtensions = <?php echo json_encode($allowedExtensions); ?>;
+
+        const file = input.files[0]; // Obtiene el archivo seleccionado
+        const fileType = file.type; // Obtiene el tipo MIME del archivo
+        const fileName = file.name.toLowerCase(); // Obtiene el nombre del archivo en minúsculas
+        const fileExtension = fileName.split('.').pop(); // Obtiene la extensión del archivo
+
+        // Verifica si la extensión del archivo está permitida
+        if (!allowedExtensions.includes(fileExtension) || (fileType === 'image/jpeg' && !['jpg', 'jpeg'].includes(fileExtension))) {
+            alert('Por favor, selecciona un archivo compatible con el tipo de encabezado.');
+            input.value = ''; // Limpia el campo de entrada para que el usuario pueda seleccionar otro archivo
+        }
+    }
+</script>
+
         <script>
             var productCount = 0; // Inicializamos el contador de productos
 

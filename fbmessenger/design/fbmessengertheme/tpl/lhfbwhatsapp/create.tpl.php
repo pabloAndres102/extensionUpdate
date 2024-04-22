@@ -533,56 +533,7 @@
         <br>
         <br> <br> <br> <br> <br> <br> <br> <br> <br>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var checkbox = document.getElementById('offert');
-        var select = document.getElementById('header');
-        var fileInput = document.getElementById('archivo');
-        var textInput = document.getElementById('campoDeTexto');
-        var textInputLabel = document.getElementById('labelCampoDeTexto');
-        var nuevoInput = document.getElementById('nuevoInput');
 
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                for (var i = 0; i < select.options.length; i++) {
-                    var option = select.options[i];
-                    if (option.value !== 'IMAGE' && option.value !== '') {
-                        option.style.display = 'none';
-                    }
-                }
-                select.value = ''; // Cambiar a Sin encabezado
-                textInput.style.display = 'none';
-                textInputLabel.style.display = 'none';
-                nuevoInput.style.display = 'none';
-                fileInput.style.display = 'none';
-            } else {
-                for (var i = 0; i < select.options.length; i++) {
-                    select.options[i].style.display = '';
-                }
-                fileInput.style.display = 'none';
-            }
-        });
-
-        select.addEventListener('change', function() {
-            if (select.value === 'IMAGE' && checkbox.checked) {
-                fileInput.style.display = '';
-                textInput.style.display = 'none';
-                textInputLabel.style.display = 'none';
-                nuevoInput.style.display = 'none';
-            } else if (select.value === 'TEXT') {
-                textInput.style.display = '';
-                textInputLabel.style.display = '';
-                nuevoInput.style.display = '';
-                fileInput.style.display = 'none';
-            } else {
-                textInput.style.display = 'none';
-                textInputLabel.style.display = 'none';
-                nuevoInput.style.display = 'none';
-                fileInput.style.display = 'none';
-            }
-        });
-    });
-</script>
     <script>
         document.getElementById('buttonMPM').addEventListener('change', function() {
             var headersDiv = document.getElementById('headers');

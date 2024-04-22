@@ -318,7 +318,7 @@ if (ezcInputForm::hasPostData()) {
                 curl_close($curl);
 
                 $item->image_ids[] = $response;
-                // print_r($response);
+               
             }
         }
     }
@@ -365,6 +365,7 @@ if (ezcInputForm::hasPostData()) {
                 $campaignRecipient->campaign_id = $campaign->id;
                 $campaignRecipient->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING;
                 $campaignRecipient->saveThis();
+                // print_r($campaignRecipient);
             }
 
             $tpl->set('updated', true);

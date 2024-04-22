@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
 
   $offert = $_POST['offert'];
-  $buttonOffertURL = $_POST['buttonOffertURL'] . '?code={{1}}';
+  $buttonOffertURL = $_POST['buttonOffertURL'];
   $buttonNameOffertURL = $_POST['buttonNameOffertURL'];
 
   $buttonCallbackPhone = $buttoCallbackCountry . $buttonCallbackPhone;
@@ -179,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $components[] = [
       "type" => "limited_time_offer",
       "limited_time_offer" => [
-        "text" => "Expiring offer!",
+        "text" => "Oferta limitada!",
         "has_expiration" => 1
       ]
     ];
@@ -194,7 +194,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       "type" => "url",
       "text" => $buttonNameOffertURL,
       "url" => $buttonOffertURL,
-      "example" => "TEST"
     ];
   }
 

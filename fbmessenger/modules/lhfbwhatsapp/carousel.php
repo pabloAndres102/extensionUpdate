@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $textBodyCard = $_POST['textAreacard'];
     $buttonquickcard = $_POST['buttonquickcard'];
-
+    $headertype = isset($_POST['header']) ? $_POST['header'] : "";
    
 
     // print_r($response_data2);
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
     for ($i = 0; $i < $numTarjetas; $i++) {
-        $headertype = isset($_POST['header'.$i]) ? $_POST['header'.$i] : "";
+        
         $archivo_temporal = $_FILES['archivo'.$i]['tmp_name'];
         $nombre_archivo = $_FILES["archivo".$i]["name"];
         $tipo_archivo = $_FILES["archivo".$i]["type"];

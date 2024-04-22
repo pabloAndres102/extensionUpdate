@@ -118,15 +118,16 @@
             <button type="button" onclick="agregarVariable()" class="btn btn-primary"><span class="material-icons">visibility</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Agregar variable'); ?></button>
         </div>
         <br>
-        <br>
+
         <div style="flex: 1;">
             <a href="#" id="showImageLink"><span class="material-icons">
                     question_mark
                 </span>Ver ejemplo</a>
             <div id="imageContainer" style="display: none;">
-                <img id="imageToShow" src="https://scontent.feoh3-1.fna.fbcdn.net/v/t39.2365-6/400516056_3407655096213958_4402509594423009060_n.png?stp=dst-webp&_nc_cat=102&ccb=1-7&_nc_sid=e280be&_nc_ohc=jsRvy7q2tQkAX9d7ic4&_nc_ht=scontent.feoh3-1.fna&oh=00_AfC2GImtpy-2GJqXhvhTEbS2cT-J32kN6UXdeQksS0aneA&oe=6626556E" alt="Imagen">
+                <img id="imageToShow" src="https://scontent.feoh3-1.fna.fbcdn.net/v/t39.2365-6/400516056_3407655096213958_4402509594423009060_n.png?stp=dst-webp&_nc_cat=102&ccb=1-7&_nc_sid=e280be&_nc_ohc=iMKZY8354OsAb7tMK3s&_nc_ht=scontent.feoh3-1.fna&oh=00_AfDtWdk_5n-gKM1BjobLhgBrH9wbwLYAFr6w11qN5X8Tsg&oe=6640B36E" alt="Imagen">
             </div>
         </div>
+        <br>
         <div class="mb-3" style="display: flex;">
             <div style="flex: 1;">
                 <h3><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Tarjeta de carrusel'); ?></strong></h3>
@@ -137,13 +138,23 @@
                         <mark>
                             <span class="material-icons">error</span>
                             <span class="text">Tenga en cuenta que las imágenes cargadas en cada tarjeta son tomadas como ejemplos. Asegúrese de adjuntar la imagen correspondiente al enviar el carrusel.</span>
+                            <br>
+                            <span class="material-icons">error</span>
+                            <span class="text">Todas las tarjetas de la misma plantilla de carrusel deben tener el mismo tipo de encabezado.</span>
                         </mark>
                     </div>
                 </div>
 
             </div>
         </div>
+        <div id="headerContainer" style="display: none;">
+            <label for="header"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong><small> (Card header)</small></label>
+            <select class="form-select" id="header" name="header" aria-label="Default select example" required>
+                <option value="IMAGE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Image'); ?></option>
+                <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
 
+            </select>
+        </div>
     </div>
 
 
@@ -153,9 +164,39 @@
 </form>
 <script>
     var numTarjetas = 0; // Iniciar con 1 en lugar de 0
+    var extension_file = [];
 
     function agregarTarjeta() {
-        
+        var archivos2 = document.querySelectorAll('input[type="file"]');
+        var tiposMIME = []; // Array para almacenar los nombres de archivo
+
+        // Iterar sobre la lista de elementos
+        archivos2.forEach(function(archivo2) {
+            // Verificar si se ha seleccionado un archivo
+            if (archivo2.files.length > 0) {
+                // Obtener el nombre del archivo seleccionado
+                var tipoMIME = archivo2.files[0].type;
+                // Agregar el nombre del archivo al array
+                tiposMIME.push(tipoMIME);
+            }
+        });
+        var headerSelect = document.getElementById('header').value;
+        if (headerSelect === 'VIDEO') {
+            for (var i = 0; i < tiposMIME.length; i++) {
+                if (tiposMIME[i] !== 'video/mp4') {
+                    alert('Todos los archivos de tipo de encabezado deben ser video/mp4');
+                    return; // Detener la ejecución
+                }
+            }
+        } else if (headerSelect === 'IMAGE') {
+            for (var i = 0; i < tiposMIME.length; i++) {
+                if (tiposMIME[i] !== 'image/jpg' && tiposMIME[i] !== 'image/png' && tiposMIME[i] !== 'image/jpeg') {
+                    alert('Todos los archivos de tipo de encabezado deben ser image/jpg, image/png o image/jpeg');
+                    return; // Detener la ejecución
+                }
+            }
+        }
+
         var container = document.getElementById('carouselContainer');
         // Crear el contenedor de la tarjeta
         var tarjetaDiv = document.createElement('div');
@@ -166,12 +207,6 @@
         var tarjeta = document.createElement('div');
         tarjeta.className = 'carousel-card';
         tarjeta.innerHTML = `
-        <label for="header${numTarjetas}"><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Header type'); ?></strong><small> (Card header)</small></label>
-        <select class="form-select" id="header${numTarjetas}" name="header${numTarjetas}" aria-label="Default select example" required>
-            <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Without header'); ?></option>
-            <option value="VIDEO"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Video'); ?></option>
-            <option value="IMAGE"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Image'); ?></option>
-        </select>
         <label for="textAreacard${numTarjetas}"><strong>Cuerpo de tarjeta</strong><small> (Card body)</small></label>
         <textarea id="textAreacard${numTarjetas}" name="textAreacard${numTarjetas}" class="form-control z-depth-1" rows="2" maxlength="1024" required></textarea>
         <label for="buttonquickcard${numTarjetas}"><strong>Boton de respuesta rapida</strong><small> (Card buttons)</small></label>
@@ -192,25 +227,59 @@
 
         // Insertar la nueva tarjeta después de la tarjeta de ejemplo
         exampleCard.insertAdjacentElement('afterend', tarjetaDiv);
-
+        document.getElementById('headerContainer').style.display = 'block';
         numTarjetas++;
         document.getElementById('numTarjetas').value = numTarjetas;
-        console.log(numTarjetas);
+
+
+        // Ahora nombresArchivos contiene los nombres de todos los archivos seleccionados
+
     }
 
     function eliminarTarjeta(id) {
-    // Preguntar al usuario si está seguro de eliminar la tarjeta
-    if (confirm("¿Estás seguro de que quieres eliminar esta tarjeta?")) {
-        var tarjeta = document.getElementById(id);
-        tarjeta.parentNode.removeChild(tarjeta);
-        numTarjetas--; // Disminuir el contador de tarjetas
-        document.getElementById('numTarjetas').value = numTarjetas;
-        console.log(numTarjetas);
-    }
-    
-}
+        // Preguntar al usuario si está seguro de eliminar la tarjeta
+        if (confirm("¿Estás seguro de que quieres eliminar esta tarjeta?")) {
+            var tarjeta = document.getElementById(id);
+            tarjeta.parentNode.removeChild(tarjeta);
+            numTarjetas--; // Disminuir el contador de tarjetas
+            document.getElementById('numTarjetas').value = numTarjetas;
+            if (numTarjetas === 0) {
+                document.getElementById('headerContainer').style.display = 'none';
+            }
+        }
 
+    }
 </script>
+<script>
+    function validarExtensiones() {
+        // Obtener el valor seleccionado en el campo "Header type"
+        var headerType = document.getElementById('header').value;
+
+        // Obtener todos los inputs de archivo dentro de las tarjetas
+        var archivos = document.querySelectorAll('input[type="file"]');
+
+        // Definir las extensiones permitidas según el valor de "Header type"
+        var extensionesPermitidas = '';
+        if (headerType === 'VIDEO') {
+            extensionesPermitidas = ['mp4'];
+        } else if (headerType === 'IMAGE') {
+            extensionesPermitidas = ['jpg', 'jpeg', 'png'];
+        }
+
+        // Iterar sobre los inputs de archivo y validar las extensiones
+        for (var i = 0; i < archivos.length; i++) {
+            var archivo = archivos[i];
+            var nombreArchivo = archivo.value.split('.').pop().toLowerCase(); // Obtener la extensión del archivo
+            if (!extensionesPermitidas.includes(nombreArchivo)) {
+                alert('El archivo en la tarjeta ' + (i + 1) + ' no tiene una extensión válida.');
+                return false; // Detener el envío del formulario
+            }
+        }
+
+        return true; // Todas las extensiones son válidas
+    }
+</script>
+
 <script>
     function agregarVariable() {
         // Obtener el textarea y su contenido actual

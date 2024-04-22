@@ -285,7 +285,7 @@
                     field.required = true;
                 } else {
                     field.required = false;
-                }
+                } 
             });
 
             // Si no se han completado todas las variables, mostrar una alerta y evitar que el formulario se envíe

@@ -244,6 +244,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                 if ($component['type'] == 'LIMITED_TIME_OFFER') {
 
+                    
+
                     $parameters = [
                         [
                             "type" => "coupon_code",
@@ -251,12 +253,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         ]
                     ];
 
-                    $parameters2 = [
-                        [
-                            "type" => "text",
-                            "text" => $item->message_variables_array[2]['urlOffert']
-                        ]
-                    ];
+
+                    
 
                     $parametersOffer = [
                         "type" => "limited_time_offer",
@@ -275,17 +273,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         "parameters" => $parameters
                     ];
 
-                    $bodyArguments[] = [
-                        "type" => "button",
-                        "sub_type" => "url",
-                        "index" => 1,
-                        "parameters" => $parameters2
-                    ];
-                } elseif ($component['type'] == 'CAROUSEL') {
 
-                    // print_r('<mark>');
-                    // print_r($item->image_ids);
-                    // print_r('</mark>');
+                } elseif ($component['type'] == 'CAROUSEL') {
 
                     $numCards = count($component['cards']);
                     $carousel_cards = [];
@@ -368,31 +357,25 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     $bodyArguments[] = $final_cards;
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
 
-                    $videoLink = isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
-                    if (strpos($videoLink, $host) !== 0) {
-                        $videoLink = rtrim($host, '/') . '/' . ltrim($videoLink, '/');
-                    }
+                    // $videoLink = isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
 
                     $parametersHeader[] = [
                         "type" => "video",
                         "video" => [
-                            "link" => $videoLink
+                            "id" => $item->image_ids[0]['id']
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
 
 
-                    $documentLink = isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
+                    // $documentLink = isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
 
-                    // Verificar si el host no está presente al principio de $documentLink y concatenarlo si es necesario
-                    if (strpos($documentLink, $host) !== 0) {
-                        $documentLink = rtrim($host, '/') . '/' . ltrim($documentLink, '/');
-                    }
+
 
                     $itemSend = [
                         "type" => "document",
                         "document" => [
-                            "link" => $documentLink
+                            "id" => $item->image_ids[0]['id']
                         ]
                     ];
 
@@ -403,17 +386,26 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                     $parametersHeader[] = $itemSend;
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
-                    $imageLink = isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
-                    if (strpos($imageLink, $host) !== 0) {
-                        $imageLink = rtrim($host, '/') . '/' . ltrim($imageLink, '/');
-                    }
+                    // $imageLink = isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
+                    // if (strpos($imageLink, $host) !== 0) {
+                    //     $imageLink = rtrim($host, '/') . '/' . ltrim($imageLink, '/');
+                    // }
 
+                    // if ($templatePresent['components'][2]['type'] == 'LIMITED_TIME_OFFER') {
                     $parametersHeader[] = [
                         "type" => "image",
                         "image" => [
-                            "link" => $imageLink
+                            "id" => $item->image_ids[0]['id']
                         ]
                     ];
+                    // } else {
+                    // $parametersHeader[] = [
+                    //     "type" => "image",
+                    //     "image" => [
+                    //         "id" => $imageLink
+                    //     ]
+                    // ];
+                    // }
                 }
             }
 
@@ -471,6 +463,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             $response = null;
 
 
+            // print_r('<br>');
             // print_r($requestParams);
             try {
 

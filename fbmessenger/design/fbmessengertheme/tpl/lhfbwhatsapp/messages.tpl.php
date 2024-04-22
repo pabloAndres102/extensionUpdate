@@ -112,7 +112,7 @@
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->template) ?>
-                    <?php echo htmlspecialchars($item->id) ?> <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/messageview/<?php echo $item->id ?>'})">info_outline</a>
+                    <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/messageview/<?php echo $item->id ?>'})">info_outline</a>
                 </td>
 
                 <td>
