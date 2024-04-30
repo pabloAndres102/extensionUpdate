@@ -3,6 +3,8 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newcampaign.tpl.php');
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign();
+$fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+$data = (array)$fbOptions->data;
 
 if (isset($_POST['Cancel_page'])) {
     erLhcoreClassModule::redirect('fbwhatsappmessaging/campaign');
@@ -25,6 +27,7 @@ if ($item->business_account_id > 0) {
 $templates = $instance->getTemplates();
 $phones = $instance->getPhones();
 
+
 if (ezcInputForm::hasPostData()) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
@@ -32,7 +35,149 @@ if (ezcInputForm::hasPostData()) {
         exit;
     }
 
+
     $items = array();
+
+    if (isset($_POST['products'])) {
+        $item->products = $_POST['products'];
+    }
+
+    if (isset($_POST['offert'])) {
+        $offer_array = [];
+        $offer_array[] = $_POST['offert'];
+
+        $expiration_date = new DateTime($_POST['expiration_offert']);
+        $expiration_timestamp = $expiration_date->getTimestamp() * 1000;
+        $offer_array[] = $expiration_timestamp;
+
+        $item->offer = $offer_array;
+    }
+
+
+    if (isset($_FILES['image_general'])) {
+        $files_campaign = [];
+        $imageCards = $_FILES['image_general'];
+
+        // Ahora $imageCards es un array de archivos, puedes recorrerlo
+        foreach ($imageCards['tmp_name'] as $index => $name) {
+            $file = $imageCards['tmp_name'][$index];
+
+            if (!empty($file)) {
+                $archivo_bytes = file_get_contents($file);
+            }
+
+            $token = $data['whatsapp_access_token'];
+            $app_id = $data['app_id'];
+            $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+            $mime_type = mime_content_type($file);
+            if ($mime_type == 'image/webp') {
+                $image = imagecreatefromstring(file_get_contents($file));
+                $png_file = tempnam(sys_get_temp_dir(), 'converted_image_') . '.png';
+                imagepng($image, $png_file);
+                imagedestroy($image);
+                $file = $png_file;
+                $mime_type = 'image/png';
+            }
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['business_phone_id'] . '/media',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'messaging_product' => 'whatsapp',
+                    'file' => new CURLFILE($file, $mime_type)
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . $token,
+                    'Cookie: ps_l=0; ps_n=0'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $response = json_decode($response, true);
+
+            curl_close($curl);
+
+           $files_campaign[] = $response;
+           
+        }
+        $item->files_campaign = $files_campaign;
+    }
+
+
+
+    if (isset($_FILES['imageCard'])) {
+        $archivos = [];
+        $imageCards = $_FILES['imageCard'];
+        foreach ($imageCards['tmp_name'] as $index => $name) {
+            $file = $imageCards['tmp_name'][$index];
+
+
+
+
+            if (!empty($file)) {
+                $archivo_bytes = file_get_contents($file);
+            }
+
+
+            $token = $data['whatsapp_access_token'];
+            $app_id = $data['app_id'];
+            $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+            $mime_type = mime_content_type($file);
+            if ($mime_type == 'image/webp') {
+                $image = imagecreatefromstring(file_get_contents($file));
+                $png_file = tempnam(sys_get_temp_dir(), 'converted_image_') . '.png';
+                imagepng($image, $png_file);
+                imagedestroy($image);
+                $file = $png_file;
+                $mime_type = 'image/png';
+            }
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['business_phone_id'] . '/media',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'messaging_product' => 'whatsapp',
+                    'file' => new CURLFILE($file, $mime_type)
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . $token,
+                    'Cookie: ps_l=0; ps_n=0'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $response = json_decode($response, true);
+
+            curl_close($curl);
+
+            $archivos[] = $response['id'];
+        }
+        $item->image_ids = $archivos;
+    }
+
+
+
+
+
+
+
+
 
     $Errors = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::validateCampaign($item);
 
@@ -41,7 +186,7 @@ if (ezcInputForm::hasPostData()) {
             $item->user_id = $currentUser->getUserID();
             $item->saveThis();
 
-
+            // print_r('PASO');
             $definition = array(
                 'ml' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL,
@@ -108,7 +253,7 @@ if (ezcInputForm::hasPostData()) {
 
 
             if (isset($_POST['Save_continue'])) {
-                
+
                 $campaignId = $item->id;
                 if (!empty($campaignId)) {
                     $campaign = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::fetch($campaignId);
@@ -119,7 +264,6 @@ if (ezcInputForm::hasPostData()) {
                     }
                     header('Location: ' . erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'));
                     $_SESSION['create'] = 'Su campaña se creo con exito.';
-
                 }
             }
 
@@ -131,6 +275,9 @@ if (ezcInputForm::hasPostData()) {
         $tpl->set('errors', $Errors);
     }
 }
+
+
+// print_r($item);
 
 $tpl->setArray(array(
     'item' => $item,

@@ -157,7 +157,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
         public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = [])
         {
-
+            // $logFile = fopen("log.txt", "w");
             $protocol = 'https://';
             $http = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
             $host = $protocol . $http;
@@ -214,11 +214,20 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                             $array_id = [];
 
-                            foreach ($item->message_variables_array as $retailer_ids) {
-                                foreach ($retailer_ids as $retailer_id) {
-                                    $array_id[] = ['product_retailer_id' => $retailer_id];
+                            foreach ($item->message_variables_array as $key => $value) {
+                                if (!is_numeric($key)) {
+                                    // La clave no es numérica, entonces la omitimos
+                                    continue;
                                 }
+
+                                // La clave es numérica, agregamos el valor al array
+                                $array_id[] = ['product_retailer_id' => $value];
                             }
+                            // print_r($array_id);
+
+
+                            // fwrite($logFile, "ARRAY DE RETAILERS: " . print_r($array_id, true) . "\n");
+
                             $parameters = [
                                 [
                                     "type" => "action",
@@ -244,22 +253,24 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                 if ($component['type'] == 'LIMITED_TIME_OFFER') {
 
-                    
+                    // fwrite($logFile, "Message variables: " . print_r($item->message_variables, true) . "\n");
+                    // fwrite($logFile, "MESSAGE VARIABLES ARRAY: " . print_r($item->message_variables_array, true) . "\n");
+  
 
                     $parameters = [
                         [
                             "type" => "coupon_code",
-                            "coupon_code" => $item->message_variables_array[0]['Codigo Oferta']
+                            "coupon_code" => $item->message_variables_array[0]
                         ]
                     ];
 
-
-                    
-
                     $parametersOffer = [
                         "type" => "limited_time_offer",
-                        "limited_time_offer" => ["expiration_time_ms" => $item->message_variables_array[1]['Expiration']]
+                        "limited_time_offer" => [
+                            "expiration_time_ms" => $item->message_variables_array[1]
+                        ]
                     ];
+
 
                     $bodyArguments[] = [
                         "type" => $component['type'],
@@ -272,10 +283,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         "index" => (int)$indexButton,
                         "parameters" => $parameters
                     ];
-
-
                 } elseif ($component['type'] == 'CAROUSEL') {
-
+                    // fwrite($logFile, "MESSAGE VARIABLES ARRAY: " . print_r($item->message_variables_array, true) . "\n");
                     $numCards = count($component['cards']);
                     $carousel_cards = [];
                     for ($i = 0; $i < $numCards; $i++) {
@@ -284,6 +293,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                             "card_index" => $card_index,
                             "components" => []
                         ];
+
                         foreach ($component['cards'][$i]['components'] as $cardComponents) {
                             $componentToAdd = [];
                             if ($cardComponents['type'] == 'HEADER') {
@@ -295,7 +305,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                             [
                                                 "type" => "IMAGE",
                                                 "image" => [
-                                                    "id" =>  $item->image_ids[$card_index]['id']
+                                                    "id" =>  $item->message_variables_array[$card_index]
                                                 ]
                                             ]
                                         ]
@@ -308,7 +318,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                                             [
                                                 "type" => "VIDEO",
                                                 "video" => [
-                                                    "id" =>  $item->image_ids[$card_index]['id']
+                                                    "id" =>  $item->message_variables_array[$card_index]
                                                 ]
                                             ]
                                         ]
@@ -362,7 +372,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     $parametersHeader[] = [
                         "type" => "video",
                         "video" => [
-                            "id" => $item->image_ids[0]['id']
+                            "id" => end($item->message_variables_array)
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
@@ -375,7 +385,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     $itemSend = [
                         "type" => "document",
                         "document" => [
-                            "id" => $item->image_ids[0]['id']
+                            "id" => end($item->message_variables_array)
                         ]
                     ];
 
@@ -392,10 +402,13 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     // }
 
                     // if ($templatePresent['components'][2]['type'] == 'LIMITED_TIME_OFFER') {
+
+
+
                     $parametersHeader[] = [
                         "type" => "image",
                         "image" => [
-                            "id" => $item->image_ids[0]['id']
+                            "id" => end($item->message_variables_array)
                         ]
                     ];
                     // } else {
@@ -470,6 +483,9 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 $response = $this->getRestAPI($requestParams);
                 // print_r('<br>');
                 // print_r($response);
+                // fwrite($logFile, "Request Params: " . print_r($requestParams, true) . "\n");
+                // fwrite($logFile, "Response: " . print_r($response, true) . "\n");
+                // fwrite($logFile, "item: " . print_r($item, true) . "\n");
                 // Responder
                 if (isset($response['messages'][0]['id'])) {
                     $item->fb_msg_id = $response['messages'][0]['id'];
@@ -491,6 +507,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     $item->saveThis();
                 }
                 return $item;
+                // fclose($logFile);
             }
         }
 

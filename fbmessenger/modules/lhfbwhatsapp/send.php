@@ -247,20 +247,100 @@ if (ezcInputForm::hasPostData()) {
 
 
     if (isset($_POST['products'])) {
-        $item->message_variables_array[] = $_POST['products'];
+        foreach($_POST['products'] as $product){
+            $item->message_variables_array[] =  $product;
+        }
     }
     if (isset($_POST['offert'])) {
-        $item->message_variables_array[] = ['Codigo Oferta' => $_POST['offert']];
+        $item->message_variables_array[] = $_POST['offert'];
     }
     if (isset($_POST['expiration_offert'])) {
         // Convertir la fecha de caducidad a marca de tiempo UNIX en milisegundos
         $expiration_date = new DateTime($_POST['expiration_offert']);
         $expiration_timestamp = $expiration_date->getTimestamp() * 1000;
-        $item->message_variables_array[] = ['Expiration' => $expiration_timestamp];
+        $item->message_variables_array[] = $expiration_timestamp;
     }
     if (isset($_POST['urlOffert'])) {
         $item->message_variables_array[] = ['urlOffert' => $_POST['urlOffert']];
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_FILES['image_general'])) {
+            $imageCards = $_FILES['image_general'];
+
+            // Ahora $imageCards es un array de archivos, puedes recorrerlo
+            foreach ($imageCards['tmp_name'] as $index => $name) {
+                $file = $imageCards['tmp_name'][$index];
+
+                if (!empty($file)) {
+                    $archivo_bytes = file_get_contents($file);
+                }
+
+                $token = $data['whatsapp_access_token'];
+                $app_id = $data['app_id'];
+                $whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+                $mime_type = mime_content_type($file);
+                if ($mime_type == 'image/webp') {
+                    $image = imagecreatefromstring(file_get_contents($file));
+                    $png_file = tempnam(sys_get_temp_dir(), 'converted_image_') . '.png';
+                    imagepng($image, $png_file);
+                    imagedestroy($image);
+                    $file = $png_file;
+                    $mime_type = 'image/png';
+                }
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://graph.facebook.com/v18.0/' . $data['business_phone_id'] . '/media',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => array(
+                        'messaging_product' => 'whatsapp',
+                        'file' => new CURLFILE($file, $mime_type)
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        'Authorization: Bearer ' . $token,
+                        'Cookie: ps_l=0; ps_n=0'
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+                $response = json_decode($response, true);
+
+                curl_close($curl);
+
+                $item->message_variables_array[] = $response['id'];
+                
+            }
+            // print_r('<mark>');
+            // print_r($item->message_variables_array);
+            // print_r('</mark>');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // CAROUSEL INPUTS
 
@@ -317,9 +397,10 @@ if (ezcInputForm::hasPostData()) {
 
                 curl_close($curl);
 
-                $item->image_ids[] = $response;
-               
+                $item->message_variables_array[] = $response['id'];
+                
             }
+           
         }
     }
 
