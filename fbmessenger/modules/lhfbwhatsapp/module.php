@@ -4,6 +4,12 @@ $Module = array( "name" => "FB WhatsApp module" );
 
 $ViewList = array();
 
+$ViewList['simple_send'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['carousel'] = array(
     'params' => array(),
     'uparams' => array(),
