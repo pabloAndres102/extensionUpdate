@@ -1,51 +1,93 @@
 <style>
-    /* Estilo para los inputs de fecha */
+    /* Estilos para los inputs de fecha */
     input[type="datetime-local"] {
-        padding: 8px;
-        border: 1px solid #ccc;
+        padding: 8px 12px;
+        /* Ajustar el relleno */
+        border: 1px solid #ced4da;
+        /* Borde */
         border-radius: 4px;
-        margin-bottom: 10px;
+        /* Bordes redondeados */
         box-sizing: border-box;
+        /* Incluir el borde en el tamaño total */
+        font-size: 14px;
+        /* Tamaño de fuente */
+        outline: none;
+        /* Eliminar el resplandor al enfocar */
     }
 
-    /* Estilo para el botón de enviar */
-    .btn-success {
-        padding: 10px 15px;
-        background-color: #4CAF50;
-        color: white;
+    /* Estilos para los botones */
+    button.btn {
+        padding: 8px 16px;
+        /* Ajustar el relleno */
         border: none;
+        /* Sin borde */
         border-radius: 4px;
+        /* Bordes redondeados */
         cursor: pointer;
+        /* Cursor de puntero */
+        background-color: #007bff;
+        /* Color de fondo */
+        color: #fff;
+        /* Color de texto */
+        font-size: 14px;
+        /* Tamaño de fuente */
     }
 
-    /* Estilo para la clase row */
-    .row {
-        display: flex;
+    /* Estilos para el botón de búsqueda */
+    button.btn-primary {
+        background-color: #007bff;
+        /* Color de fondo */
     }
 
-    /* Estilo para las columnas dentro de la clase row */
-    .col-6 {
-        flex: 1;
-        padding: 0 15px;
+    /* Estilos para el icono de búsqueda */
+    span.material-icons {
+        vertical-align: middle;
+        /* Alinear verticalmente */
+        margin-right: 5px;
+        /* Margen derecho */
     }
 
-    /* Estilo para la clase recuadro-container */
-    .recuadro-container {
-        display: flex;
-        margin-bottom: 20px;
-    }
-
-    /* Estilo para la clase recuadro */
+    /* Estilos para los recuadros */
     .recuadro {
-        flex: 1;
-        width: 100%;
-        height: 100px;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-align: center;
-        margin-right: 20px;
+        background-color: #f8f9fa;
+        /* Color de fondo */
+        border: 1px solid #dee2e6;
+        /* Borde */
+        padding: 20px;
+        /* Espaciado interno */
+        margin-bottom: 20px;
+        /* Espaciado inferior */
+        transition: all 0.3s ease;
+        /* Transición suave para el efecto hover */
+    }
+
+    /* Estilos para el texto dentro del recuadro */
+    .recuadro p,
+    .recuadro h1 {
+        margin: 0;
+        /* Eliminar márgenes para el texto */
+    }
+
+    /* Efecto hover */
+    .recuadro:hover {
+        background-color: #e9ecef;
+        /* Cambiar el color de fondo al hacer hover */
+        transform: translateY(-5px);
+        /* Elevar ligeramente el recuadro */
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        /* Sombra suave */
+        border-color: #ced4da;
+        /* Cambiar el color del borde */
+        cursor: pointer;
+        /* Cambiar el cursor al hacer hover */
+    }
+
+    /* Estilos para los números */
+    .recuadro h1 {
+        font-size: 32px;
+        /* Tamaño de fuente grande para los números */
+        color: #007bff;
+        /* Color azul para los números */
     }
 </style>
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
@@ -108,79 +150,164 @@
     </ul>
 <?php endif; ?>
 
+<div class="container">
+    <form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
+        <!-- Establecer por defecto el primer día del mes actual a las 00:00 para la primera fecha -->
+        <input type="datetime-local" name="start" value="<?php echo (isset($startTimestamp) ? date('Y-m-01\T00:00', $startTimestamp) : date('Y-m-01\T00:00')); ?>">&nbsp;&nbsp;
 
-<form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
-    <!-- Establecer por defecto el primer día del mes actual a las 00:00 para la primera fecha -->
-    <input type="datetime-local" name="start" value="<?php echo (isset($startTimestamp) ? date('Y-m-01\T00:00', $startTimestamp) : date('Y-m-01\T00:00')); ?>">&nbsp;&nbsp;
+        <!-- Establecer por defecto la fecha y hora actuales para la segunda fecha -->
+        <input type="datetime-local" name="end" value="<?php echo (isset($endTimestamp) ? date('Y-m-d\TH:i', $endTimestamp) : date('Y-m-d\TH:i')); ?>"> &nbsp;&nbsp;
 
-    <!-- Establecer por defecto la fecha y hora actuales para la segunda fecha -->
-    <input type="datetime-local" name="end" value="<?php echo (isset($endTimestamp) ? date('Y-m-d\TH:i', $endTimestamp) : date('Y-m-d\TH:i')); ?>"> &nbsp;&nbsp;
+        <button class="btn btn-primary" type="submit"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Search'); ?></button>
+    </form>
+    <br>
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 1 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Sent conversations'); ?></strong></p>
+                <?php if (isset($totalSent)) : ?>
+                    <h1><?php echo $totalSent; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
-    <button class="btn btn-primary" type="submit"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons', 'Search'); ?></button>
-</form>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Total read'); ?></strong></p>
+                <?php if (isset($totalRead)) : ?>
+                    <h1><?php print_r($totalRead); ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 3 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Engagement'); ?></strong></p>
+                <?php if (isset($engagement)) : ?>
+                    <h1><?php print_r($engagement . '%'); ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 2 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Incoming conversations'); ?></strong></p>
+                <?php if (isset($msg_services)) : ?>
+                    <h1><?php echo $msg_services; ?></h1><small>(api)</small>
 
-<div class="recuadro-container">
-    <div class="recuadro"> <!-- Recuadro 1 -->
-        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Sent conversations'); ?></strong></p>
-        <?php if (isset($totalSent)) : ?>
-            <h1><?php echo $totalSent; ?></h1>
-        <?php endif; ?>
-    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-    <div class="recuadro"> <!-- Recuadro 4 -->
-        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Total read'); ?></strong></p>
-        <?php if (isset($totalRead)) : ?>
-            <h1><?php print_r($totalRead); ?></h1>
-        <?php endif; ?>
-    </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 3 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Generated conversations'); ?></strong></p>
+                <?php if (isset($chatid)) : ?>
+                    <h1><?php echo $chatid; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
-    <div class="recuadro"> <!-- Recuadro 3 -->
-        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Engagement'); ?></strong></p>
-        <?php if (isset($engagement)) : ?>
-            <h1><?php print_r($engagement.'%'); ?></h1>
-        <?php endif; ?>
-    </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Promedio de lectura'); ?></strong></p>
+                <?php if (isset($averageTime)) : ?>
+                    <h1><?php echo $averageTime; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
-    <div class="recuadro"> <!-- Recuadro 2 -->
-        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Incoming conversations'); ?></strong></p>
-        <?php if (isset($msg_services)) : ?>
-            <h1><?php echo $msg_services; ?></h1>
-        <?php endif; ?>
-    </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Lectura más rápida'); ?></strong></p>
+                <?php if (isset($fastestTime)) : ?>
+                    <h1><?php echo $fastestTime; ?></h1>
+                <?php else : ?>
+                    <h1>Sin datos</h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
-    <div class="recuadro"> <!-- Recuadro 3 -->
-        <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Generated conversations'); ?></strong></p>
-        <?php if (isset($chatid)) : ?>
-            <h1><?php echo $chatid; ?></h1>
-        <?php endif; ?>
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp', 'use_admin')) : ?>
-            <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'WhatsApp'); ?></h4>
-            <ul>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates') ?>"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Templates'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send') ?>"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a single message'); ?></a></li>
-                <!-- <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage') ?>"><span class="material-icons">forum</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send a mass message'); ?></a></li> -->
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages') ?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Messages'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/account') ?>"><span class="material-icons">manage_accounts</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Business Accounts'); ?></a></li>
-                <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/profilebusiness') ?>"><span class="material-icons">security_update</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Profile business'); ?></a></li>
-                <br> <br>
-            </ul>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Lectura más lenta'); ?></strong></p>
+                <?php if (isset($slowestTime)) : ?>
+                    <h1><?php echo $slowestTime; ?></h1>
+                <?php else : ?>
+                    <h1>Sin datos</h1>
+                <?php endif; ?>
+            </div>
+        </div>
 
-        <?php endif; ?>
-    </div>
-    <div class="col-6">
-        <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsappmessaging', 'use_admin')) : ?>
-            <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'WhatsApp Messaging'); ?></h4>
-            <ul>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients lists') ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients lists'); ?></a></li>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients') ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients'); ?></a></li>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaigns') ?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaigns'); ?></a></li>
-            </ul>
-        <?php endif; ?>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estado de entregados'); ?></strong></p>
+                <?php if (isset($deliveredCount)) : ?>
+                    <h1><?php echo $deliveredCount; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estado de fallidos'); ?></strong></p>
+                <?php if (isset($failedCount)) : ?>
+                    <h1><?php echo $failedCount; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estado Rechazado'); ?></strong></p>
+                <?php if (isset($rejectedCount)) : ?>
+                    <h1><?php echo $rejectedCount; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Plantilla más enviada'); ?></strong></p>
+                <?php if (isset($mostRepeatedTemplate)) : ?>
+                    <h1 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $mostRepeatedTemplate; ?></h1>
+                    <p>(<?php echo $maxFrequency; ?>)</p>
+                <?php else : ?>
+                    <h1>Sin datos</h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Día que se envió más plantillas'); ?></strong></p>
+                <?php if (isset($dayWithMostMessages)) : ?>
+                    <h1><?php echo $dayWithMostMessages; ?></h1>
+                    <p>(<?php echo $maxMessages; ?>)</p>
+                <?php else : ?>
+                    <h1>Sin datos</h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'día mayor engagement'); ?></strong></p>
+                <?php if (isset($dayWithMaxEngagement)) : ?>
+                    <h1><?php echo $dayWithMaxEngagement; ?></h1>
+                <?php else : ?>
+                    <h1>Sin datos</h1>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="recuadro"> <!-- Recuadro 4 -->
+                <p><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'día menor engagement'); ?></strong></p>
+                <?php if (isset($dayWithMinEngagement)) : ?>
+                    <h1><?php echo $dayWithMinEngagement; ?></h1>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>

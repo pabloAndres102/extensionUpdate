@@ -1,6 +1,5 @@
 <!-- Incluye la hoja de estilos de Flatpickr -->
 <?php $modalHeaderClass = 'pt-1 pb-1 pl-2 pr-2';
-$modalHeaderTitle = erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','New recipient');
 $modalSize = 'xl';
 $modalBodyClass = 'p-1';
 $appendPrintExportURL = ''; ?>
