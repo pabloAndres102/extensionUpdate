@@ -42,9 +42,7 @@ $items = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessag
 		<td>
 
 			<button class="btn btn-success" onclick="return lhc.revealModal({
-    																		'iframe': true,
-    																		'height': 600,
-    																		'url': '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send'); ?>?phone=<?php echo urlencode($chat->phone); ?>'
+    																		'url': '<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/simple_send'); ?>?phone=<?php echo urlencode($chat->phone); ?>'
 																			})">
 				<span class="material-icons">Send</span>
 				<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send whatsapp template'); ?>
