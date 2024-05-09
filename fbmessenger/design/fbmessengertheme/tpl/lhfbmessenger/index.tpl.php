@@ -90,65 +90,7 @@
         /* Color azul para los números */
     }
 </style>
-<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
-
-    <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat'); ?></h4>
-    <?php
-    $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
-
-    if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
-
-        $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
-
-        $helper = $fb->getRedirectLoginHelper();
-
-        $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
-
-        if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
-            $time = time();
-            $hash = sha1(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['secret_hash'] . '_' . erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . '_' .  $_SERVER['HTTP_HOST'] . '_' . erLhcoreClassUser::instance()->getUserID() . $time);
-            $loginUrl = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbloginstandalone') . '/' . $_SERVER['HTTP_HOST'] . '/' . erLhcoreClassUser::instance()->getUserID() . '/' . $time . '/' . $hash;
-        } else if (!class_exists('erLhcoreClassInstance')) {
-            $loginUrl = $helper->getReRequestUrl('https://' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions);
-        } else {
-            $time = time();
-            $hash = sha1(erConfigClassLhConfig::getInstance()->getSetting('site', 'seller_secret_hash', false) . '_' . erConfigClassLhConfig::getInstance()->getSetting('site', 'seller_subdomain', false) . '_' .  erLhcoreClassInstance::getInstance()->id . '_' . erLhcoreClassUser::instance()->getUserID() . $time);
-            $loginUrl = 'https://' .  erConfigClassLhConfig::getInstance()->getSetting('site', 'seller_subdomain', false) . '.' . erConfigClassLhConfig::getInstance()->getSetting('site', 'seller_domain', false) . erLhcoreClassDesign::baseurl('fbmessenger/fblogininstance') . '/' . erLhcoreClassInstance::getInstance()->id . '/' . erLhcoreClassUser::instance()->getUserID() . '/' . $time . '/' . $hash;
-        }
-
-        echo '<a title="Log in with Facebook!" href="' . htmlspecialchars($loginUrl) . '"><img height="40" src="' . erLhcoreClassDesign::design('images/login-fb.png') . '" title="Log in with Facebook!" alt="Log in with Facebook!" /></a>';
-    } else {
-        $logoutFB = true;
-    }
-    ?>
-    <ul>
-        <?php if (isset($logoutFB)) : ?>
-            <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages'); ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'My pages'); ?></a></li>
-            <li><a class="csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout'); ?>" class=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Logout'); ?></a></li>
-        <?php endif; ?>
-    </ul>
-
-    <?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>
-
-    <hr>
-    <ul>
-        <?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == false) : ?>
-            <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook pages'); ?></a></li>
-        <?php endif; ?>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'BBCode'); ?></a></li>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Leads'); ?></a></li>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Notifications'); ?></a></li>
-    </ul>
-
-<?php endif; ?>
-
-<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger', 'use_options')) : ?>
-    <hr>
-    <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Options'); ?></h4>
-    <ul>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options') ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Options'); ?></a></li>
-    </ul>
-<?php endif; ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
     <form method="POST" action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>">
@@ -310,4 +252,240 @@
             </div>
         </div>
     </div>
+
+    <canvas id="myChart" width="300" height="100"></canvas>
+    <br>
+    <center><canvas id="pieChart" width="400" height="400"></canvas></center>
+    <br>
+    <center><canvas id="pieChartAgents" width="400" height="400"></canvas></center>
+    <br>
+    <canvas id="myChartRead" width="300" height="100"></canvas>
+    <br>
+    <canvas id="myChartGenerated" width="300" height="100"></canvas>
+
+
 </div>
+<?php
+$labels = [];
+$currentDate = $startTimestamp;
+
+while ($currentDate <= $endTimestamp) {
+    $labels[] = date('Y-m-d', $currentDate);
+    $currentDate = strtotime('+1 day', $currentDate); // Avanzar al siguiente día
+}
+?>
+<script>
+    // Obtener el contexto del lienzo
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Datos de ejemplo (reemplaza esto con tus datos reales)
+    var data = {
+        labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
+        datasets: [{
+            label: 'Mensajes enviados por día',
+            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            data: <?php echo json_encode($sentPerDay); ?>, // Aquí van las cantidades de mensajes por día
+        }]
+    };
+
+    // Configuración del gráfico
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    // Crear el gráfico de barras
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+    // Asumiendo que tienes un array llamado messagesPerDay que contiene las frecuencias de mensajes por día
+    var messagesPerDay = <?php echo json_encode($messagesPerDay); ?>;
+
+    // Iterar sobre el array y agregar datos al gráfico
+    Object.keys(messagesPerDay).forEach(function(date) {
+        data.labels.push(date);
+        data.datasets[0].data.push(messagesPerDay[date]);
+    });
+
+    // Actualizar el gráfico
+    myChart.update();
+</script>
+
+<script>
+    // Obtener context de Canvas
+    var ctx = document.getElementById('pieChartAgents').getContext('2d');
+
+    // Datos para el gráfico
+    var data = {
+        labels: <?php echo json_encode($agentNames); ?>,
+        datasets: [{
+            data: <?php echo json_encode($messageCounts); ?>,
+            backgroundColor: [
+                'rgba(128, 0, 128, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)'
+            ]
+        }]
+    };
+
+    // Opciones del gráfico
+    var options = {
+        responsive: false,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Envios por agente'
+        }
+    };
+
+    // Crear el gráfico de pastel
+    var pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+</script>
+
+
+
+<script>
+    // Obtener context de Canvas
+    var ctx = document.getElementById('pieChart').getContext('2d');
+
+    // Datos para el gráfico
+    var data = {
+        labels: ['Leídos', 'Enviado', 'Fallido', 'Entregado', 'Rechazado','Pendiente'],
+        datasets: [{
+            data: [<?php echo $totalRead ?>, <?php echo $sentCount ?>, <?php echo $failedCount ?>, <?php echo $deliveredCount ?>, <?php echo $rejectedCount ?>, <?php echo $PendingCount ?>],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(46, 204, 113, 0.5)'
+            ]
+        }]
+    };
+
+    // Opciones del gráfico
+    var options = {
+        responsive: false,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Porcentaje de Mensajes por Estado'
+        }
+    };
+
+    // Crear el gráfico de pastel
+    var pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+</script>
+
+<script>
+    // Obtener el contexto del lienzo
+    var ctx = document.getElementById('myChartRead').getContext('2d');
+
+    // Datos de ejemplo (reemplaza esto con tus datos reales)
+    var data = {
+        labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
+        datasets: [{
+            label: 'Mensajes Leidos por día',
+            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            borderColor: 'rgba(255, 206, 86, 1)',
+            data: <?php echo json_encode($readPerDay); ?>, // Aquí van las cantidades de mensajes por día
+        }]
+    };
+
+    // Configuración del gráfico
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    // Crear el gráfico de barras
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+    // Asumiendo que tienes un array llamado messagesPerDay que contiene las frecuencias de mensajes por día
+    var messagesPerDay = <?php echo json_encode($messagesPerDay); ?>;
+
+    // Iterar sobre el array y agregar datos al gráfico
+    Object.keys(messagesPerDay).forEach(function(date) {
+        data.labels.push(date);
+        data.datasets[0].data.push(messagesPerDay[date]);
+    });
+
+    // Actualizar el gráfico
+    myChart.update();
+</script>
+
+<script>
+    // Obtener el contexto del lienzo
+    var ctx = document.getElementById('myChartGenerated').getContext('2d');
+
+    // Datos de ejemplo (reemplaza esto con tus datos reales)
+    var data = {
+        labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
+        datasets: [{
+            label: 'Conversaciones generadas',
+            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            data: <?php echo json_encode($generatedConversationPerDay); ?>, // Aquí van las cantidades de mensajes por día
+        }]
+    };
+
+    // Configuración del gráfico
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    // Crear el gráfico de barras
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+    // Asumiendo que tienes un array llamado messagesPerDay que contiene las frecuencias de mensajes por día
+    var messagesPerDay = <?php echo json_encode($messagesPerDay); ?>;
+
+    // Iterar sobre el array y agregar datos al gráfico
+    Object.keys(messagesPerDay).forEach(function(date) {
+        data.labels.push(date);
+        data.datasets[0].data.push(messagesPerDay[date]);
+    });
+
+    // Actualizar el gráfico
+    myChart.update();
+</script>

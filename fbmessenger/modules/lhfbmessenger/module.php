@@ -5,6 +5,13 @@ $Module = array( "name" => "FB Messenger",
 
 $ViewList = array();
 
+
+$ViewList['facebook'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+
 $ViewList['activatecatalog'] = array(
     'params' => array(),
     'uparams' => array()

@@ -64,60 +64,73 @@ $failedCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModel
     'filter' => [
         'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED,
     ]
-    ]);
-$tpl->set('failedCount', $failedCount); 
+]);
+$tpl->set('failedCount', $failedCount);
 
 
 $sentCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
-        'filtergte' => [
-            'created_at' => $startTimestamp
-        ],
-        'filterlte' => [
-            'created_at ' => $endTimestamp
-        ],
-        'filter' => [
-            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT,
-        ]
-        ]);
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT,
+    ]
+]);
 
 
 $readCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
-            'filtergte' => [
-                'created_at' => $startTimestamp
-            ],
-            'filterlte' => [
-                'created_at ' => $endTimestamp
-            ],
-            'filter' => [
-                'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
-            ]
-            ]);
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+    ]
+]);
+
+$PendingCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING,
+    ]
+]);
+$tpl->set('PendingCount', $PendingCount);
 
 $rejectedCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
-                'filtergte' => [
-                    'created_at' => $startTimestamp
-                ],
-                'filterlte' => [
-                    'created_at ' => $endTimestamp
-                ],
-                'filter' => [
-                    'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
-                ]
-                ]);
-$tpl->set('rejectedCount', $rejectedCount); 
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
+    ]
+]);
+$tpl->set('rejectedCount', $rejectedCount);
 
 $deliveredCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
-            'filtergte' => [
-                'created_at' => $startTimestamp
-            ],
-            'filterlte' => [
-                'created_at ' => $endTimestamp
-            ],
-            'filter' => [
-                'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED,
-            ]
-            ]);
-$tpl->set('deliveredCount', $deliveredCount); 
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlte' => [
+        'created_at ' => $endTimestamp
+    ],
+    'filter' => [
+        'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED,
+    ]
+]);
+$tpl->set('deliveredCount', $deliveredCount);
 
 $template_most = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList([
     'filtergte' => [
@@ -129,7 +142,7 @@ $template_most = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassMod
 ]);
 $templateFrequency = [];
 
-foreach($template_most as $message){
+foreach ($template_most as $message) {
     $template = $message->template;
     if (!isset($templateFrequency[$template])) {
         $templateFrequency[$template] = 1;
@@ -148,9 +161,9 @@ foreach ($templateFrequency as $template => $frequency) {
     }
 }
 if ($mostRepeatedTemplate !== null) {
-    $tpl->set('mostRepeatedTemplate', $mostRepeatedTemplate); 
-    $tpl->set('maxFrequency', $maxFrequency); 
-} 
+    $tpl->set('mostRepeatedTemplate', $mostRepeatedTemplate);
+    $tpl->set('maxFrequency', $maxFrequency);
+}
 
 $day_most_sent = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList([
     'filtergte' => [
@@ -159,14 +172,14 @@ $day_most_sent = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassMod
     'filterlte' => [
         'created_at ' => $endTimestamp
     ]
-    ]);
+]);
 
 // Contador de frecuencia de mensajes por día
 $messagesPerDay = [];
 
 
 // Contar la frecuencia de mensajes por día
-foreach($day_most_sent as $day){
+foreach ($day_most_sent as $day) {
     $createdTimestamp = $day->created_at;
     $dayKey = date('Y-m-d', $createdTimestamp); // Convertir la marca de tiempo a formato de fecha 'Y-m-d'
     if (!isset($messagesPerDay[$dayKey])) {
@@ -188,8 +201,8 @@ foreach ($messagesPerDay as $day => $messageCount) {
 }
 
 if ($dayWithMostMessages !== null) {
-    $tpl->set('dayWithMostMessages', $dayWithMostMessages); 
-    $tpl->set('maxMessages', $maxMessages); 
+    $tpl->set('dayWithMostMessages', $dayWithMostMessages);
+    $tpl->set('maxMessages', $maxMessages);
 }
 
 
@@ -218,6 +231,7 @@ if ($suma > 0) {
 $tpl->set('totalSent', $suma);
 $tpl->set('totalRead', $readCount);
 $tpl->set('engagement', $engagement);
+$tpl->set('sentCount', $sentCount);
 $tpl->set('chatid', $chatid);
 
 $curl = curl_init();
@@ -266,97 +280,208 @@ $averageRead = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModel
     'filter' => [
         'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
     ]
+]);
+$totalSeconds = 0;
+$slowestReadTime = 0;
+$fastestReadTime = PHP_INT_MAX;
+$slowestReadMessage = null;
+$fastestReadMessage = null;
+$totalMessages = count($averageRead);
+
+foreach ($averageRead as $message) {
+    $createdTimestamp = $message->created_at;
+    $updatedTimestamp = $message->updated_at;
+    $difference = $updatedTimestamp - $createdTimestamp;
+
+    if ($difference < $fastestReadTime) {
+        $fastestReadTime = $difference;
+        $fastestReadMessage = $message;
+    }
+    if ($difference > $slowestReadTime) {
+        $slowestReadTime = $difference;
+        $slowestReadMessage = $message;
+    }
+
+    $totalSeconds += $difference;
+}
+
+if ($totalMessages > 0) {
+    $averageSeconds = $totalSeconds / $totalMessages;
+    $averageHours = floor($averageSeconds / 3600);
+    $averageMinutes = floor(($averageSeconds % 3600) / 60);
+    $averageSeconds = $averageSeconds % 60;
+    $averageTime = "" . $averageHours . ' h ' . $averageMinutes . ' m ' . $averageSeconds . ' s';
+    $tpl->set('averageTime', $averageTime);
+} else {
+    $tpl->set('averageTime', 0);
+}
+
+if ($fastestReadMessage !== null) {
+    // Calcular el tiempo más rápido en horas, minutos y segundos
+    $fastestHours = floor($fastestReadTime / 3600);
+    $fastestMinutes = floor(($fastestReadTime % 3600) / 60);
+    $fastestSeconds = $fastestReadTime % 60;
+    $fastestTime = $fastestHours . ' h ' . $fastestMinutes . ' m ' . $fastestSeconds . ' s';
+    $tpl->set('fastestTime', $fastestTime);
+    // Ahora $fastestTime contiene el tiempo de lectura más rápido y $fastestReadMessage contiene el mensaje asociado.
+}
+if ($slowestReadMessage !== null) {
+    // Calcular el tiempo más lento en horas, minutos y segundos
+    $slowestHours = floor($slowestReadTime / 3600);
+    $slowestMinutes = floor(($slowestReadTime % 3600) / 60);
+    $slowestSeconds = $slowestReadTime % 60;
+    $slowestTime = $slowestHours . ' h ' . $slowestMinutes . ' m ' . $slowestSeconds . ' s';
+    $tpl->set('slowestTime', $slowestTime);
+    // Ahora $slowestTime contiene el tiempo de lectura más lento y $slowestReadMessage contiene el mensaje asociado.
+}
+$minEngagement = PHP_INT_MAX;
+$dayWithMinEngagement = null;
+$maxEngagement = 0;
+$dayWithMaxEngagement = null;
+
+for ($day = $startTimestamp; $day <= $endTimestamp; $day += 86400) { // Incrementa en un día (86400 segundos)
+    $dayEnd = $day + 86399; // Establece el final del día a las 23:59:59
+    $dayreadCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $day,
+        ],
+        'filterlte' => [
+            'created_at' => $dayEnd,
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+        ],
     ]);
-    $totalSeconds = 0;
-    $slowestReadTime = 0;
-    $fastestReadTime = PHP_INT_MAX;
-    $slowestReadMessage = null; 
-    $fastestReadMessage = null;
-    $totalMessages = count($averageRead);
-    
-    foreach ($averageRead as $message) {
-        $createdTimestamp = $message->created_at;
-        $updatedTimestamp = $message->updated_at;
-        $difference = $updatedTimestamp - $createdTimestamp;
-    
-        if ($difference < $fastestReadTime) {
-            $fastestReadTime = $difference;
-            $fastestReadMessage = $message;
-        }
-        if ($difference > $slowestReadTime) {
-            $slowestReadTime = $difference;
-            $slowestReadMessage = $message;
-        }
 
-        $totalSeconds += $difference;
-    }
-    
-    if($totalMessages > 0){
-        $averageSeconds = $totalSeconds / $totalMessages;
-        $averageHours = floor($averageSeconds / 3600);
-        $averageMinutes = floor(($averageSeconds % 3600) / 60);
-        $averageSeconds = $averageSeconds % 60;
-        $averageTime = "".$averageHours . ' h ' . $averageMinutes . ' m ' . $averageSeconds . ' s'; 
-        $tpl->set('averageTime', $averageTime);   
-    }else{
-        $tpl->set('averageTime', 0);
+    $dayTotalMessages = $dayreadCount + $sentCount + $deliveredCount + $failedCount + $rejectedCount;
+    if ($dayTotalMessages > 0) {
+        $dayEngagement = round(($dayreadCount / $dayTotalMessages) * 100, 2);
+    } else {
+        $dayEngagement = 0;
     }
 
-    if ($fastestReadMessage !== null) {
-        // Calcular el tiempo más rápido en horas, minutos y segundos
-        $fastestHours = floor($fastestReadTime / 3600);
-        $fastestMinutes = floor(($fastestReadTime % 3600) / 60);
-        $fastestSeconds = $fastestReadTime % 60;
-        $fastestTime = $fastestHours . ' h ' . $fastestMinutes . ' m ' . $fastestSeconds . ' s';    
-        $tpl->set('fastestTime', $fastestTime);  
-        // Ahora $fastestTime contiene el tiempo de lectura más rápido y $fastestReadMessage contiene el mensaje asociado.
+    if ($dayEngagement > $maxEngagement) {
+        $maxEngagement = $dayEngagement;
+        $dayWithMaxEngagement = date('Y-m-d', $day); // Formato de fecha Y-m-d
+        $tpl->set('dayWithMaxEngagement', $dayWithMaxEngagement);
     }
-    if ($slowestReadMessage !== null) {
-        // Calcular el tiempo más lento en horas, minutos y segundos
-        $slowestHours = floor($slowestReadTime / 3600);
-        $slowestMinutes = floor(($slowestReadTime % 3600) / 60);
-        $slowestSeconds = $slowestReadTime % 60;
-        $slowestTime = $slowestHours . ' h ' . $slowestMinutes . ' m ' . $slowestSeconds . ' s';    
-        $tpl->set('slowestTime', $slowestTime);  
-        // Ahora $slowestTime contiene el tiempo de lectura más lento y $slowestReadMessage contiene el mensaje asociado.
+    if ($dayEngagement < $minEngagement) {
+        $minEngagement = $dayEngagement;
+        $dayWithMinEngagement = date('Y-m-d', $day); // Formato de fecha Y-m-d
+        $tpl->set('dayWithMinEngagement', $dayWithMinEngagement);
     }
-    $minEngagement = PHP_INT_MAX;
-    $dayWithMinEngagement = null;
-    $maxEngagement = 0;
-    $dayWithMaxEngagement = null;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+$agents = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList([
+    'filtergte' => [
+        'created_at' => $startTimestamp
+    ],
+    'filterlt' => [
+        'created_at' => $endTimestamp
+    ]
+]);
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////
+$agentArray = [];
+$sentPerDay = [];
+$readPerDay = [];
+$messagesByAgent = [];
+$generatedConversationPerDay = [];
+
+// Configuración de fechas
+$currentTimestamp = $startTimestamp;
+$endTimestamp = time(); // Esto debería ser el final de tu período de tiempo
+
+// Iterar mientras el tiempo actual sea menor o igual al tiempo final
+while ($currentTimestamp <= $endTimestamp) {
+    $nextDayTimestamp = strtotime('+1 day', $currentTimestamp);
+
+    // Obtener la cantidad de mensajes enviados por día
+    $sentCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ]
+    ]);
+
+    $agents = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ]
+    ]);
+
+
     
-    for ($day = $startTimestamp; $day <= $endTimestamp; $day += 86400) { // Incrementa en un día (86400 segundos)
-        $dayEnd = $day + 86399; // Establece el final del día a las 23:59:59
-        $dayreadCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
-            'filtergte' => [
-                'created_at' => $day,
-            ],
-            'filterlte' => [
-                'created_at' => $dayEnd,
-            ],
-            'filter' => [
-                'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
-            ],
-        ]);
-    
-        $dayTotalMessages = $dayreadCount + $sentCount + $deliveredCount + $failedCount + $rejectedCount;
-        if ($dayTotalMessages > 0) {
-            $dayEngagement = round(($dayreadCount / $dayTotalMessages) * 100, 2);
+    foreach ($agents as $agent) {
+        $username = $agent->user->username;
+        if (!isset($messagesByAgent[$username])) {
+            $messagesByAgent[$username] = 1;
         } else {
-            $dayEngagement = 0;
-        }
-    
-        if ($dayEngagement > $maxEngagement) {
-            $maxEngagement = $dayEngagement;
-            $dayWithMaxEngagement = date('Y-m-d', $day); // Formato de fecha Y-m-d
-            $tpl->set('dayWithMaxEngagement', $dayWithMaxEngagement);
-        }
-        if ($dayEngagement < $minEngagement) {
-            $minEngagement = $dayEngagement;
-            $dayWithMinEngagement = date('Y-m-d', $day); // Formato de fecha Y-m-d
-            $tpl->set('dayWithMinEngagement', $dayWithMinEngagement);
+            $messagesByAgent[$username]++;
         }
     }
+ 
+
+
+
+
+
+
+    $sentPerDay[] = $sentCount;
+    $tpl->set('sentPerDay', $sentPerDay);
+    // Obtener los mensajes enviados por día
+
+    // Obtener la cantidad de mensajes leídos por día
+    $readCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+        ]
+    ]);
+    $readPerDay[] = $readCount;
+    $tpl->set('readPerDay', $readPerDay);
+
+    $generatedConversation = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergt' => [
+            'chat_id' => 0
+        ],
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlte' => [
+            'created_at ' => $nextDayTimestamp
+        ]
+    ]);
+
+    $generatedConversationPerDay[] = $generatedConversation;
+    $tpl->set('generatedConversationPerDay', $generatedConversationPerDay);
+
+    $currentTimestamp = $nextDayTimestamp;
+}
+
+$tpl->set('agentNames', array_keys($messagesByAgent));
+$tpl->set('messageCounts', array_values($messagesByAgent));
+
 
 
 $Result['content'] = $tpl->fetch();

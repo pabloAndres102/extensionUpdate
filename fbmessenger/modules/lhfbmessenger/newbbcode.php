@@ -33,10 +33,15 @@ if (ezcInputForm::hasPostData()) {
 $Result['content'] = $tpl->fetch();
 $Result['path'] = array(
     array (
+        'url' =>erLhcoreClassDesign::baseurl('fbmessenger/facebook'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook')
+    ),
+    array (
         'url' =>erLhcoreClassDesign::baseurl('fbmessenger/bbcode'),
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook BBCodes')
     ),
     array(
+        'url' =>erLhcoreClassDesign::baseurl('fbmessenger/newbbcode'),
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'New BBCode')
     )
 );

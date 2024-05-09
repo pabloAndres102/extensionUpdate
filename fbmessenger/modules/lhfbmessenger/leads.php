@@ -31,7 +31,7 @@ $tpl->set('inputAppend',$append);
 $Result['content'] = $tpl->fetch();
 
 $Result['path'] = array(
-    array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat')),
+    array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/facebook'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook')),
     array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/leads'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook leads'))
 );
 
