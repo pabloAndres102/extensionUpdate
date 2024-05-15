@@ -1,6 +1,6 @@
 <?php
 
-$tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
+$tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/simple_send.tpl.php');
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
 $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
@@ -41,7 +41,7 @@ if (is_numeric($Params['user_parameters_unordered']['recipient'])) {
 if (ezcInputForm::hasPostData()) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
-        erLhcoreClassModule::redirect('fbwhatsapp/send');
+        erLhcoreClassModule::redirect('fbwhatsapp/simple_send');
         exit;
     }
 
@@ -484,11 +484,5 @@ $tpl->setArray([
 ]);
 
 $Result['content'] = $tpl->fetch();
-$Result['additional_footer_js'] = '<script type="text/javascript" src="' . erLhcoreClassDesign::designJS('js/extension.fbwhatsapp2.js') . '"></script>';
-
-$Result['path'] = array(
-    array('url' => erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Facebook chat')),
-    array(
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Send')
-    )
-);
+echo $tpl->fetch();
+exit;
