@@ -447,7 +447,7 @@ while ($currentTimestamp <= $endTimestamp) {
     // Obtener los mensajes enviados por día
 
     // Obtener la cantidad de mensajes leídos por día
-    $readCount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+    $readCount2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
         'filtergte' => [
             'created_at' => $currentTimestamp
         ],
@@ -458,8 +458,70 @@ while ($currentTimestamp <= $endTimestamp) {
             'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
         ]
     ]);
-    $readPerDay[] = $readCount;
+    $readPerDay[] = $readCount2;
     $tpl->set('readPerDay', $readPerDay);
+
+    $deliveredCount2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED,
+        ]
+    ]);
+
+    $failedCount2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED,
+        ]
+    ]);
+
+    $rejectedCount2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
+        ]
+    ]);
+    $sentCount2 = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
+        'filtergte' => [
+            'created_at' => $currentTimestamp
+        ],
+        'filterlt' => [
+            'created_at' => $nextDayTimestamp
+        ],
+        'filter' => [
+            'status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT,
+        ]
+    ]);
+
+    $dailyTotalMessages = $sentCount2 + $deliveredCount2 + $failedCount2 + $rejectedCount2 + $readCount2;
+
+
+    if ($dailyTotalMessages > 0) {
+        $dailyEngagement = round(($readCount2 / $dailyTotalMessages) * 100, 2); // Calcular el engagement
+    } else {
+        $dailyEngagement = 0;
+    }
+
+    $engagementPerDay[date('Y-m-d', $currentTimestamp)] = $dailyEngagement;
+
+    $tpl->set('engagementDates', array_keys($engagementPerDay));
+    $tpl->set('engagementValues', array_values($engagementPerDay));
+
 
     $generatedConversation = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount([
         'filtergt' => [

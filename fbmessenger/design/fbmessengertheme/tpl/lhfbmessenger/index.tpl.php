@@ -1,4 +1,16 @@
 <style>
+    /* Estilos para el título del gráfico */
+    .chart-title {
+        font-size: 24px;
+        /* Tamaño de fuente */
+        color: #333;
+        /* Color del texto */
+        margin-bottom: 10px;
+        /* Margen inferior */
+        text-align: center;
+        /* Alinear al centro */
+    }
+
     /* Estilos para los inputs de fecha */
     input[type="datetime-local"] {
         padding: 8px 12px;
@@ -253,16 +265,28 @@
         </div>
     </div>
 
-    <canvas id="myChart" width="300" height="100"></canvas>
-    <br>
-    <center><canvas id="pieChart" width="400" height="400"></canvas></center>
-    <br>
-    <center><canvas id="pieChartAgents" width="400" height="400"></canvas></center>
-    <br>
-    <canvas id="myChartRead" width="300" height="100"></canvas>
-    <br>
-    <canvas id="myChartGenerated" width="300" height="100"></canvas>
 
+    <div class="container-graphics">
+        <h3 class="chart-title">Plantillas enviadas</h3>
+        <p style="color: red; font-style: italic;  text-align: center;"><span class="material-icons">warning</span>Importante: Esta información puede variar con base a la privacidad definida por el usuario.</p>
+        <canvas id="myChart" width="300" height="100"></canvas>
+        <br>
+        <h3 class="chart-title">Estado de las Plantillas</h3>
+        <center><canvas id="pieChart" width="400" height="400"></canvas></center>
+        <br>
+        <h3 class="chart-title">Envíos por agente</h3>
+        <center><canvas id="pieChartAgents" width="400" height="400"></canvas></center>
+        <br>
+        <h3 class="chart-title">Plantillas leídas</h3>
+        <p style="color: red; font-style: italic;  text-align: center;"><span class="material-icons">warning</span>Importante: Esta información puede variar con base a la privacidad definida por el usuario.</p>
+        <canvas id="myChartRead" width="300" height="100"></canvas>
+        <br>
+        <h3 class="chart-title">Conversaciones generadas por Plantillas</h3>
+        <canvas id="myChartGenerated" width="300" height="100"></canvas>
+        <br>
+        <h3 class="chart-title">Engagement diario</h3>
+        <canvas id="myChartEngagement" width="300" height="100"></canvas>
+    </div>
 
 </div>
 <?php
@@ -282,10 +306,18 @@ while ($currentDate <= $endTimestamp) {
     var data = {
         labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
         datasets: [{
-            label: 'Mensajes enviados por día',
-            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            label: 'Enviadas',
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
             borderColor: 'rgba(54, 162, 235, 1)',
-            data: <?php echo json_encode($sentPerDay); ?>, // Aquí van las cantidades de mensajes por día
+            data: <?php echo json_encode($sentPerDay); ?>, // Aquí van las cantidades de mensajes enviados por día
+        }, {
+            label: 'Leídas',
+            borderColor: 'rgba(128, 0, 128, 1)', // Color de la línea más oscuro
+            borderWidth: 2, // Grosor de la línea
+            fill: false,
+            data: <?php echo json_encode($readPerDay); ?>, // Aquí van las cantidades de mensajes leídos por día
+            type: 'line',
+            order: 2 // Ajusta el orden de visualización para que la línea esté encima de las barras
         }]
     };
 
@@ -319,6 +351,7 @@ while ($currentDate <= $endTimestamp) {
     // Actualizar el gráfico
     myChart.update();
 </script>
+
 
 <script>
     // Obtener context de Canvas
@@ -366,7 +399,7 @@ while ($currentDate <= $endTimestamp) {
 
     // Datos para el gráfico
     var data = {
-        labels: ['Leídos', 'Enviado', 'Fallido', 'Entregado', 'Rechazado','Pendiente'],
+        labels: ['Leídos', 'Enviado', 'Fallido', 'Entregado', 'Rechazado', 'Pendiente'],
         datasets: [{
             data: [<?php echo $totalRead ?>, <?php echo $sentCount ?>, <?php echo $failedCount ?>, <?php echo $deliveredCount ?>, <?php echo $rejectedCount ?>, <?php echo $PendingCount ?>],
             backgroundColor: [
@@ -406,7 +439,7 @@ while ($currentDate <= $endTimestamp) {
     var data = {
         labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
         datasets: [{
-            label: 'Mensajes Leidos por día',
+            label: 'Leídas',
             backgroundColor: 'rgba(255, 206, 86, 0.8)',
             borderColor: 'rgba(255, 206, 86, 1)',
             data: <?php echo json_encode($readPerDay); ?>, // Aquí van las cantidades de mensajes por día
@@ -456,6 +489,52 @@ while ($currentDate <= $endTimestamp) {
             backgroundColor: 'rgba(75, 192, 192, 0.8)',
             borderColor: 'rgba(75, 192, 192, 1)',
             data: <?php echo json_encode($generatedConversationPerDay); ?>, // Aquí van las cantidades de mensajes por día
+        }]
+    };
+
+    // Configuración del gráfico
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    // Crear el gráfico de barras
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+    // Asumiendo que tienes un array llamado messagesPerDay que contiene las frecuencias de mensajes por día
+    var messagesPerDay = <?php echo json_encode($messagesPerDay); ?>;
+
+    // Iterar sobre el array y agregar datos al gráfico
+    Object.keys(messagesPerDay).forEach(function(date) {
+        data.labels.push(date);
+        data.datasets[0].data.push(messagesPerDay[date]);
+    });
+
+    // Actualizar el gráfico
+    myChart.update();
+</script>
+
+<script>
+    // Obtener el contexto del lienzo
+    var ctx = document.getElementById('myChartEngagement').getContext('2d');
+
+    // Datos de ejemplo (reemplaza esto con tus datos reales)
+    var data = {
+        labels: <?php echo json_encode($labels); ?>, // Aquí van las fechas
+        datasets: [{
+            label: 'Engagement',
+            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            data: <?php echo json_encode($engagementValues); ?>, // Aquí van las cantidades de mensajes por día
         }]
     };
 
