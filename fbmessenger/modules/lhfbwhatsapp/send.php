@@ -246,6 +246,15 @@ if (ezcInputForm::hasPostData()) {
     }
 
 
+
+    if (isset($_POST['nombre_archivo1'])) {
+        $item->message_variables_array['nombre_archivo1'][] =  $_POST['nombre_archivo1'];
+    }
+
+
+
+
+
     if (isset($_POST['products'])) {
         foreach($_POST['products'] as $product){
             $item->message_variables_array[] =  $product;

@@ -380,8 +380,6 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                     // $documentLink = isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png');
 
-
-
                     $itemSend = [
                         "type" => "document",
                         "document" => [
@@ -390,8 +388,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                     ];
 
                     // Si tienes el nombre del archivo, puedes adjuntarlo aquí
-                    if (isset($messageVariables['nombre_archivo1']) && $messageVariables['nombre_archivo1'] != '') {
-                        $itemSend['document']['filename'] = $messageVariables['nombre_archivo1'];
+                    if (isset($item->message_variables_array['nombre_archivo1'][0]) && $item->message_variables_array['nombre_archivo1'][0]) {
+                        $itemSend['document']['filename'] = $item->message_variables_array['nombre_archivo1'][0];
                     }
 
                     $parametersHeader[] = $itemSend;
