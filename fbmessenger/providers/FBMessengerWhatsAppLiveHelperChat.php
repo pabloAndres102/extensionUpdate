@@ -389,7 +389,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
                     // Si tienes el nombre del archivo, puedes adjuntarlo aquí
                     if (isset($item->message_variables_array['nombre_archivo1'][0]) && $item->message_variables_array['nombre_archivo1'][0]) {
-                        $itemSend['document']['filename'] = $item->message_variables_array['nombre_archivo1'][0];
+                        $itemSend['document']['filename'] = $item->message_variables_array['nombre_archivo1'];
                     }
 
                     $parametersHeader[] = $itemSend;

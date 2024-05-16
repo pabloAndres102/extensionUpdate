@@ -38,6 +38,11 @@ if (ezcInputForm::hasPostData()) {
 
     $items = array();
 
+    if (isset($_POST['nombre_archivo1'])) {
+        $item->pdf_name =  $_POST['nombre_archivo1'];
+        // print_r($item->pdf_name);
+    }
+
     if (isset($_POST['products'])) {
         $item->products = $_POST['products'];
     }
@@ -268,7 +273,7 @@ if (ezcInputForm::hasPostData()) {
             }
 
             exit;
-        } catch (Exception $e) {
+        } catch (Exception $e) { 
             $tpl->set('errors', array($e->getMessage()));
         }
     } else {

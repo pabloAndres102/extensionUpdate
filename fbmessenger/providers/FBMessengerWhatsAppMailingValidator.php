@@ -618,15 +618,19 @@ class FBMessengerWhatsAppMailingValidator
             }
         }
 
+        if(!empty($item->pdf_name)){
+            $messageVariables['nombre_archivo1'] = $item->pdf_name;
+        }
         if(!empty($item->files_campaign)){
             $messageVariables[] = $item->files_campaign[0]['id'];
         }
+        
         $item->message_variables_array = $messageVariables;
         $item->message_variables = json_encode($messageVariables);
         // print_r($messageVariables);
         return $Errors;
     }
-
+ 
     public static function validateCampaignRecipient($item)
     {
         $definition = array(
