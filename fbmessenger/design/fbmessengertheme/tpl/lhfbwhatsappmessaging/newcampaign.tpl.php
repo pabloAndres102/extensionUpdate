@@ -2,7 +2,7 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php')); ?>
 <?php endif; ?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>" id="form" method="post" ng-non-bindable>
+<form enctype="multipart/form-data" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaign') ?>" id="form" method="post" ng-non-bindable>
 
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php')); ?>
 

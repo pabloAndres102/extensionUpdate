@@ -246,7 +246,7 @@ if (ezcInputForm::hasPostData()) {
     }
 
 
-
+ 
     if (isset($_POST['nombre_archivo1'])) {
         $item->message_variables_array['nombre_archivo1'][] =  $_POST['nombre_archivo1'];
     }
