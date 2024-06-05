@@ -15,6 +15,29 @@ $ViewList['statistic_campaign'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['kanban_status'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['kanban_new'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+$ViewList['kanban_edit'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['kanban_delete'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['mailinglist'] = array(
     'params' => array('name','user_ids',
         'timefrom','timefrom_seconds','timefrom_minutes','timefrom_hours',

@@ -26,10 +26,8 @@
 
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages') ?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Messages'); ?></a></li>
 
-
-
-                    <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>"><span class="material-icons">domain</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estadísticas'); ?></a> </li>
-
+                    <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index') ?>"><span class="material-icons">domain</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Estadísticas'); ?></a></li>
+                    <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo erLhcoreClassDesign::baseurl('genericbot/kanban')?>"><span class="material-icons">view_kanban</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/configuration','Embudo');?></a></li>
                     <ul class="nav nav-second-level collapse show">
                         <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="material-icons">domain</span><strong><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Opciones'); ?></strong></li>
 

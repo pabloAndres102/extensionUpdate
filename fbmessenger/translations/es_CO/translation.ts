@@ -15,6 +15,22 @@
   <context>
   <name>module/fbmessenger</name>
   <message>
+    <source>Edit kanban status</source>
+    <translation>Editar estado embudo</translation>
+  </message>
+   <message>
+    <source>New kanban status</source>
+    <translation>Nuevo estado embudo</translation>
+  </message>
+  <message>
+    <source>Status kanban</source>
+    <translation>Estados embudo</translation>
+  </message>
+  <message>
+    <source>Kanban</source>
+    <translation>Embudo</translation>
+  </message>
+  <message>
     <source>Multi product</source>
     <translation>Multiproducto</translation>
   </message>
