@@ -1,58 +1,95 @@
 <style>
-table {
-  border-collapse: collapse;
-  width: 100%; /* Ensure table fills available width */
-  margin-top: 1rem; /* Add some space after the heading */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  border-radius: 5px; /* Rounded corners for a more polished look */
-}
 
-th,
-td {
-  padding: 12px 16px; /* Increase padding for better readability */
-  text-align: left;
-  border-bottom: 1px solid #ddd; /* Maintain bottom border */
-}
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold; /* Emphasize headers */
-}
+  h1 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-/* Action Column Styling (Improved) */
-.action-column {
-  display: flex; /* Arrange action buttons horizontally */
-  justify-content: space-between; /* Distribute buttons evenly */
-  align-items: center; /* Vertically align buttons with cell content */
-}
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    padding: 4px 8px; /* Adjust padding for a smaller button */
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+    font-size: 0.8rem; /* Adjust font size for a more compact button */
+  }
 
-.action-column button {
-  margin-left: 5px; /* Add spacing between buttons */
-}
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
 
-/* Button Styles */
-.btn {
-  padding: 5px 10px; /* Adjust button padding for consistency */
-  border: none;
-  border-radius: 3px; /* Rounded corners for buttons */
-  cursor: pointer;
-}
+  .btn-primary .material-icons {
+    font-size: 1rem; /* Adjust icon size for better proportion */
+  }
 
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: #fff;
-}
+  th,
+  td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
 
-.btn-warning {
-  background-color: #ffc107;
-  color: #212529;
-}
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .action-column {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .action-column form {
+    margin: 0;
+  }
+
+
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
 </style>
+
 
 
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Kanban status'); ?></h1>
@@ -74,10 +111,10 @@ th {
         <td><?php echo $row->nombre; ?></td>
         <td><?php echo $row->color; ?></td>
         <td>
-            <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/kanban_delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
-              <input type="hidden" name="status_id" value="<?php echo htmlspecialchars_decode($row->id); ?>">
-              <button type="submit" class="btn btn-danger"><span class="material-icons">delete</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
-            </form>
+          <form method="post" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/kanban_delete') ?>" onsubmit="return confirm('Esta acción es irreversible, ¿desea eliminar la plantilla? ');">
+            <input type="hidden" name="status_id" value="<?php echo htmlspecialchars_decode($row->id); ?>">
+            <button type="submit" class="btn btn-danger"><span class="material-icons">delete</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Delete'); ?></button>
+          </form>
           <form method="update" action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/kanban_edit') ?>">
             <input type="hidden" name="status_id" value="<?php echo htmlspecialchars_decode($row->id); ?>">
             <button type="submit" class="btn btn-warning"><span class="material-icons">equalizer</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Edit'); ?></button>

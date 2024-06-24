@@ -216,12 +216,13 @@ $kanbans = erLhcoreClassModelGenericKanban::getList();
 $kanbanData = array();
 
 foreach ($kanbans as $kanban) {
-
+    $id = $kanban->id;
     $nombre = $kanban->nombre;
     $color = $kanban->color;
     $chat_id = $kanban->chat_id;
 
     $kanbanData[] = array(
+        'id' => $id,
         'nombre' => $nombre,
         'color' => $color,
         'chat_id' => $chat_id
@@ -276,63 +277,10 @@ try {
             $items[$chatSubject->chat_id]->subjects[] = $chatSubject->subject;
         }
 
-        $chat_ids = explode(',', $_POST['chat_id_kamban']);
-        $movedToColumns = explode(',', $_POST['movedToColumn']);
-
-        foreach ($chat_ids as $key => $chat_id) {
-            $subject_chat_lists = erLhAbstractModelSubjectChat::getList(['filter' => ['chat_id' => $chat_id]]);
-            $new_subject_name = $movedToColumns[$key];
-            if (!empty($subject_chat_lists)) {
-                // Obtener el ID del nuevo tema
-                $new_subjects = erLhAbstractModelSubject::getList(['filter' => ['name' => $new_subject_name]]);
-                $new_subject_id = array_values($new_subjects)[0]->id;
-                if (empty($new_subjects)) {
-                    header('Location: ' . erLhcoreClassDesign::baseurl('chat/kanban'));
-                    exit;
-                }
-                $new_subject_id = array_values($new_subjects)[0]->id;
-
-                foreach ($subject_chat_lists as $subject_chat) {
-                    if (isset($subject_chat->subject_id)) {
-                        $existing_subjects = erLhAbstractModelSubjectChat::getList(['filter' => ['chat_id' => $chat_id, 'subject_id' => $new_subject_id]]);
-
-                        if (empty($existing_subjects)) {
-                            // Crear una nueva entrada para el nuevo tema asociado con el chat
-                            $new_subject_chat = new erLhAbstractModelSubjectChat();
-                            $new_subject_chat->chat_id = $chat_id;
-                            $new_subject_chat->subject_id = $new_subject_id;
-                            $new_subject_chat->saveThis();
-                        } 
-                    }
-                }
-            } else {
-                $new_subjects = erLhAbstractModelSubject::getList(['filter' => ['name' => $new_subject_name]]);
-                $new_subject_id = array_values($new_subjects)[0]->id;
-
-                if (!empty($new_subject_id) && !empty($chat_id)) {
-                    // Crear una nueva entrada para el nuevo tema asociado con el chat
-                    $new_subject_chat = new erLhAbstractModelSubjectChat();
-                    $new_subject_chat->chat_id = $chat_id;
-                    $new_subject_chat->subject_id = $new_subject_id;
-                    $new_subject_chat->saveThis();
-                }
-            }
-        }
-        if (!empty($new_subject_chat)) {
-            erLhcoreClassModule::redirect('chat/kanban');
-            exit;
-        }
+        
         $tpl->set('items', $items);
     }
 
-
-
-
-
-
-
-
-    // $subject_chat_name = erLhAbstractModelSubjectChat::fetch();
 
 } catch (Exception $e) {
     $tpl->set('takes_to_long', true);
@@ -343,6 +291,46 @@ try {
     $pages->paginate();
     $tpl->set('pages', $pages);
 }
+
+// Verifica si la solicitud es POST y si se han enviado los datos 'movements'
+
+// Verifica si la solicitud es POST y si se han enviado los datos 'movements'
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movements'])) {
+    // Decodifica los movimientos desde JSON a un array de PHP
+    $movements = json_decode($_POST['movements'], true);
+    
+    // Itera sobre cada movimiento recibido
+    foreach ($movements as $movement) {
+        // Obtiene el chat usando el ID proporcionado en el movimiento
+        $chat = erLhcoreClassModelChat::fetch($movement['chatId']);
+        $column_data = erLhcoreClassModelGenericKanban::getList(['filter' => ['nombre' => $movement['column']]]);
+        $kanban_id = 0;
+        foreach ($column_data as $column_row){
+            $kanban_id = $column_row->id;
+        }
+
+        if ($chat instanceof erLhcoreClassModelChat) {
+            // Actualiza el campo kanban_id del chat
+            $chat->kanban_id = $kanban_id; // Aquí se establece el nuevo valor de kanban_id
+            
+            // Guarda los cambios en la base de datos
+            $chat->saveThis();
+            
+            // Imprime el valor actualizado de kanban_id para propósitos de depuración
+            echo "Chat ID {$chat->id} - kanban_id actualizado a {$chat->kanban_id}<br>";
+        } else {
+            // En caso de que no se encuentre el chat, imprime un mensaje de error
+            echo "No se encontró chat con ID {$movement['chatId']}<br>";
+        }
+    }
+
+    // Finaliza la ejecución del script después de procesar todos los movimientos
+    exit;
+
+}
+
+
+
 
 $filterParams['input_form']->form_action = erLhcoreClassDesign::baseurl('genericbot/kanban');
 $tpl->set('input', $filterParams['input_form']);
